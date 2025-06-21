@@ -1,17 +1,17 @@
-from flask import Blueprint, request, jsonify ,Flask
+from flask import  request, jsonify ,Flask
 from flask_restful import Api, Resource
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook
+from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
 import paypalrestsdk
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
 
 import firebase_admin
-from firebase_admin import auth as firebase_auth, credentials,  auth 
+from firebase_admin import auth as firebase_auth, credentials
 from sqlalchemy.exc import SQLAlchemyError
 import os, base64, datetime, requests
 
