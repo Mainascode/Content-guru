@@ -2,7 +2,7 @@ from flask import  request, jsonify ,Flask
 from flask_restful import Api, Resource
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook
+from models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
