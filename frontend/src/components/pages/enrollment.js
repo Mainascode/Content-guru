@@ -35,7 +35,7 @@ const Enrollment = () => {
 
   const submitEnrollment = async () => {
     try {
-      const response = await fetch("http://localhost:5001/enrollment", {
+      const response = await fetch("https://content-guru.onrender.com/enrollment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -9,11 +9,11 @@ const Success = () => {
 
   useEffect(() => {
     if (email && course) {
-      axios.post("http://localhost:5000/enroll-student", { email, course })
+      axios.post("https://content-guru.onrender.com/enroll-student", { email, course })
         .then(() => console.log("Student enrolled successfully"))
         .catch(err => console.error("Enrollment failed", err));
   
-      axios.post("http://localhost:5000/send-email", { email, course })
+      axios.post("https://content-guru.onrender.com/send-email", { email, course })
         .then(() => console.log("Confirmation email sent"))
         .catch(err => console.error("Email sending failed", err));
     }
