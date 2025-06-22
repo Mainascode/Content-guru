@@ -16,7 +16,7 @@ from  models import db
 
 # Instantiate app, set attributes
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["http://localhost:5000"])
+CORS(app, supports_credentials=True, origins=["https://content-guru-6jvp.vercel.app/"])
 api = Api(app)
 app.secret_key = os.urandom(24)  # Random secret key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contentguru.db'  # Change DB URI if needed
