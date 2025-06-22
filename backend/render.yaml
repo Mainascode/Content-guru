@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: content-guru-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server.app:app
+    region: oregon
+    plan: free
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: CONSUMER_KEY
+        value: luoBoFwiA4jFXFzBsDoBSIA4Lr24CkvxHqUf4BUVUAVZdseP
+      - key: CONSUMER_SECRET
+        value: rqhQm4F913zGdh8S79V2zs35nTLKv536TfDFKyVJHxPYn7mBsXleKkbis8YytQEy
+      - key: SHORTCODE
+        value: 174379
+      - key: PASSKEY
+        value: bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
+      - key: CALLBACK_URL
+        value: https://content-guru.com/api/mpesa/callback
+      - key: MPESA_BASE_URL
+        value: https://sandbox.safaricom.co.ke
+      - key: FIREBASE_CREDENTIALS
+        value: './firebase-adminsdk.json'
