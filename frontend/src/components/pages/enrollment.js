@@ -117,7 +117,7 @@ const Enrollment = () => {
         </div>
 
         <div className="mt-6 text-center">
-          <PayPalScriptProvider options={{ "client-id":  "Aepvl4OKkMChgyZoEfg-OkJZravW0kRQ4qnGe2dvblr4cRypD6Bsckiql4zjKmOpkHYxc37VyIVH9Cjg" }}>
+          <PayPalScriptProvider options={{ "client-id":  "AfqKJh9FRrd-aqMGCFRlgg1vhhXF3gg9ViCeZRMLCX9p0JEdrBfJWGWm-uBPnKjY7d0_TjfG_oHs--de" }}>
             <PayPalButtons
               style={{ layout: "vertical", color: "blue", shape: "pill", label: "paypal" }}
               createOrder={(data, actions) => {

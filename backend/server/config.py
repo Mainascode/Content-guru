@@ -25,9 +25,9 @@ app.config["JWT_SECRET_KEY"] = os.urandom(24)  # Random JWT secret key
 import paypalrestsdk
 
 paypalrestsdk.configure({
-    "mode": "sandbox",  # Use "live" in production
-    "client_id": "Aepvl4OKkMChgyZoEfg-OkJZravW0kRQ4qnGe2dvblr4cRypD6Bsckiql4zjKmOpkHYxc37VyIVH9Cjg",
-    "client_secret": "ENrCEIOBZ8X5ZT8H6XdThgXq0PprU2jVgqLetsp44dtdtLZLRYvGMY7LhJG9bYZqpDMlZNAPRKARjncO"
+    "mode": "live",  # Use "live" in production
+    "client_id": "AfqKJh9FRrd-aqMGCFRlgg1vhhXF3gg9ViCeZRMLCX9p0JEdrBfJWGWm-uBPnKjY7d0_TjfG_oHs--de",
+    "client_secret": "EL_OCRGXqU3voHEpJL1Om2G2QpIr8sgLQpN_0A4C6vxy0P04JkoG0wY7tn1fDcOg2Zr5ZiLjGm0kNyl4"
 })
 
 # Instantiate JWT, Bcrypt, and API

@@ -78,7 +78,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <PayPalScriptProvider options={{ "client-id": "Aepvl4OKkMChgyZoEfg-OkJZravW0kRQ4qnGe2dvblr4cRypD6Bsckiql4zjKmOpkHYxc37VyIVH9Cjg" }}>
+    <PayPalScriptProvider options={{ "client-id": "AfqKJh9FRrd-aqMGCFRlgg1vhhXF3gg9ViCeZRMLCX9p0JEdrBfJWGWm-uBPnKjY7d0_TjfG_oHs--de" }}>
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Checkout</h2>
