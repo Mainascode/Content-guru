@@ -14,7 +14,7 @@ const Contact = () => {
     setLoading(true); // Set loading state to true when submitting
 
     try {
-      const response = await fetch("http://localhost:5001/api/contact", {
+      const response = await fetch("https://content-guru.onrender.com/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

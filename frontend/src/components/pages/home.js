@@ -53,40 +53,6 @@ const Home = () => {
         </div>
       </motion.div>
 
-      {/* Testimonials Section */}
-      <div className="mt-20 text-center px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-4xl font-extrabold text-gray-800"
-        >
-          What Our Clients Say
-        </motion.h2>
-
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-10 place-items-center">
-          {[
-            { img: "/images/client1.jpg", text: "Content Guru transformed my writing career! The courses are practical and insightful.", name: "Jane Doe, Author" },
-            { img: "/images/client2.jpg", text: "Their promotional strategies skyrocketed my book sales!", name: "Mark Smith, Publisher" },
-          ].map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.5, duration: 1 }}
-              className="max-w-sm p-6 bg-white border rounded-xl shadow-lg transform transition hover:scale-105"
-            >
-              <img
-                src={testimonial.img}
-                alt={`Client ${index + 1}`}
-                className="w-20 h-20 mx-auto rounded-full border-4 border-blue-400"
-              />
-              <p className="mt-4 text-gray-600 italic">"{testimonial.text}"</p>
-              <h3 className="mt-3 font-semibold text-blue-600">{testimonial.name}</h3>
-            </motion.div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
