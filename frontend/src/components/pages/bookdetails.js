@@ -8,6 +8,7 @@ const books = [
 ];
 
 const BookDetails = () => {
+  const token = localStorage.getItem("token");
   const { title } = useParams();
   const book = books.find(b => b.title === decodeURIComponent(title));
 
