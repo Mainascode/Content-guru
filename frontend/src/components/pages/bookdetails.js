@@ -23,8 +23,8 @@ const BookDetails = () => {
       },
       body: JSON.stringify({
         ...data,
-        service_type: "course",
-        service_id: courses.id,
+        service_type: "book",
+        service_id: books.id,
       }),
     })
       .then((res) => res.json())
