@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import StarRating from "../StarRating";
 
 const books = [
   { title: "The Art of Content Writing", price: "$19.99", img: "/images/book1.jpg", description: "Learn how to write compelling content." },
@@ -11,7 +12,24 @@ const BookDetails = () => {
   const book = books.find(b => b.title === decodeURIComponent(title));
 
   if (!book) return <p className="text-center text-red-600">Book not found</p>;
-
+<StarRating
+  onSubmit={(data) => {
+    fetch("https://content-guru.onrender.com/api/submit-rating", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        ...data,
+        service_type: "course",
+        service_id: courses.id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => alert("Thanks for your rating!"));
+  }}
+/>
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-xl mx-auto">

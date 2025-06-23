@@ -27,6 +27,7 @@ const Books = () => {
     navigate("/checkout", {
       state: { book },
     });
+  
   };
 
   return (
