@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaBook, FaPlayCircle, FaBullhorn } from "react-icons/fa";
-import "./footer"; // Ensure footer file is properly included
+// Ensure footer file is properly included
 
 const Home = () => {
   return (
