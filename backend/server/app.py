@@ -2,7 +2,7 @@ from flask import  request, jsonify ,Flask
 from flask_restful import Api, Resource
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook
+from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook, Rating
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
@@ -417,10 +417,32 @@ class RecordBookPurchase(Resource):
         db.session.add(purchase)
         db.session.commit()
         return {"message": "Book purchase recorded successfully"}
+    
+    
+# backend/server/resources.py
+class SubmitRating(Resource):
+    @jwt_required()
+    def post(self):
+        data = request.get_json()
+        user_id = get_jwt_identity()
+
+        rating = Rating(
+            user_id=user_id,
+            course_id=data.get("course_id"),
+            service_type=data.get("service_type"),
+            service_id=data.get("service_id"),
+            rating=int(data["rating"]),
+            comment=data.get("comment", ""),
+        )
+        db.session.add(rating)
+        db.session.commit()
+        return {"message": "Rating submitted!"}, 201
+
 
 # ======================
 #        Routes
 # ======================
+api.add_resource(SubmitRating, "/api/submit-rating")
 
 api.add_resource(CheckSession, '/check-session')
 api.add_resource(get_token, '/get-token')

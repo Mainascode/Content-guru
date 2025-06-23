@@ -172,3 +172,14 @@ class CoursePurchase(db.Model):
 
     def __repr__(self):
         return f'<CoursePurchase user_id={self.user_id} course_id={self.course_id}>'
+
+# backend/server/models.py
+class Rating(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=True)
+    service_type = db.Column(db.String(20))  # e.g. "book", "course"
+    service_id = db.Column(db.Integer)       # e.g. book_id
+    rating = db.Column(db.Integer)           # 1 to 5
+    comment = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)

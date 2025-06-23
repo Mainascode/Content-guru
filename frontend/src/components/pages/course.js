@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./authcontext"; // adjust path as needed
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import StarRating from "../StarRating"; // adjust path as needed
+const token = localStorage.getItem("token");
 const courses = [
   {
     title: "Virtual Assistant Mastery",
@@ -42,6 +43,25 @@ const isAuthenticated = !!user;
 
     navigate(`/enroll/${course.id}`, { state: { course } });
   };
+// Inside a CourseDetails or BookDetails page
+<StarRating
+  onSubmit={(data) => {
+    fetch("https://content-guru.onrender.com/api/submit-rating", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        ...data,
+        service_type: "course",
+        service_id: courses.id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => alert("Thanks for your rating!"));
+  }}
+/>
 
   return (
     <div className="container mx-auto px-4 py-10">
