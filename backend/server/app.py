@@ -29,9 +29,9 @@ app.config['JWT_SECRET_KEY'] = 'WyQoe94Ch-q31gYbPtqPmdHSnIe9-vdv35ifgsG-XAYCitOV
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
-app.config['MAIL_DEFAULT_SENDER'] = 'mainaemmanuel855@gmail.com'
+app.config['MAIL_USERNAME'] = 'contentguruapp@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Contentguru@2026'
+app.config['MAIL_DEFAULT_SENDER'] = 'ContentGuru''contentguruapp@gmail.com'
 app.config['UPLOAD_FOLDER'] = 'uploads'
 WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
@@ -302,18 +302,39 @@ class CreateCourse(Resource):
 class ContactResource(Resource):
     def post(self):
         data = request.get_json()
-        name, email, message = data.get('name'), data.get('email'), data.get('message')
+        name = data.get('name')
+        email = data.get('email')
+        message = data.get('message')
+
         if not all([name, email, message]):
             return {"error": "All fields are required."}, 400
 
+        # Save to DB
         db.session.add(ContactMessage(name=name, email=email, message=message))
         db.session.commit()
 
-        msg = Message("Contact Form Received", recipients=[email])
-        msg.body = f"Thank you {name}, we've received your message. We'll be in touch."
-        mail.send(msg)
-        return {"message": "Message received!"}, 200
+        try:
+            # Email to service provider
+            notify = Message(
+                subject=f"New Contact Submission from {name}",
+                recipients=["contentguruapp@gmail.com"],  # 🔁 Replace with your actual email
+                body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+            )
+            mail.send(notify)
 
+            # Confirmation to user
+            confirm = Message(
+                subject="We've Received Your Message",
+                recipients=[email],
+                body=f"Hi {name},\n\nThanks for reaching out to Content Guru. We'll respond shortly.\n\nYour message:\n{message}\n\n— Content Guru Team"
+            )
+            mail.send(confirm)
+
+        except Exception as e:
+            print("Email error:", str(e))
+            return {"error": "Message saved but email failed."}, 500
+
+        return {"message": "Message received and confirmation sent!"}, 200
 class EnrollmentResource(Resource):
     def post(self):
         data = request.get_json()

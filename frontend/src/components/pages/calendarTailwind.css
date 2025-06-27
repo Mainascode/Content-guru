@@ -1,0 +1,12 @@
+/* Add tailwind classes via class name bridge */
+.react-calendar__tile.tw-highlight-course {
+  @apply bg-blue-500 text-white font-bold rounded-full;
+}
+
+.react-calendar__tile.tw-highlight-enroll {
+  @apply bg-green-500 text-white font-bold rounded-full;
+}
+
+.react-calendar__tile.tw-highlight-both {
+  @apply bg-purple-600 text-white font-bold rounded-full;
+}

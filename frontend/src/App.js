@@ -22,7 +22,8 @@ import Enrollment from './components/pages/enrollment';
 import PaymentSuccessPage from './components/pages/payment';
 import Checkout from './components/pages/checkoutpage';
 import Profile from './components/pages/Profile';
-
+import ForgotPassword from './components/pages/ForgotPassword';
+import Footer from './components/pages/footer';
 import './index.css';
 
 function AppContent() {
@@ -33,7 +34,8 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/footer" element={<Footer />} />
         {/* Publicly viewable course/book lists */}
         <Route path="/courses" element={<Courses />} />
         <Route path="/books" element={<Books />} />
