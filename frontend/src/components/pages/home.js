@@ -4,6 +4,7 @@ import { FaPlayCircle } from "react-icons/fa";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { useState } from "react";
+import Footer from "./footer"; // ✅ adjust path if needed
 
 const courseDates = [
   new Date(2025, 6, 2),
@@ -22,18 +23,28 @@ const Home = () => {
   };
 
   return (
-    <div className="overflow-x-hidden">
-      {/* About Section */}
-      <section className="bg-yellow-100 text-yellow-900 py-16 px-6 sm:px-12">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Content Guru</h2>
-          <p className="text-base sm:text-lg leading-relaxed">
-            Content Guru is your one-stop platform for professional growth. We offer expertly curated courses, top-rated books,
-            and powerful marketing services to help creators, educators, and entrepreneurs succeed online.
-          </p>
-        </div>
-      </section>
+    <div className="overflow-x-hidden flex flex-col min-h-screen">
+<section className="bg-yellow-100 text-yellow-900 py-16 px-6 sm:px-12">
+  <div className="max-w-5xl mx-auto">
+    <h2 className="text-4xl sm:text-5xl font-bold mb-10 text-center"> Content Guru</h2>
 
+    {/* Profile Row */}
+    <div className="flex flex-col md:flex-row items-center text-center md:text-left">
+      {/* Text */}
+      <div>
+        <h3 className="text-3xl font-semibold text-yellow-800 mb-4">
+          Hello! I'm <span className="text-yellow-600 font-bold">Maureen</span>, a Professional Virtual Assistant & Social Media Manager
+        </h3>
+        <p className="text-lg text-yellow-700 mb-4">
+          I help busy entrepreneurs and growing businesses streamline operations and build a powerful online presence. With a unique blend of administrative expertise and creative digital marketing, I empower clients to scale and shine online.
+        </p>
+        <p className="text-lg text-yellow-700">
+          Content Guru is your one-stop platform for professional growth. We offer expertly curated courses, top-rated books, and powerful marketing services to help creators, educators, and entrepreneurs succeed online.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -75,11 +86,11 @@ const Home = () => {
       </motion.div>
 
       {/* Calendar Display Section */}
-      <section className="bg-yellow-50 text-yellow-900 py-16 px-6 sm:px-12">
+      <section className="bg-yellow-50 text-yellow-900 py-16 px-6 sm:px-12 flex-grow">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">📅 Course Calendar</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Course Calendar</h2>
           <p className="mb-6 text-gray-700 text-sm sm:text-base">
-            Highlighted dates represent course start or enrollment days.
+            Highlighted dates represent enrollment days.
           </p>
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg inline-block overflow-x-auto">
             <Calendar
@@ -91,6 +102,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer after all content */}
+      <Footer />
     </div>
   );
 };

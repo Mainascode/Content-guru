@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false); // To show loading state
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -11,7 +11,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading state to true when submitting
+    setLoading(true);
 
     try {
       const response = await fetch("https://content-guru.onrender.com/api/contact", {
@@ -24,67 +24,77 @@ const Contact = () => {
         setSuccess(true);
         setFormData({ name: "", email: "", message: "" });
       } else {
-        alert("Something went wrong. Try again.");
+        alert("Something went wrong. Please try again.");
       }
     } catch (error) {
       console.error(error);
       alert("Error sending message.");
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Contact Me</h1>
-      
+<div className="max-w-2xl mx-auto px-6 py-12 pt-24">
+  <h1 className="text-4xl font-extrabold text-center text-yellow-800 mb-12">
+    Get In Touch
+  </h1>
       {success && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
-          Message sent successfully!
+          ✅ Message sent successfully!
         </div>
       )}
-      
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6 bg-yellow-50 p-6 rounded-lg shadow-md"
+      >
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Name</label>
+          <label className="block text-sm font-semibold text-yellow-900 mb-1">
+            Name
+          </label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200"
+            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+          <label className="block text-sm font-semibold text-yellow-900 mb-1">
+            Email
+          </label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200"
+            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Message</label>
+          <label className="block text-sm font-semibold text-yellow-900 mb-1">
+            Message
+          </label>
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
             required
             rows="5"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200"
+            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
           ></textarea>
         </div>
-        
+
         <button
           type="submit"
-          disabled={loading} // Disable the button while loading
-          className="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+          disabled={loading}
+          className="w-full bg-yellow-700 text-white font-semibold py-3 rounded-md hover:bg-yellow-800 transition disabled:opacity-50"
         >
           {loading ? "Sending..." : "Send Message"}
         </button>
