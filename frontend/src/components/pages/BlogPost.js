@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+
 
 export default function BlogSubscribe() {
   const [email, setEmail] = useState("");
@@ -8,20 +8,27 @@ export default function BlogSubscribe() {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     try {
-      await fetch("https://content-guru.onrender.com/api/subscribe", {
+      const res = await fetch("https://content-guru-e25z.onrender.com/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      setSuccess("🎉 Subscribed successfully!");
-      setEmail("");
+
+      if (res.ok) {
+        setSuccess("🎉 Subscribed successfully!");
+        setEmail("");
+        // Optional toast
+        // toast.success("Subscription successful!");
+      } else {
+        setSuccess("❌ Something went wrong. Try again.");
+      }
     } catch {
-      setSuccess("❌ Something went wrong. Try again.");
+      setSuccess("❌ Could not connect. Try again.");
     }
   };
 
   return (
-    <div className="mt-10 max-w-lg mx-auto bg-yellow-50 p-6 rounded shadow">
+    <div className="max-w-lg mx-auto bg-yellow-50 p-6 rounded shadow">
       <h3 className="text-xl font-bold mb-3 text-yellow-800">📧 Join our mailing list!</h3>
       <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4">
         <input
@@ -39,7 +46,10 @@ export default function BlogSubscribe() {
           Subscribe
         </button>
       </form>
-      {success && <p className="mt-4 text-green-700">{success}</p>}
+
+      {success && (
+        <p className="mt-4 text-green-700">{success}</p>
+      )}
     </div>
   );
 }

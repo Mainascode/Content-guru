@@ -20,7 +20,7 @@ const PaymentSuccessPage = () => {
       try {
         const token = localStorage.getItem("jwt");
 
-        const response = await fetch("https://content-guru.onrender.com/paypal/execute-payment", {
+        const response = await fetch("https://content-guru-e25z.onrender.com/paypal/execute-payment", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

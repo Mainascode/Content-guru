@@ -11,7 +11,7 @@ const CalendarPage = () => {
   useEffect(() => {
     async function fetchDates() {
       try {
-        const res = await fetch("https://content-guru.onrender.com/api/calendar-dates");
+        const res = await fetch("https://content-guru-e25z.onrender.com/api/calendar-dates");
         const data = await res.json();
         setCourseDates(data.courses.map(date => new Date(date)));
         setEnrollmentDates(data.enrollments.map(date => new Date(date)));

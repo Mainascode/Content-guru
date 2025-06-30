@@ -46,7 +46,7 @@ const BookDetails = () => {
         <div className="mt-6">
           <StarRating
             onSubmit={(data) => {
-              fetch("https://content-guru.onrender.com/api/submit-rating", {
+              fetch("https://content-guru-e25z.onrender.com/api/submit-rating", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

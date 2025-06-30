@@ -85,23 +85,27 @@ const Home = () => {
         </motion.a>
       </motion.div>
 
-      {/* Calendar Display Section */}
-      <section className="bg-yellow-50 text-yellow-900 py-16 px-6 sm:px-12 flex-grow">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Course Calendar</h2>
-          <p className="mb-6 text-gray-700 text-sm sm:text-base">
-            Highlighted dates represent enrollment days.
-          </p>
-          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg inline-block overflow-x-auto">
-            <Calendar
-              value={date}
-              onClickDay={setDate}
-              tileClassName={tileClassName}
-              className="REACT-CALENDAR"
-            />
-          </div>
-        </div>
-      </section>
+{/* ✅ Calendar Display Section - Improved for Mobile */}
+<section className="bg-yellow-50 text-yellow-900 py-16 px-4 sm:px-6 md:px-8 flex-grow">
+  <div className="max-w-3xl mx-auto text-center">
+    <h2 className="text-2xl sm:text-3xl font-bold mb-4">Course Calendar</h2>
+    <p className="mb-6 text-gray-700 text-sm sm:text-base">
+      Highlighted dates represent enrollment days.
+    </p>
+
+    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg overflow-x-auto inline-block">
+      <div className="min-w-[340px] w-full">
+        <Calendar
+          value={date}
+          onClickDay={setDate}
+          tileClassName={tileClassName}
+          className="REACT-CALENDAR w-full"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Footer after all content */}
       <Footer />
