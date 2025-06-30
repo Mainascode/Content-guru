@@ -24,6 +24,8 @@ import Checkout from './components/pages/checkoutpage';
 import Profile from './components/pages/Profile';
 import ForgotPassword from './components/pages/ForgotPassword';
 import Footer from './components/pages/footer';
+import Blog from './components/pages/blog';
+import BlogPost from './components/pages/BlogPost';
 import './index.css';
 
 function AppContent() {
@@ -40,6 +42,8 @@ function AppContent() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/books" element={<Books />} />
         <Route path="/books/:title" element={<BookDetails />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
 
         {/* Auth-protected actions */}
         <Route path="/enroll/:courseId" element={

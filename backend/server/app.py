@@ -1,8 +1,8 @@
-from flask import  request, jsonify ,Flask
+from flask import  request, jsonify ,Flask, Blueprint
 from flask_restful import Api, Resource
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook, Rating
+from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook, Rating, Subscriber
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
@@ -56,7 +56,7 @@ with app.app_context():
 # ======================
 #        Resources
 # ======================
-
+subscribe_bp = Blueprint('subscribe', __name__)
 # Environment variables
 MPESA_BASE_URL = ("https://sandbox.safaricom.co.ke")
 CONSUMER_KEY =("luoBoFwiA4jFXFzBsDoBSIA4Lr24CkvxHqUf4BUVUAVZdseP")
@@ -387,8 +387,8 @@ class PayPalBookPurchase(Resource):
             "intent": "sale",
             "payer": {"payment_method": "paypal"},
             "redirect_urls": {
-                "return_url": "http://localhost:3000/payment-success",
-                "cancel_url": "http://localhost:3000/payment-cancel"
+                "return_url": "https://content-guru.onrender.com/payment-success",
+                "cancel_url": "https://content-guru.onrender.com/payment-cancel"
             },
             "transactions": [{
                 "item_list": {"items": [{"name": title, "sku": "book", "price": price, "currency": "USD", "quantity": 1}]},
@@ -458,6 +458,35 @@ class SubmitRating(Resource):
         db.session.add(rating)
         db.session.commit()
         return {"message": "Rating submitted!"}, 201
+
+# Flask example
+@subscribe_bp.route("/api/subscribe", methods=["POST"])
+def subscribe():
+    data = request.get_json()
+    email = data.get("email")
+
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    # Optional: Check if already subscribed
+    exists = Subscriber.query.filter_by(email=email).first()
+    if exists:
+        return jsonify({"message": "Already subscribed!"}), 200
+
+    # Save to DB
+    new_subscriber = Subscriber(email=email)
+    db.session.add(new_subscriber)
+    db.session.commit()
+
+    # Optional: Send confirmation email
+    msg = Message(
+        "You're Subscribed!",
+        recipients=[email],
+        body="Thank you for subscribing to our Content Guru blog. Stay tuned!"
+    )
+    mail.send(msg)
+
+    return jsonify({"message": "Subscription successful!"}), 200
 
 
 # ======================

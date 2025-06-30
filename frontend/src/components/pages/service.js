@@ -2,59 +2,62 @@ import React from 'react';
 
 const Services = () => {
   return (
-    <div className="bg-gray-50 py-12">
+    <div className="bg-yellow-50 py-16">
       <div className="max-w-6xl mx-auto px-6">
-        <h1 className="text-4xl font-bold text-center text-gray-900 mb-16">Our Services</h1>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-900 mb-16">
+          Our Services
+        </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {/* Virtual Assistance Service */}
-          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Virtual Assistance Services</h2>
-            <p className="text-gray-700">
-              Maximize your productivity and stay organized with our dedicated virtual assistant services. We’ll take care of tasks like scheduling, email management, data entry, and more to keep your day running smoothly.
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {/* Virtual Assistance */}
+          <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-xl transition-transform transform hover:scale-105 border-t-4 border-yellow-400">
+            <h2 className="text-2xl font-semibold text-yellow-800 mb-4">Virtual Assistance Services</h2>
+            <p className="text-yellow-700">
+              Maximize your productivity with dedicated virtual assistance. From scheduling and inbox management to data entry, we handle tasks that free up your valuable time.
             </p>
           </div>
 
           {/* Social Media Management */}
-          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Social Media Management</h2>
-            <p className="text-gray-700">
-              Boost your online presence with expert social media management. We’ll create engaging content, manage your accounts, and strategize to increase your followers and engagement on platforms like Instagram, Facebook, and Twitter.
+          <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-xl transition-transform transform hover:scale-105 border-t-4 border-yellow-400">
+            <h2 className="text-2xl font-semibold text-yellow-800 mb-4">Social Media Management</h2>
+            <p className="text-yellow-700">
+              Grow your online influence with our social media management. We craft content, manage accounts, and boost engagement on Instagram, Facebook, LinkedIn, and more.
             </p>
           </div>
 
           {/* Content Visibility Boosting */}
-          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Content Visibility Boosting</h2>
-            <p className="text-gray-700">
-              Want to get your content noticed? We can help boost your visibility on Instagram through targeted strategies, making your posts reach a wider audience and attract more attention to your brand or personal page.
+          <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-xl transition-transform transform hover:scale-105 border-t-4 border-yellow-400">
+            <h2 className="text-2xl font-semibold text-yellow-800 mb-4">Content Visibility Boosting</h2>
+            <p className="text-yellow-700">
+              Stand out online! Our strategies amplify your content’s reach on Instagram, getting you seen by the right audience to grow your brand and impact.
             </p>
           </div>
 
-          {/* Paid Promotional Slots */}
-          <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl col-span-1 md:col-span-2 lg:col-span-3">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Paid Promotional Slots</h2>
-            <p className="text-gray-700 mb-4">
-              Increase your reach with paid promotional slots on our curated Instagram accounts:
+          {/* Paid Promo Slots */}
+          <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-xl transition-transform transform hover:scale-105 border-t-4 border-yellow-400 md:col-span-2 lg:col-span-3">
+            <h2 className="text-2xl font-semibold text-yellow-800 mb-4">Paid Promotional Slots</h2>
+            <p className="text-yellow-700 mb-4">
+              Expand your reach with premium promotional slots on our popular Instagram accounts:
             </p>
-            <ul className="list-none space-y-2 pl-0">
-              <li className="text-lg text-gray-700">
-                <strong className="text-red-500">@mysoul_vibe</strong>: A space dedicated to inspiring and uplifting content.
+            <ul className="list-none space-y-3">
+              <li className="text-yellow-800">
+                <strong className="text-yellow-700">@mysoul_vibe</strong>: Inspiring and uplifting vibes for a soulful audience.
               </li>
-              <li className="text-lg text-gray-700">
-                <strong className="text-red-500">@recipes_asmr_</strong>: Perfect for sharing delicious recipes with a sensory twist.
+              <li className="text-yellow-800">
+                <strong className="text-yellow-700">@recipes_asmr_</strong>: Delicious, sensory recipes that captivate food lovers.
               </li>
-              <li className="text-lg text-gray-700">
-                <strong className="text-red-500">@_codes101</strong>: A go-to for tech tips, coding tutorials, and geek culture.
+              <li className="text-yellow-800">
+                <strong className="text-yellow-700">@_codes101</strong>: For tech enthusiasts, coding learners, and digital creators.
               </li>
             </ul>
-            <p className="text-gray-700">Get featured and tap into our active, engaged audience!</p>
+            <p className="text-yellow-700 mt-4">
+              Get featured and reach an engaged, active community that’s ready to connect with your brand!
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Services;
-

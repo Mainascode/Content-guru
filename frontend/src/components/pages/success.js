@@ -9,22 +9,30 @@ const Success = () => {
 
   useEffect(() => {
     if (email && course) {
-      axios.post("https://content-guru.onrender.com/enroll-student", { email, course })
-        .then(() => console.log("Student enrolled successfully"))
-        .catch(err => console.error("Enrollment failed", err));
-  
-      axios.post("https://content-guru.onrender.com/send-email", { email, course })
-        .then(() => console.log("Confirmation email sent"))
-        .catch(err => console.error("Email sending failed", err));
+      axios
+        .post("https://content-guru.onrender.com/enroll-student", { email, course })
+        .then(() => console.log("✅ Student enrolled successfully"))
+        .catch(err => console.error("❌ Enrollment failed", err));
+
+      axios
+        .post("https://content-guru.onrender.com/send-email", { email, course })
+        .then(() => console.log("📧 Confirmation email sent"))
+        .catch(err => console.error("❌ Email sending failed", err));
     }
   }, [email, course]);
-  
 
   return (
-    <div className="text-center py-20">
-      <h1 className="text-3xl font-bold text-green-600">🎉 Payment Successful!</h1>
-      <p className="text-lg mt-4">You are now enrolled in the {course} course.</p>
-      <a href="/courses" className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-block">
+    <div className="text-center py-24 px-4 bg-yellow-50 min-h-screen flex flex-col items-center justify-center">
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-green-700 mb-4">
+        🎉 Payment Successful!
+      </h1>
+      <p className="text-lg text-yellow-800 mb-8">
+        You are now enrolled in the <span className="font-semibold">{course}</span> course.
+      </p>
+      <a
+        href="/courses"
+        className="px-6 py-3 bg-yellow-700 text-white rounded-full font-semibold hover:bg-yellow-800 transition"
+      >
         Back to Courses
       </a>
     </div>

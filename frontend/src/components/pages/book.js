@@ -13,9 +13,21 @@ const Books = () => {
   const closeModal = () => setShowLoginModal(false);
 
   const books = [
-    { title: "The Art of Content Writing", price: "$19.99", img: "/images/book1.jpg" },
-    { title: "SEO for Beginners", price: "$15.99", img: "/images/book2.jpg" },
-    { title: "Social Media Marketing", price: "$22.99", img: "/images/book3.jpg" },
+    {
+      title: "The Art of Content Writing",
+      price: "$19.99",
+      img: "/images/book1.jpg",
+    },
+    {
+      title: "SEO for Beginners",
+      price: "$15.99",
+      img: "/images/book2.jpg",
+    },
+    {
+      title: "Social Media Marketing",
+      price: "$22.99",
+      img: "/images/book3.jpg",
+    },
   ];
 
   const handleBuy = (book) => {
@@ -23,59 +35,61 @@ const Books = () => {
       setShowLoginModal(true);
       return;
     }
-
-    navigate("/checkout", {
-      state: { book },
-    });
-  
+    navigate("/checkout", { state: { book } });
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-24 sm:py-28 bg-yellow-50">
       {isLoggedIn && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center font-medium">
-          You are logged in!
+        <div className="bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center font-medium">
+          ✅ You’re logged in! Enjoy shopping.
         </div>
       )}
 
-      {showLoginModal && <LoginModal closeModal={closeModal} navigate={navigate} />}
+      {showLoginModal && (
+        <LoginModal closeModal={closeModal} navigate={navigate} />
+      )}
 
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-4xl font-extrabold text-center text-gray-800"
+        className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-800 mb-12"
       >
-        Our Books
+        📚 Our Books
       </motion.h1>
 
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {books.map((book) => (
           <motion.div
             key={book.title}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="bg-white p-6 rounded-lg shadow-lg"
+            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all border border-yellow-200"
           >
             <img
               src={book.img}
               alt={book.title}
-              className="w-full h-52 object-cover rounded-md"
+              className="w-full h-52 object-cover rounded-md mb-4"
             />
-            <h2 className="mt-4 text-2xl font-bold text-gray-900">{book.title}</h2>
-            <p className="text-lg font-semibold text-green-600">{book.price}</p>
+            <h2 className="text-2xl font-bold text-yellow-900 mb-2">
+              {book.title}
+            </h2>
+            <p className="text-lg font-semibold text-yellow-700">
+              {book.price}
+            </p>
 
             <button
               onClick={() => handleBuy(book)}
-              className="mt-4 w-full px-5 py-3 rounded-full bg-green-600 hover:bg-green-700 text-white font-semibold"
+              className="mt-4 w-full px-5 py-3 rounded-full bg-yellow-700 hover:bg-yellow-800 text-white font-semibold transition-all"
             >
               Buy Now
             </button>
 
             <Link
               to={`/books/${encodeURIComponent(book.title)}`}
-              className="mt-3 block text-center text-blue-600 hover:underline"
+              className="mt-3 block text-center text-yellow-800 font-medium hover:underline"
             >
               View Details
             </Link>

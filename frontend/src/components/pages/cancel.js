@@ -1,15 +1,17 @@
-
 const CheckoutPage = () => (
-  <div className="text-center py-20">
-    <h1 className="text-3xl font-bold text-green-600">✔️ Payment Process</h1>
-    <p className="text-lg mt-4">It seems like the payment was not completed, but don't worry, you can proceed to checkout below!</p>
-    
-    {/* Optionally, add payment retry functionality */}
-    <a 
-      href="/checkout" 
-      className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-block"
+  <div className="text-center py-20 px-4 bg-yellow-50 min-h-screen flex flex-col justify-center items-center">
+    <h1 className="text-4xl font-extrabold text-yellow-800 mb-4">
+      ⚠️ Payment Incomplete
+    </h1>
+    <p className="text-lg text-yellow-700 max-w-xl">
+      It looks like your payment didn’t go through. No worries — you can safely retry your checkout below!
+    </p>
+
+    <a
+      href="/checkout"
+      className="mt-8 px-8 py-4 bg-yellow-700 text-white rounded-full font-semibold hover:bg-yellow-800 transition-all"
     >
-      Proceed to Checkout
+      Retry Checkout
     </a>
   </div>
 );

@@ -28,6 +28,7 @@ const Navbar = () => {
       <Link to="/books" onClick={closeMenu} className="hover:text-yellow-300 transition">Books</Link>
       <Link to="/services" onClick={closeMenu} className="hover:text-yellow-300 transition">Services</Link>
       <Link to="/about" onClick={closeMenu} className="hover:text-yellow-300 transition">About</Link>
+      <Link to="/blog" onClick={closeMenu} className="hover:text-yellow-300 transition">Blog</Link>
       <Link to="/contact" onClick={closeMenu} className="hover:text-yellow-300 transition">Contact</Link>
     </>
   );

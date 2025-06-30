@@ -67,14 +67,14 @@ const Enrollment = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h1 className="text-4xl font-bold text-center mb-6">
+    <div className="container mx-auto px-4 py-24 sm:py-28">
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-800 mb-10">
         Enroll in {course?.title}
       </h1>
 
-      <form className="space-y-6 bg-white p-6 rounded-lg shadow-md max-w-xl mx-auto">
+      <form className="space-y-6 bg-yellow-50 p-6 rounded-lg shadow-md max-w-xl mx-auto">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-yellow-800 mb-1">
             Full Name
           </label>
           <input
@@ -83,12 +83,12 @@ const Enrollment = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-yellow-800 mb-1">
             Email Address
           </label>
           <input
@@ -98,12 +98,12 @@ const Enrollment = () => {
             onChange={handleChange}
             required
             disabled={!!user}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
+            className="w-full px-4 py-2 border border-yellow-300 rounded-md bg-yellow-100"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-yellow-800 mb-1">
             Phone Number
           </label>
           <input
@@ -112,14 +112,14 @@ const Enrollment = () => {
             value={formData.phone}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
           />
         </div>
 
         <div className="mt-6 text-center">
-          <PayPalScriptProvider options={{ "client-id":  "AfqKJh9FRrd-aqMGCFRlgg1vhhXF3gg9ViCeZRMLCX9p0JEdrBfJWGWm-uBPnKjY7d0_TjfG_oHs--de" }}>
+          <PayPalScriptProvider options={{ "client-id": "AfqKJh9FRrd-aqMGCFRlgg1vhhXF3gg9ViCeZRMLCX9p0JEdrBfJWGWm-uBPnKjY7d0_TjfG_oHs--de" }}>
             <PayPalButtons
-              style={{ layout: "vertical", color: "blue", shape: "pill", label: "paypal" }}
+              style={{ layout: "vertical", color: "gold", shape: "pill", label: "paypal" }}
               createOrder={(data, actions) => {
                 return actions.order.create({
                   purchase_units: [

@@ -13,8 +13,8 @@ export default function CheckoutPage() {
 
   if (!book) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-xl text-red-600 font-medium">No book selected for checkout.</p>
+      <div className="flex justify-center items-center min-h-screen bg-yellow-50 px-4">
+        <p className="text-xl font-medium text-red-600">No book selected for checkout.</p>
       </div>
     );
   }
@@ -22,7 +22,7 @@ export default function CheckoutPage() {
   const handlePayPalSuccess = async (details, data) => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5001/api/purchase-book", {
+      const res = await fetch("https://content-guru.onrender.com/api/purchase-book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -36,7 +36,7 @@ export default function CheckoutPage() {
       if (res.ok) {
         navigate(`/payment-success?book=${encodeURIComponent(book.title)}`);
       } else {
-        alert("Payment went through, but saving failed.");
+        alert("Payment processed, but saving failed.");
       }
     } catch (err) {
       alert("PayPal payment error");
@@ -53,15 +53,15 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5001/stk-push", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    phone: mpesaNumber, // e.g. "254712345678"
-    title: book.title,
-    amount: parseFloat(book.price.replace("$", ""))
-  })
-});
+      const response = await fetch("https://content-guru.onrender.com/stk-push", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: mpesaNumber,
+          title: book.title,
+          amount: parseFloat(book.price.replace("$", ""))
+        }),
+      });
 
       const result = await response.json();
       if (response.ok) {
@@ -79,25 +79,27 @@ export default function CheckoutPage() {
 
   return (
     <PayPalScriptProvider options={{ "client-id": "AfqKJh9FRrd-aqMGCFRlgg1vhhXF3gg9ViCeZRMLCX9p0JEdrBfJWGWm-uBPnKjY7d0_TjfG_oHs--de" }}>
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Checkout</h2>
+      <div className="max-w-3xl mx-auto px-4 py-16">
+        <div className="bg-yellow-50 rounded-lg shadow-md p-8">
+          <h2 className="text-3xl font-extrabold text-center text-yellow-900 mb-8">
+            Checkout
+          </h2>
 
           <div className="flex flex-col sm:flex-row gap-6 items-center mb-8">
             <img
               src={book.img || "/images/default-book.jpg"}
               alt={book.title}
-              className="w-44 h-60 object-cover rounded-md border shadow"
+              className="w-44 h-60 object-cover rounded shadow"
             />
-            <div className="flex-1">
-              <h3 className="text-xl font-semibold text-gray-800">{book.title}</h3>
-              <p className="text-green-600 font-bold text-lg">{book.price}</p>
-              <p className="text-sm text-gray-500 mt-1">Choose your preferred payment method:</p>
+            <div className="flex-1 text-center sm:text-left">
+              <h3 className="text-xl font-semibold text-yellow-800">{book.title}</h3>
+              <p className="text-lg font-bold text-green-700">{book.price}</p>
+              <p className="text-sm text-yellow-700 mt-2">Choose your preferred payment method:</p>
             </div>
           </div>
 
           <div className="mb-6">
-            <label className="flex items-center space-x-4 mb-2">
+            <label className="flex items-center space-x-3 mb-2">
               <input
                 type="radio"
                 name="paymentMethod"
@@ -105,9 +107,9 @@ export default function CheckoutPage() {
                 checked={paymentMethod === "paypal"}
                 onChange={() => setPaymentMethod("paypal")}
               />
-              <span className="text-gray-800 font-medium">PayPal</span>
+              <span className="text-yellow-800 font-medium">PayPal</span>
             </label>
-            <label className="flex items-center space-x-4">
+            <label className="flex items-center space-x-3">
               <input
                 type="radio"
                 name="paymentMethod"
@@ -115,17 +117,17 @@ export default function CheckoutPage() {
                 checked={paymentMethod === "mpesa"}
                 onChange={() => setPaymentMethod("mpesa")}
               />
-              <span className="text-gray-800 font-medium">M-Pesa</span>
+              <span className="text-yellow-800 font-medium">M-Pesa</span>
             </label>
           </div>
 
           {paymentMethod === "paypal" && (
             <div>
               {loading ? (
-                <p className="text-center text-gray-500">Processing PayPal payment...</p>
+                <p className="text-center text-yellow-700">Processing PayPal payment...</p>
               ) : (
                 <PayPalButtons
-                  style={{ layout: "vertical", shape: "pill", label: "checkout", color: "blue" }}
+                  style={{ layout: "vertical", shape: "pill", label: "checkout", color: "gold" }}
                   createOrder={(data, actions) => {
                     return actions.order.create({
                       purchase_units: [{
@@ -152,18 +154,20 @@ export default function CheckoutPage() {
 
           {paymentMethod === "mpesa" && (
             <div className="mt-4">
-              <label className="block mb-1 font-medium text-gray-700">M-Pesa Number</label>
+              <label className="block mb-1 font-semibold text-yellow-800">
+                M-Pesa Number
+              </label>
               <input
                 type="tel"
                 placeholder="e.g. 0712345678"
                 value={mpesaNumber}
                 onChange={(e) => setMpesaNumber(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-2 border border-yellow-300 rounded focus:ring focus:ring-yellow-400"
               />
               <button
                 onClick={handleMpesaPayment}
                 disabled={loading}
-                className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded"
+                className="mt-4 w-full bg-yellow-700 hover:bg-yellow-800 text-white py-3 rounded-full font-semibold"
               >
                 {loading ? "Sending STK Push..." : "Pay with M-Pesa"}
               </button>
