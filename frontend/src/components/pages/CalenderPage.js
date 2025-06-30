@@ -47,7 +47,7 @@ const CalendarPage = () => {
           onChange={setValue}
           value={value}
           tileClassName={tileClassName}
-          className="w-full"
+          className="w-fit"
         />
       </div>
 
