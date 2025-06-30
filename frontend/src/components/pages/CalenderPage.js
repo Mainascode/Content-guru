@@ -38,18 +38,20 @@ const CalendarPage = () => {
 
   return (
     <div className="bg-yellow-50 px-4 sm:px-6 md:px-8 py-10 min-h-screen flex flex-col items-center">
+
       <h2 className="text-3xl sm:text-4xl font-bold text-yellow-800 text-center mb-6">
         📆 Upcoming Courses & Enrollment Days
       </h2>
 
-      <div className="w-full max-w-md bg-white rounded-xl shadow p-4 overflow-x-auto">
-        <Calendar
-          onChange={setValue}
-          value={value}
-          tileClassName={tileClassName}
-          className="w-fit"
-        />
-      </div>
+ <div className="w-full overflow-x-auto">
+  <Calendar
+    onChange={setValue}
+    value={value}
+    tileClassName={tileClassName}
+    className="min-w-[320px] max-w-full"
+  />
+</div>
+
 
       <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-yellow-800">
         <div className="flex items-center gap-2">

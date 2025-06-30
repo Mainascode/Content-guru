@@ -16,7 +16,6 @@ import Courses from './components/pages/course';
 import Books from './components/pages/book';
 import BookDetails from './components/pages/bookdetails';
 import Services from './components/pages/service';
-import Contact from './components/pages/contact';
 import About from './components/pages/about';
 import Enrollment from './components/pages/enrollment';
 import PaymentSuccessPage from './components/pages/payment';
@@ -60,7 +59,7 @@ function AppContent() {
         {/* Always public */}
         <Route path="/services" element={<Services />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        
         <Route
   path="/profile"
   element={
