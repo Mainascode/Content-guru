@@ -10,3 +10,10 @@
 .react-calendar__tile.tw-highlight-both {
   @apply bg-purple-600 text-white font-bold rounded-full;
 }
+.react-calendar {
+  width: 100%;
+  max-width: 100%;
+}
+.react-calendar__month-view {
+  overflow-x: auto;
+}
