@@ -94,7 +94,7 @@ const Home = () => {
     </p>
 
     <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg overflow-x-auto inline-block">
-      <div className="min-w-[340px] w-full">
+      <div className=" w-full">
         <Calendar
           value={date}
           onClickDay={setDate}
