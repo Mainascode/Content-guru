@@ -1,57 +1,61 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+// src/components/Footer.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaFacebook, FaInstagram} from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-yellow-900 text-yellow-100 py-10 px-4">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-        {/* Brand */}
+    <footer className="bg-yellow-900 text-yellow-100 py-12">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        
+        {/* Brand Info */}
         <div>
-          <h2 className="text-3xl font-bold text-yellow-300">Content Guru</h2>
-          <p className="mt-2 text-yellow-200 text-sm">
-            Empowering creators with skills, strategy, and support.
+          <h2 className="text-xl font-bold text-yellow-50 mb-3">Content Guru</h2>
+          <p className="text-sm text-yellow-200">
+            Empowering you with courses, books & digital services for growth.
           </p>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-xl font-semibold mb-3">Quick Links</h3>
-          <div className="flex flex-col space-y-2 text-sm">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <Link to="/about" className="hover:text-white">About</Link>
-            <Link to="/courses" className="hover:text-white">Courses</Link>
-            <Link to="/services" className="hover:text-white">Services</Link>
-            <Link to="/contact" className="hover:text-white">Contact</Link>
-          </div>
+          <h3 className="text-lg font-semibold text-yellow-50 mb-2">Company</h3>
+          <ul className="space-y-2 text-sm">
+            
+            <li><Link to="/about" className="hover:text-yellow-400">About</Link></li>
+            <li><Link to="/courses" className="hover:text-yellow-400">Courses</Link></li>
+            <li><Link to="/books" className="hover:text-yellow-400">Books</Link></li>
+            <li><Link to="/services" className="hover:text-yellow-400">Services</Link></li>
+            <li><Link to="/blog" className="hover:text-yellow-400">Blog</Link></li>
+            <li><Link to="/contact" className="hover:text-yellow-400">Contact</Link></li>
+          </ul>
         </div>
 
-        {/* Contact & Social */}
+        {/* Contact Info */}
         <div>
-          <h3 className="text-xl font-semibold mb-3">Contact</h3>
-          <p className="text-sm">Email: support@contentguru.com</p>
-          <p className="text-sm">Phone: +1 (555) 123-4567</p>
-          <div className="flex justify-center md:justify-start gap-4 mt-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-300">
-              <FaFacebook className="text-xl" />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-300">
-              <FaTwitter className="text-xl" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-300">
-              <FaInstagram className="text-xl" />
-            </a>
+          <h3 className="text-lg font-semibold text-yellow-50 mb-2">Contact</h3>
+          <p className="text-sm">Email: yoursocialcontent.com</p>
+          <p className="text-sm">Phone: +254 742021270
+
+          </p>
+        </div>
+
+        {/* Social Media */}
+        <div>
+          <h3 className="text-lg font-semibold text-yellow-50 mb-2">Follow Us</h3>
+          <div className="flex space-x-4">
+            <a href="https://www.facebook.com/content__guru"target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400"><FaFacebook /></a>
+
+            <a href="https://www.instagram.com/content__guru"target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400"><FaInstagram /></a>
+
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="text-center text-yellow-400 text-xs mt-8 border-t border-yellow-800 pt-4">
-        © {new Date().getFullYear()} Content Guru. All rights reserved.
+      <div className="mt-8 border-t border-yellow-700 pt-4 text-center text-xs text-yellow-300">
+        &copy; {new Date().getFullYear()} Content Guru. All rights reserved.
       </div>
     </footer>
   );
 };
 
 export default Footer;
-

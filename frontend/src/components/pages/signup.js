@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 export default function Signup() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [userType, setUserType] = useState("Student");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { signup, googleLogin } = useAuth();
@@ -76,18 +75,6 @@ export default function Signup() {
             />
           </div>
 
-          <div>
-            <label className="block mb-1 font-semibold text-yellow-800">User Type</label>
-            <select
-              value={userType}
-              onChange={(e) => setUserType(e.target.value)}
-              required
-              className="w-full p-3 border border-yellow-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            >
-              <option value="Student">Student</option>
-              <option value="Instructor">Instructor</option>
-            </select>
-          </div>
 
           <div>
             <label className="block mb-1 font-semibold text-yellow-800">Password</label>

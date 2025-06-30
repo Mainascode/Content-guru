@@ -31,13 +31,16 @@ import './index.css';
 function AppContent() {
   return (
     <>
-      <Navbar />
+    
+  
+      <Navbar />  
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/footer" element={<Footer />} />
+        
         {/* Publicly viewable course/book lists */}
         <Route path="/courses" element={<Courses />} />
         <Route path="/books" element={<Books />} />
@@ -66,7 +69,8 @@ function AppContent() {
     </PrivateRoute>
   }
 />
-      </Routes>
+      </Routes> 
+       <Footer />
     </>
   );
 }
