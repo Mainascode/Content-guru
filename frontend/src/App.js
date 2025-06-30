@@ -23,7 +23,7 @@ import PaymentSuccessPage from './components/pages/payment';
 import Checkout from './components/pages/checkoutpage';
 import Profile from './components/pages/Profile';
 import ForgotPassword from './components/pages/ForgotPassword';
-import Footer from './components/pages/footer';
+
 import Blog from './components/pages/blog';
 import BlogPost from './components/pages/BlogPost';
 import './index.css';
@@ -70,7 +70,7 @@ function AppContent() {
   }
 />
       </Routes> 
-       <Footer />
+      
     </>
   );
 }
