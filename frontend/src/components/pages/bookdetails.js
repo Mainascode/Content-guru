@@ -43,27 +43,6 @@ const BookDetails = () => {
         <p className="text-lg text-gray-700 mt-2">{book.description}</p>
         <p className="text-xl font-semibold text-green-700 mt-3">{book.price}</p>
 
-        <div className="mt-6">
-          <StarRating
-            onSubmit={(data) => {
-              fetch("https://content-guru.onrender.com/api/submit-rating", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                  ...data,
-                  service_type: "book",
-                  service_id: book.title,
-                }),
-              })
-                .then((res) => res.json())
-                .then(() => alert("⭐ Thanks for your rating!"));
-            }}
-          />
-        </div>
-
         <Link
           to="/books"
           className="mt-6 inline-block text-blue-600 hover:underline"

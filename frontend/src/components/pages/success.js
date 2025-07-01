@@ -10,12 +10,12 @@ const Success = () => {
   useEffect(() => {
     if (email && course) {
       axios
-        .post("https://content-guru.onrender.com/enroll-student", { email, course })
+        .post("https://content-guru-gpls.onrender.comenroll-student", { email, course })
         .then(() => console.log("✅ Student enrolled successfully"))
         .catch(err => console.error("❌ Enrollment failed", err));
 
       axios
-        .post("https://content-guru.onrender.com/send-email", { email, course })
+        .post("https://content-guru-gpls.onrender.com/send-email", { email, course })
         .then(() => console.log("📧 Confirmation email sent"))
         .catch(err => console.error("❌ Email sending failed", err));
     }

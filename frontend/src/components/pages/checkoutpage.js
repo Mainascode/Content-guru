@@ -22,7 +22,7 @@ export default function CheckoutPage() {
   const handlePayPalSuccess = async (details, data) => {
     setLoading(true);
     try {
-      const res = await fetch("https://content-guru.onrender.com/api/purchase-book", {
+      const res = await fetch("https://content-guru-gpls.onrender.com/purchase-book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -53,7 +53,7 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://content-guru.onrender.com/stk-push", {
+      const response = await fetch("https://content-guru-gpls.onrender.com/stk-push", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
