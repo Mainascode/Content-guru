@@ -30,7 +30,7 @@ export default function Blog() {
   ];
 
   return (
-    <div className="bg-yellow-50 min-h-screen px-4 py-12">
+    <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 pt-24">
       <h1 className="text-4xl font-extrabold text-center text-yellow-800 mb-12">
         📝 Community Blog Timeline
       </h1>
