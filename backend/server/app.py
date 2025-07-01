@@ -2,7 +2,7 @@ from flask import  request, jsonify ,Flask, Blueprint
 from flask_restful import Api, Resource
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook, Rating, Subscriber, BlogPost
+from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
@@ -13,9 +13,8 @@ import os
 import firebase_admin
 from firebase_admin import auth as firebase_auth, credentials
 from sqlalchemy.exc import SQLAlchemyError
-import os, base64, datetime, requests
-from blog import blog_bp
 
+import os, base64, datetime, requests
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -443,117 +442,12 @@ class RecordBookPurchase(Resource):
         return {"message": "Book purchase recorded successfully"}
     
     
-# backend/server/resources.py
-class SubmitRating(Resource):
-    @jwt_required()
-    def post(self):
-        data = request.get_json()
-        user_id = get_jwt_identity()
 
-        rating = Rating(
-            user_id=user_id,
-            course_id=data.get("course_id"),
-            service_type=data.get("service_type"),
-            service_id=data.get("service_id"),
-            rating=int(data["rating"]),
-            comment=data.get("comment", ""),
-        )
-        db.session.add(rating)
-        db.session.commit()
-        return {"message": "Rating submitted!"}, 201
-
-@subscribe_bp.route("/api/subscribe", methods=["POST"])
-def subscribe():
-    data = request.get_json()
-    email = data.get("email")
-
-    if not email:
-        return jsonify({"error": "Email is required"}), 400
-
-    # Optional: Check if already subscribed
-    exists = Subscriber.query.filter_by(email=email).first()
-    if exists:
-        return jsonify({"message": "Already subscribed!"}), 200
-
-    # Save to DB
-    new_subscriber = Subscriber(email=email)
-    db.session.add(new_subscriber)
-    db.session.commit()
-
-    # Optional: Send confirmation email
-    msg = Message(
-        "You're Subscribed!",
-        recipients=[email],
-        body="Thank you for subscribing to our Content Guru blog. Stay tuned!"
-    )
-    mail.send(msg)
-
-    return jsonify({"message": "Subscription successful!"}), 200
-
-blog_bp = Blueprint('blog', __name__, url_prefix='/api/blog')
-
-
-# ✅ Get all posts
-@blog_bp.route('/', methods=['GET'])
-def get_posts():
-    posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
-    return jsonify([{
-        'id': post.id,
-        'title': post.title,
-        'content': post.content,
-        'author': post.author,
-        'created_at': post.created_at.isoformat()
-    } for post in posts])
-
-# ✅ Get single post
-@blog_bp.route('/<int:post_id>', methods=['GET'])
-def get_post(post_id):
-    post = BlogPost.query.get_or_404(post_id)
-    return jsonify({
-        'id': post.id,
-        'title': post.title,
-        'content': post.content,
-        'author': post.author,
-        'created_at': post.created_at.isoformat()
-    })
-
-# ✅ Create post
-@blog_bp.route('/', methods=['POST'])
-def create_post():
-    data = request.json
-    new_post = BlogPost(
-        title=data['title'],
-        content=data['content'],
-        author=data.get('author', 'Anonymous')
-    )
-    db.session.add(new_post)
-    db.session.commit()
-    return jsonify({"message": "Post created", "id": new_post.id}), 201
-
-# ✅ Update post
-@blog_bp.route('/<int:post_id>', methods=['PUT'])
-def update_post(post_id):
-    post = BlogPost.query.get_or_404(post_id)
-    data = request.json
-    post.title = data.get('title', post.title)
-    post.content = data.get('content', post.content)
-    post.author = data.get('author', post.author)
-    db.session.commit()
-    return jsonify({"message": "Post updated"})
-
-# ✅ Delete post
-@blog_bp.route('/<int:post_id>', methods=['DELETE'])
-def delete_post(post_id):
-    post = BlogPost.query.get_or_404(post_id)
-    db.session.delete(post)
-    db.session.commit()
-    return jsonify({"message": "Post deleted"})
 
 
 # ======================
 #        Routes
 # ======================
-api.add_resource(SubmitRating, "/api/submit-rating")
 
 api.add_resource(CheckSession, '/check-session')
 api.add_resource(get_token, '/get-token')
