@@ -34,7 +34,6 @@ app.config['MAIL_PASSWORD'] = 'Contentguru@2026'
 app.config['MAIL_DEFAULT_SENDER'] = 'ContentGuru''contentguruapp@gmail.com'
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
-app.register_blueprint(blog_bp)
 WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 # Firebase
