@@ -22,7 +22,7 @@ export default function CheckoutPage() {
   const handlePayPalSuccess = async (details, data) => {
     setLoading(true);
     try {
-      const res = await fetch("https://content-guru-e25z.onrender.com/api/purchase-book", {
+      const res = await fetch("https://content-guru.onrender.com/api/purchase-book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

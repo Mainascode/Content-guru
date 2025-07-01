@@ -26,14 +26,14 @@ const Footer = () => {
             <li><Link to="/books" className="hover:text-yellow-400">Books</Link></li>
             <li><Link to="/services" className="hover:text-yellow-400">Services</Link></li>
             <li><Link to="/blog" className="hover:text-yellow-400">Blog</Link></li>
-            <li><Link to="/contact" className="hover:text-yellow-400">Contact</Link></li>
+            
           </ul>
         </div>
 
         {/* Contact Info */}
         <div>
           <h3 className="text-lg font-semibold text-yellow-50 mb-2">Contact</h3>
-          <p className="text-sm">Email: yoursocialcontent.com</p>
+          <p className="text-sm">Email: yoursocialcontent@gmail.com</p>
           <p className="text-sm">Phone: +254 742021270
 
           </p>

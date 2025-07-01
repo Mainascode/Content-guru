@@ -24,7 +24,7 @@ import Profile from './components/pages/Profile';
 import ForgotPassword from './components/pages/ForgotPassword';
 
 import Blog from './components/pages/blog';
-import BlogPost from './components/pages/BlogPost';
+
 import './index.css';
 
 function AppContent() {
@@ -45,7 +45,7 @@ function AppContent() {
         <Route path="/books" element={<Books />} />
         <Route path="/books/:title" element={<BookDetails />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
+        
 
         {/* Auth-protected actions */}
         <Route path="/enroll/:courseId" element={

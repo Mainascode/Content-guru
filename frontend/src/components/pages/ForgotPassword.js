@@ -17,7 +17,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="max-w-sm mx-auto mt-20 px-4">
+    <div className="max-w-sm mx-auto  px-4">
       <h2 className="text-3xl font-extrabold text-center text-yellow-800 mb-6">
         Reset Password
       </h2>
