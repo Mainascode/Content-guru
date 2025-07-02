@@ -388,8 +388,8 @@ class PayPalBookPurchase(Resource):
             "intent": "sale",
             "payer": {"payment_method": "paypal"},
             "redirect_urls": {
-                "return_url": "https://content-guru.onrender.com/payment-success",
-                "cancel_url": "https://content-guru.onrender.com/payment-cancel"
+                "return_url": "https://content-guru-gpls.onrender.com/payment-success",
+                "cancel_url": "https://content-guru-gpls.onrender.com/payment-cancel"
             },
             "transactions": [{
                 "item_list": {"items": [{"name": title, "sku": "book", "price": price, "currency": "USD", "quantity": 1}]},

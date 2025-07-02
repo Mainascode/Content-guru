@@ -22,7 +22,7 @@ export default function CheckoutPage() {
   const handlePayPalSuccess = async (details, data) => {
     setLoading(true);
     try {
-      const res = await fetch("https://content-guru-gpls.onrender.com/purchase-book", {
+      const res = await fetch("https://content-guru-gpls.onrender.com/paypal/purchase-book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,8 +46,9 @@ export default function CheckoutPage() {
   };
 
   const handleMpesaPayment = async () => {
-    if (!mpesaNumber || mpesaNumber.length < 10) {
-      alert("Enter a valid M-Pesa number");
+    const validPhone = /^0\d{9}$/.test(mpesaNumber.trim());
+    if (!validPhone) {
+      alert("Enter a valid M-Pesa number (10 digits, starts with 0)");
       return;
     }
 
@@ -127,6 +128,7 @@ export default function CheckoutPage() {
                 <p className="text-center text-yellow-700">Processing PayPal payment...</p>
               ) : (
                 <PayPalButtons
+                  disabled={loading}
                   style={{ layout: "vertical", shape: "pill", label: "checkout", color: "gold" }}
                   createOrder={(data, actions) => {
                     return actions.order.create({
