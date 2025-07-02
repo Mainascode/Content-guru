@@ -30,8 +30,8 @@ export default function Blog() {
   ];
 
   return (
-<div className="bg-gradient-to-br from-yellow-50 to-yellow-100 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 pt-12 sm:pt-24">
-  <h1 className="text-2xl font-extrabold text-center text-yellow-800 mb-8">
+<div className="bg-gradient-to-br from-yellow-50 to-yellow-100 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-8 pt-24 sm:pt-32">
+  <h1 className="text-2xl sm:text-4xl font-extrabold text-center text-yellow-800 mb-8 sm:mb-12">
     Blog Timeline
   </h1>
 
