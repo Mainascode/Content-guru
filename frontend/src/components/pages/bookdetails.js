@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import StarRating from "../StarRating";
+
 
 const books = [
   {
