@@ -76,7 +76,7 @@ function AppContent() {
 
 function App() {
   return (
-    <PayPalScriptProvider options={{ "client-id": "AfqKJh9FRrd-aqMGCFRlgg1vhhXF3gg9ViCeZRMLCX9p0JEdrBfJWGWm-uBPnKjY7d0_TjfG_oHs--de" }}>
+    <PayPalScriptProvider options={{ "client-id": "AZN2oJYE9WSgARkZ3cWh8CMcK8wJ53l-gX7UaIUtE3Yvl8QZ5-OfLPhRUObcYNVV32GGKRb6a6gj14OS" }}>
       <AuthProvider>
         <Router>
           <AppContent />
