@@ -4,11 +4,11 @@ const Services = () => {
   return (
     <div className="bg-yellow-50 py-16">
       <div className="max-w-6xl mx-auto px-6">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-900 mb-16">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-900 mb-12">
           Our Services
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Virtual Assistance */}
           <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-xl transition-transform transform hover:scale-105 border-t-4 border-yellow-400">
             <h2 className="text-2xl font-semibold text-yellow-800 mb-4">Virtual Assistance Services</h2>
@@ -41,13 +41,34 @@ const Services = () => {
             </p>
             <ul className="list-none space-y-3">
               <li className="text-yellow-800">
-                <strong className="text-yellow-700">@mysoul_vibe</strong>: Inspiring and uplifting vibes for a soulful audience.
+                <a
+                  href="https://www.instagram.com/mysoul_vibe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-yellow-700 underline hover:text-yellow-900"
+                >
+                  @mysoul_vibe
+                </a>: Inspiring and uplifting vibes for a soulful audience.
               </li>
               <li className="text-yellow-800">
-                <strong className="text-yellow-700">@recipes_asmr_</strong>: Delicious, sensory recipes that captivate food lovers.
+                <a
+                  href="https://www.instagram.com/recipes_asmr_"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-yellow-700 underline hover:text-yellow-900"
+                >
+                  @recipes_asmr_
+                </a>: Delicious, sensory recipes that captivate food lovers.
               </li>
               <li className="text-yellow-800">
-                <strong className="text-yellow-700">@_codes101</strong>: For tech enthusiasts, coding learners, and digital creators.
+                <a
+                  href="https://www.instagram.com/_codes101"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-yellow-700 underline hover:text-yellow-900"
+                >
+                  @_codes101
+                </a>: For tech enthusiasts, coding learners, and digital creators.
               </li>
             </ul>
             <p className="text-yellow-700 mt-4">

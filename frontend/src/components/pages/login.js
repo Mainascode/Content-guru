@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "./authcontext"; // adjust path if needed
+import { useAuth } from "./authcontext";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -40,8 +40,11 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-yellow-50 px-4">
-      <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-md">
+    <div
+      className="flex justify-center items-center min-h-screen bg-cover bg-center px-4"
+      style={{ backgroundImage: "url('/images/login-bg.jpg')" }} // ✅ simpler, uses public folder
+    >
+      <div className="bg-white bg-opacity-90 p-8 rounded-md shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-extrabold text-center text-yellow-800 mb-8">
           Login
         </h2>

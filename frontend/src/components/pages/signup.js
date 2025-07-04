@@ -46,8 +46,11 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-yellow-50 px-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div
+      className="flex justify-center items-center min-h-screen bg-cover bg-center px-4"
+      style={{ backgroundImage: "url('/images/login-bg.jpg')" }} // ✅ same image from public
+    >
+      <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-yellow-800 mb-6 text-center">
           Create Your Account
         </h2>
@@ -74,7 +77,6 @@ export default function Signup() {
               className="w-full p-3 border border-yellow-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
             />
           </div>
-
 
           <div>
             <label className="block mb-1 font-semibold text-yellow-800">Password</label>

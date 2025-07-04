@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+
 
 const About = () => {
   return (
@@ -22,7 +22,7 @@ const About = () => {
 
         <div className="flex-1">
           <h2 className="text-2xl sm:text-3xl font-semibold text-yellow-800 mb-4">
-            Hello! I'm <span className="text-yellow-600 font-bold">Maureen</span>, a Professional Virtual Assistant & Social Media Manager
+            Hello! I'm a Professional Virtual Assistant & Social Media Manager
           </h2>
           <p className="text-base sm:text-lg text-yellow-700 leading-relaxed">
             I help busy entrepreneurs and growing businesses streamline operations and build a powerful online presence. 
@@ -73,12 +73,7 @@ const About = () => {
         <p className="text-base sm:text-lg text-yellow-800 mb-6">
           Every business deserves the opportunity to thrive online. Let’s collaborate to create a digital presence that reflects your passion and brings in real results.
         </p>
-        <Link
-          to="/contact"
-          className="inline-block px-6 py-3 bg-yellow-600 text-white rounded-full font-semibold hover:bg-yellow-700 transition"
-        >
-          Let's Connect
-        </Link>
+
       </section>
     </div>
   );
