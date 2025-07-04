@@ -52,7 +52,7 @@ const Books = () => {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-24 sm:py-28">
         {isLoggedIn && (
           <div className="bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded mb-6 text-center font-medium">
-            ✅ You’re logged in! Enjoy shopping.
+             You’re logged in! Enjoy shopping.
           </div>
         )}
 
