@@ -2,7 +2,8 @@ import React from 'react';
 
 const Services = () => {
   return (
-    <div className="bg-yellow-50 py-16">
+  <div className="bg-yellow-50 pt-16 pb-0 m-0">
+
       <div className="max-w-6xl mx-auto px-6">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-900 mb-12">
           Our Services
