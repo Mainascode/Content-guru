@@ -45,13 +45,13 @@ const PaymentSuccessPage = () => {
     executePayment();
   }, [location.search]);
 
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-yellow-50 text-xl text-yellow-800 text-center px-6">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        {message}
-      </div>
+return (
+  <div className="flex items-center justify-center min-h-screen bg-yellow-50 px-6">
+    <div className="bg-white p-8 rounded shadow text-yellow-800 text-xl text-center">
+      {message}
     </div>
-  );
+  </div>
+);
 };
 
 export default PaymentSuccessPage;

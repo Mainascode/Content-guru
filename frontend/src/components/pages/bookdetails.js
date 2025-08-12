@@ -39,7 +39,7 @@ const BookDetails = () => {
           className="w-full h-64 object-cover rounded-md"
         />
 
-        <h2 className="mt-6 text-3xl font-bold text-yellow-800">{book.title}</h2>
+        <h2 className="mt-6 text-3xl font-bold text-[#8B4513]">{book.title}</h2>
         <p className="text-lg text-gray-700 mt-2">{book.description}</p>
         <p className="text-xl font-semibold text-green-700 mt-3">{book.price}</p>
 

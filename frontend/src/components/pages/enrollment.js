@@ -66,56 +66,55 @@ const Enrollment = () => {
     });
   };
 
-  return (
-    <div className="container mx-auto px-4 py-24 sm:py-28">
-      <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-800 mb-10">
-        Enroll in {course?.title}
-      </h1>
+return (
+  <div className="container mx-auto px-4 py-24 sm:py-28 bg-white">
+    <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-[#8B4513] mb-10">
+      Enroll in {course?.title}
+    </h1>
 
-      <form className="space-y-6 bg-yellow-50 p-6 rounded-lg shadow-md max-w-xl mx-auto">
-        <div>
-          <label className="block text-sm font-semibold text-yellow-800 mb-1">
-            Full Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
-          />
-        </div>
+    <form className="space-y-6 bg-white p-6 rounded-lg shadow-md max-w-xl mx-auto">
+      <div>
+        <label className="block text-sm font-semibold text-[#8B4513] mb-1">
+          Full Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-[#8B4513]/30"
+        />
+      </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-yellow-800 mb-1">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            disabled={!!user}
-            className="w-full px-4 py-2 border border-yellow-300 rounded-md bg-yellow-100"
-          />
-        </div>
+      <div>
+        <label className="block text-sm font-semibold text-[#8B4513] mb-1">
+          Email Address
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          disabled={!!user}
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
+        />
+      </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-yellow-800 mb-1">
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
-          />
-        </div>
-
+      <div>
+        <label className="block text-sm font-semibold text-[#8B4513] mb-1">
+          Phone Number
+        </label>
+        <input
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-[#8B4513]/30"
+        />
+      </div>
         <div className="mt-6 text-center">
           <PayPalScriptProvider options={{ "client-id": "AZN2oJYE9WSgARkZ3cWh8CMcK8wJ53l-gX7UaIUtE3Yvl8QZ5-OfLPhRUObcYNVV32GGKRb6a6gj14OS" }}>
             <PayPalButtons

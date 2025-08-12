@@ -39,66 +39,67 @@ export default function Login() {
     }
   };
 
-  return (
-    <div
-      className="flex justify-center items-center min-h-screen bg-cover bg-center px-4"
-      style={{ backgroundImage: "url('/images/login-bg.jpg')" }} // ✅ simpler, uses public folder
-    >
-      <div className="bg-white bg-opacity-90 p-8 rounded-md shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-extrabold text-center text-yellow-800 mb-8">
-          Login
-        </h2>
+return (
+  <div
+    className="flex justify-center items-center min-h-screen bg-cover bg-center px-4"
+    style={{ backgroundImage: "url('/images/login-bg.jpg')" }}
+  >
+    <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-md">
+      {/* Brown header block */}
+      <h2 className="text-3xl font-extrabold text-center text-[#5C4033] mb-8">
+        Login
+      </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full px-4 py-3 rounded-md border border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5C4033]"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full px-4 py-3 rounded-md border border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          <button
-            type="submit"
-            className="w-full bg-yellow-700 hover:bg-yellow-800 text-white font-semibold py-3 rounded-md transition disabled:opacity-50"
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5C4033]"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
         <button
-          onClick={handleGoogleLogin}
+          type="submit"
+          className="w-full bg-[#5C4033] hover:bg-[#4B352A] text-white font-semibold py-3 rounded-md transition disabled:opacity-50"
           disabled={loading}
-          className="w-full mt-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-md transition"
         >
-          {loading ? "Processing..." : "Sign in with Google"}
+          {loading ? "Logging in..." : "Login"}
         </button>
+      </form>
 
-        <div className="text-center mt-6 text-yellow-800">
-          <p>
-            New user?{" "}
-            <Link to="/signup" className="text-yellow-700 hover:underline font-semibold">
-              Sign up here
-            </Link>
-          </p>
-          <p className="text-sm mt-2">
-            <Link to="/forgot-password" className="text-yellow-700 hover:underline">
-              Forgot password?
-            </Link>
-          </p>
-        </div>
+      <button
+        onClick={handleGoogleLogin}
+        disabled={loading}
+        className="w-full mt-4 py-3 bg-[#7B5E57] hover:bg-[#5C4033] text-white font-semibold rounded-md transition"
+      >
+        {loading ? "Processing..." : "Sign in with Google"}
+      </button>
+
+      <div className="text-center mt-6 text-[#5C4033]">
+        <p>
+          New user?{" "}
+          <Link to="/signup" className="text-[#7B5E57] hover:underline font-semibold">
+            Sign up here
+          </Link>
+        </p>
+        <p className="text-sm mt-2">
+          <Link to="/forgot-password" className="text-[#7B5E57] hover:underline">
+            Forgot password?
+          </Link>
+        </p>
       </div>
     </div>
-  );
+  </div>
+);
 }

@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 
 const About = () => {
   return (
-    <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 pt-24">
+    <div className="bg-white min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-12 pt-24">
+
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-4xl sm:text-5xl font-extrabold text-center text-yellow-900 mb-10"
+        className="text-4xl sm:text-5xl font-extrabold text-center text-[#8B5E3C] mb-10"
       >
         About Me
       </motion.h1>
@@ -24,7 +25,7 @@ const About = () => {
           <h2 className="text-2xl sm:text-3xl font-semibold text-yellow-800 mb-4">
             Hello! I'm a Professional Virtual Assistant & Social Media Manager
           </h2>
-          <p className="text-base sm:text-lg text-yellow-700 leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
             I help busy entrepreneurs and growing businesses streamline operations and build a powerful online presence. 
             With a unique blend of administrative expertise and creative digital marketing, 
             I empower clients to scale and shine online.

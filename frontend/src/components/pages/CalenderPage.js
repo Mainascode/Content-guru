@@ -36,36 +36,36 @@ const CalendarPage = () => {
     return null;
   };
 
-  return (
-    <section className="bg-yellow-50 px-4 sm:px-6 md:px-8 py-10 min-h-screen flex flex-col items-center">
-      <h2 className="text-3xl font-bold text-yellow-800 text-center mb-6">
-        📆 Upcoming Courses & Enrollment Days
-      </h2>
+return (
+  <section className="bg-white px-4 sm:px-6 md:px-8 py-10 min-h-screen flex flex-col items-center">
+    <h2 className="text-3xl font-bold text-[#8B4513] text-center mb-6">
+      📆 Upcoming Courses & Enrollment Days
+    </h2>
 
-      <div className="w-full max-w-md bg-white rounded-xl shadow p-4 overflow-x-auto">
-        <div className="min-w-[320px]">
-          <Calendar
-            onChange={setValue}
-            value={value}
-            tileClassName={tileClassName}
-            className="w-full"
-          />
-        </div>
+    <div className="w-full max-w-md bg-white rounded-xl shadow p-4 overflow-x-auto">
+      <div className="min-w-[320px]">
+        <Calendar
+          onChange={setValue}
+          value={value}
+          tileClassName={tileClassName}
+          className="w-full"
+        />
       </div>
+    </div>
 
-      <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-yellow-800">
-        <div className="flex items-center gap-2">
-          <span className="w-4 h-4 bg-blue-500 rounded"></span> Course Date
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-4 h-4 bg-green-500 rounded"></span> Enrollment Day
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-4 h-4 bg-purple-600 rounded"></span> Both
-        </div>
+    <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-[#8B4513]">
+      <div className="flex items-center gap-2">
+        <span className="w-4 h-4 bg-blue-500 rounded"></span> Course Date
       </div>
-    </section>
-  );
+      <div className="flex items-center gap-2">
+        <span className="w-4 h-4 bg-green-500 rounded"></span> Enrollment Day
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="w-4 h-4 bg-purple-600 rounded"></span> Both
+      </div>
+    </div>
+  </section>
+);
 };
 
 export default CalendarPage;

@@ -30,20 +30,23 @@ export default function Blog() {
   ];
 
   return (
-<div className="bg-gradient-to-br from-yellow-50 to-yellow-100 min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-8 pt-24 sm:pt-32">
-  <h1 className="text-2xl sm:text-4xl font-extrabold text-center text-yellow-800 mb-8 sm:mb-12">
-    Blog Timeline
-  </h1>
+    <div className="bg-white min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-8 pt-24 sm:pt-32">
+      {/* Header with brown block */}
+      <div className="bg-[#8B4513] py-6 rounded-lg mb-12">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-center text-white">
+          Blog Timeline
+        </h1>
+      </div>
 
-
+      {/* Blog posts */}
       <div className="max-w-3xl mx-auto">
         {blogPosts.map((post) => (
           <article
             key={post.id}
             className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all hover:shadow-xl"
           >
-            <h2 className="text-2xl font-bold text-yellow-900 mb-2">{post.title}</h2>
-            <p className="text-sm text-yellow-700 mb-4">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{post.title}</h2>
+            <p className="text-sm text-gray-600 mb-4">
               {post.date} • {post.author}
             </p>
             <p className="text-gray-700 leading-relaxed">{post.content}</p>
