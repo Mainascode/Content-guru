@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import  React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const Home = () => {
@@ -77,7 +77,7 @@ const Home = () => {
 
       {/* ✨ Image Cards with Bounce + Drag */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6 py-16">
-        {["/images/content1.jpg", "/images/content2.jpg", "/images/content3.jpg"].map(
+        {["/images/slide1.jpg", "/images/slide2.jpg", "/images/slide3.jpg"].map(
           (img, i) => (
             <motion.div
               key={i}
@@ -89,9 +89,9 @@ const Home = () => {
               onMouseLeave={handleMouseLeave}
               className="bg-white shadow-lg rounded-2xl overflow-hidden cursor-pointer"
             >
-              <img src={img} alt={`content-${i}`} className="w-full h-64 object-cover" />
+              <img src={img} alt={`slide-${i}`} className="w-full h-64 object-cover" />
               <div className="p-4 text-yellow-800 font-semibold">
-                Content Strategy {i + 1}
+                Course {i + 1}
               </div>
             </motion.div>
           )
