@@ -1,7 +1,7 @@
 import  { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const home = () => {
+const Home = () => {
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState("default");
 
@@ -101,4 +101,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;
