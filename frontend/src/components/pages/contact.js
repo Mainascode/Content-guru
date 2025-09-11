@@ -53,9 +53,9 @@ export default function Contact() {
             Fill in the form and we’ll respond within 24 hours.
           </p>
           <div className="space-y-4 text-gray-800">
-            <p className="flex items-center gap-3"><FaEnvelope /> hello@yourdomain.com</p>
-            <p className="flex items-center gap-3"><FaPhone /> +123 456 7890</p>
-            <p className="flex items-center gap-3"><FaMapMarkerAlt /> Nairobi, Kenya</p>
+            <p className="flex items-center gap-3"><FaEnvelope /> yourcontentsocial@gmail.com</p>
+            <p className="flex items-center gap-3"><FaPhone /> +123 555 673</p>
+            <p className="flex items-center gap-3"><FaMapMarkerAlt /> International</p>
           </div>
         </motion.div>
 

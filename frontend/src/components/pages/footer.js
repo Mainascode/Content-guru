@@ -1,7 +1,7 @@
 // src/components/pages/Footer.js
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter} from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -65,14 +65,8 @@ const Footer = () => {
             >
               <FaTwitter size={20} />
             </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-brown-600"
-            >
-              <FaLinkedin size={20} />
-            </a>
+            
+
           </div>
         </div>
       </div>
