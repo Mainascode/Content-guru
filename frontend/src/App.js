@@ -13,6 +13,7 @@ import Home from './components/pages/home';
 import Login from './components/pages/login';
 import Signup from './components/pages/signup';
 import Courses from './components/pages/course';
+import Contact from './components/pages/contact';
 import Books from './components/pages/book';
 import BookDetails from './components/pages/bookdetails';
 import Services from './components/pages/service';
@@ -21,6 +22,7 @@ import Enrollment from './components/pages/enrollment';
 import PaymentSuccessPage from './components/pages/payment';
 import Checkout from './components/pages/checkoutpage';
 import Profile from './components/pages/Profile';
+import BookCall from './components/pages/BookCall';
 import ForgotPassword from './components/pages/ForgotPassword';
 
 import Blog from './components/pages/blog';
@@ -43,7 +45,9 @@ function AppContent() {
         {/* Publicly viewable course/book lists */}
         <Route path="/courses" element={<Courses />} />
         <Route path="/books" element={<Books />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/books/:title" element={<BookDetails />} />
+        <Route path="/book-call" element={<BookCall />} />
         <Route path="/blog" element={<Blog />} />
         
 

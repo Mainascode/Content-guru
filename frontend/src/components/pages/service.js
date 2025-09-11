@@ -68,7 +68,7 @@ const Services = () => {
                   className="text-yellow-700 underline hover:text-yellow-900"
                 >
                   @_codes101
-                </a>: For tech enthusiasts, coding learners, and digital creators.
+                </a>: For relationship advices and personal healing and love.
               </li>
             </ul>
             <p className="text-yellow-700 mt-4">

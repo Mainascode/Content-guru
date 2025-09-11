@@ -1,106 +1,118 @@
-import React, { useState } from "react";
+// src/pages/Contact.js
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { motion } from "framer-motion";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
-const Contact = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [success, setSuccess] = useState(false);
+export default function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    setSuccess(null);
 
-    try {
-      const response = await fetch("https://content-guru.onrender.com/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setSuccess(true);
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error sending message.");
-    } finally {
-      setLoading(false);
-    }
+    emailjs
+      .send(
+        "service_0memxwa",   // from EmailJS dashboard
+        "template_i8zr4ta",  // template with {{name}}, {{email}}, {{message}}
+        form,
+        "z-EXX9a-CCPKbQ8xG"    // from EmailJS account
+      )
+      .then(() => {
+        setSuccess("Your request has been sent! We’ll get back to you soon.");
+        setForm({ name: "", email: "", message: "" });
+      })
+      .catch(() => {
+        setSuccess("Could not send email. Please try again later.");
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
-<div className="max-w-2xl mx-auto px-6 py-12 pt-24">
-  <h1 className="text-4xl font-extrabold text-center text-yellow-800 mb-12">
-    Get In Touch
-  </h1>
-      {success && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
-          ✅ Message sent successfully!
-        </div>
-      )}
-
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6 bg-yellow-50 p-6 rounded-lg shadow-md"
-      >
-        <div>
-          <label className="block text-sm font-semibold text-yellow-900 mb-1">
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-yellow-900 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-yellow-900 mb-1">
-            Message
-          </label>
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            rows="5"
-            className="w-full px-4 py-2 border border-yellow-300 rounded-md focus:ring focus:ring-yellow-200"
-          ></textarea>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-yellow-700 text-white font-semibold py-3 rounded-md hover:bg-yellow-800 transition disabled:opacity-50"
+    <section className="bg-yellow-50 py-20 px-6 sm:px-12">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        {/* Left: Info */}
+        <motion.div
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="space-y-6"
         >
-          {loading ? "Sending..." : "Send Message"}
-        </button>
-      </form>
-    </div>
-  );
-};
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Let’s Talk 📬
+          </h2>
+          <p className="text-gray-700 text-lg">
+            Got a project, collaboration idea, or just want to say hi?  
+            Fill in the form and we’ll respond within 24 hours.
+          </p>
+          <div className="space-y-4 text-gray-800">
+            <p className="flex items-center gap-3"><FaEnvelope /> hello@yourdomain.com</p>
+            <p className="flex items-center gap-3"><FaPhone /> +123 456 7890</p>
+            <p className="flex items-center gap-3"><FaMapMarkerAlt /> Nairobi, Kenya</p>
+          </div>
+        </motion.div>
 
-export default Contact;
+        {/* Right: Form */}
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="bg-white shadow-xl rounded-2xl p-8 space-y-6"
+        >
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Message</label>
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              required
+              rows="5"
+              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-yellow-600 text-white py-3 rounded-xl font-semibold hover:bg-yellow-700 transition"
+          >
+            {loading ? "Sending..." : "Send Message"}
+          </button>
+
+          {success && (
+            <p className="text-center font-semibold text-gray-700">{success}</p>
+          )}
+        </motion.form>
+      </div>
+    </section>
+  );
+}
