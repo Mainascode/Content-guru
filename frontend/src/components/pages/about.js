@@ -23,26 +23,26 @@ const About = () => {
 
         <div className="flex-1">
           <h2 className="text-2xl sm:text-3xl font-semibold text-yellow-800 mb-4">
-            Hello! I'm a Professional Virtual Assistant & Social Media Manager
+          Professional Virtual Assistant & Social Media Manager
           </h2>
           <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-            I help busy entrepreneurs and growing businesses streamline operations and build a powerful online presence. 
+            We help busy entrepreneurs and growing businesses streamline operations and build a powerful online presence. 
             With a unique blend of administrative expertise and creative digital marketing, 
-            I empower clients to scale and shine online.
+            We empower clients to scale and shine online.
           </p>
         </div>
       </section>
 
       {/* Experience */}
       <section className="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-16 max-w-5xl mx-auto">
-        <h3 className="text-2xl font-bold text-yellow-700 mb-6 text-center">My Background & Experience</h3>
+        <h3 className="text-2xl font-bold text-yellow-700 mb-6 text-center">Background & Experience</h3>
         <p className="text-yellow-700 text-base sm:text-lg mb-6 leading-relaxed">
-          With over <strong>6 years</strong> of experience, I’ve collaborated with startups, coaches, and ecommerce brands 
+          With over <strong>6 years</strong> of experience, We’ve collaborated with startups, coaches, and ecommerce brands 
           to manage tasks, grow engagement, and implement streamlined workflows. 
-          I thrive in dynamic environments and love helping others succeed.
+          We thrive in dynamic environments and love helping others succeed.
         </p>
         <div className="text-left">
-          <h4 className="font-semibold text-yellow-800 mb-3">Areas I specialize in:</h4>
+          <h4 className="font-semibold text-yellow-800 mb-3">Areas we specialize in:</h4>
           <ul className="list-disc list-inside space-y-3 text-yellow-700">
             <li><strong>Social Media Management:</strong> Planning, scheduling, and engaging across Instagram, Facebook, LinkedIn, and more.</li>
             <li><strong>Content Strategy:</strong> Crafting valuable, brand-aligned content with visually engaging design.</li>
@@ -54,12 +54,12 @@ const About = () => {
 
       {/* Growth */}
       <section className="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-16 max-w-5xl mx-auto">
-        <h3 className="text-2xl font-bold text-yellow-700 mb-6 text-center">How I Help Businesses Grow Online</h3>
+        <h3 className="text-2xl font-bold text-yellow-700 mb-6 text-center">How We Help Businesses Grow Online</h3>
         <p className="text-yellow-700 text-base sm:text-lg mb-6 text-center leading-relaxed">
-          A strong digital presence is essential in today’s marketplace. I help brands stand out with strategies tailored to their voice, goals, and audience.
+          A strong digital presence is essential in today’s marketplace. We help brands stand out with strategies tailored to their voice, goals, and audience.
         </p>
         <div className="text-left">
-          <h4 className="font-semibold text-yellow-800 mb-3">What I bring to the table:</h4>
+          <h4 className="font-semibold text-yellow-800 mb-3">What we bring to the table:</h4>
           <ul className="list-disc list-inside space-y-3 text-yellow-700">
             <li><strong>Brand Visibility:</strong> Through intentional content and campaigns that build awareness.</li>
             <li><strong>Audience Engagement:</strong> Real conversations and community management that humanizes your brand.</li>

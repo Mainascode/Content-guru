@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "./authcontext";
 
-
 const Blog = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
@@ -18,28 +17,34 @@ const Blog = () => {
 
   // Save posts to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem("blogPosts", JSON.stringify(posts));
+    if (posts.length > 0) {
+      localStorage.setItem("blogPosts", JSON.stringify(posts));
+    }
   }, [posts]);
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if (!newPost.title || !newPost.content) return;
 
-  const newEntry = {
-    id: Date.now(),
-    title: newPost.title,
-    content: newPost.content,
-    date: new Date().toISOString(), // 👈 Save timestamp
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newPost.title || !newPost.content) return;
+
+    const newEntry = {
+      id: Date.now(),
+      title: newPost.title,
+      content: newPost.content,
+      date: new Date().toISOString(), // Save timestamp
+    };
+
+    setPosts((prev) => {
+      const updated = [newEntry, ...prev];
+      localStorage.setItem("blogPosts", JSON.stringify(updated)); // Save immediately
+      return updated;
+    });
+
+    setNewPost({ title: "", content: "" });
   };
 
-  const updatedPosts = [newEntry, ...posts];
-  setPosts(updatedPosts);
-  localStorage.setItem("blogPosts", JSON.stringify(updatedPosts));
-
-  setNewPost({ title: "", content: "" });
-};
   return (
-<div className="max-w-4xl mx-auto pt-28 pb-12 px-6">
-  <h1 className="text-3xl font-bold mb-8 text-center">Our Blog</h1>
+    <div className="max-w-4xl mx-auto pt-28 pb-12 px-6">
+      <h1 className="text-3xl font-bold mb-8 text-center">Our Blog</h1>
 
       {/* Admin editor */}
       {isAdmin && (
@@ -52,7 +57,9 @@ const handleSubmit = (e) => {
             type="text"
             placeholder="Post Title"
             value={newPost.title}
-            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+            onChange={(e) =>
+              setNewPost({ ...newPost, title: e.target.value })
+            }
             className="w-full p-2 border rounded mb-4"
           />
           <textarea
@@ -76,24 +83,29 @@ const handleSubmit = (e) => {
       {/* Blog posts */}
       <div className="space-y-8">
         {posts.length === 0 ? (
-          <p className="text-center text-gray-500">No posts yet. Check back soon!</p>
+          <p className="text-center text-gray-500">
+            No posts yet. Check back soon!
+          </p>
         ) : (
           posts.map((post) => (
-<article
-  key={post.id}
-  className="bg-white p-6 rounded-lg shadow-lg border"
->
-  <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
-  <p className="text-sm text-gray-500 mb-4">
-    Posted on {new Date(post.date).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })}
-  </p>
-  <p className="text-gray-700 whitespace-pre-line">{post.content}</p>
-</article>
+            <article
+              key={post.id}
+              className="bg-white p-6 rounded-lg shadow-lg border"
+            >
+              <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
+              <p className="text-sm text-gray-500 mb-4">
+                Posted on{" "}
+                {new Date(post.date).toLocaleDateString("en-US", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <p className="text-gray-700 whitespace-pre-line">
+                {post.content}
+              </p>
+            </article>
           ))
         )}
       </div>
@@ -102,3 +114,4 @@ const handleSubmit = (e) => {
 };
 
 export default Blog;
+
