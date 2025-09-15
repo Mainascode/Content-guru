@@ -23,7 +23,7 @@ api = Api(app)
 
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contentguru.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./contentguru.db'
 app.config['SECRET_KEY'] = 'WyQoe94Ch-q31gYbPtqPmdHSnIe9-vdv35ifgsG-XAYCitOVeM8_EWWYqv1vYjPaS4B6Uk_yNObswNcf0HddtQ'
 app.config['JWT_SECRET_KEY'] = 'WyQoe94Ch-q31gYbPtqPmdHSnIe9-vdv35ifgsG-XAYCitOVeM8_EWWYqv1vYjPaS4B6Uk_yNObswNcf0HddtQ'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
