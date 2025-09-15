@@ -1,8 +1,8 @@
 from flask import  request, jsonify ,Flask, Blueprint
-from flask_restful import Api, Resource
+from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook
+from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook, BlogPost
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
@@ -53,6 +53,7 @@ def user_identity_lookup(user_id):
 # Create tables
 with app.app_context():
     db.create_all()
+blog_bp = Blueprint("blog", __name__)
 
 # ======================
 #        Resources
@@ -440,7 +441,41 @@ class RecordBookPurchase(Resource):
         db.session.commit()
         return {"message": "Book purchase recorded successfully"}
     
-    
+
+# Parser for blog creation
+post_parser = reqparse.RequestParser()
+post_parser.add_argument("title", type=str, required=True, help="Title is required")
+post_parser.add_argument("content", type=str, required=True, help="Content is required")
+
+class BlogListResource(Resource):
+    def get(self):
+        posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
+        return [post.to_dict() for post in posts], 200
+
+    @jwt_required()
+    def post(self):
+        data = post_parser.parse_args()
+        user_id = get_jwt_identity()  # get logged in user from token
+        user = User.query.get(user_id)
+
+        if not user or user.role != "admin":  # only admins can post
+            return {"error": "Unauthorized"}, 403
+
+        new_post = BlogPost(
+            title=data["title"],
+            content=data["content"],
+            user_id=user.id
+        )
+        db.session.add(new_post)
+        db.session.commit()
+
+        return new_post.to_dict(), 201
+
+
+class BlogResource(Resource):
+    def get(self, post_id):
+        post = BlogPost.query.get_or_404(post_id)
+        return post.to_dict(), 200    
 
 
 
@@ -460,6 +495,8 @@ api.add_resource(PurchaseCourse, '/purchase-course')
 api.add_resource(PayPalBookPurchase, '/paypal/purchase-book')
 api.add_resource(PayPalExecutePayment, '/paypal/execute-payment')
 api.add_resource(RecordBookPurchase, '/api/purchase-book')
+api.add_resource(BlogListResource, "/blogs")
+api.add_resource(BlogResource, "/blogs/<int:post_id>")
 
 if __name__ == "__main__":
     app.run(port=5001, debug=True)
