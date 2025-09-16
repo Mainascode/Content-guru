@@ -508,7 +508,6 @@ api.add_resource(PurchaseCourse, '/purchase-course')
 api.add_resource(PayPalBookPurchase, '/paypal/purchase-book')
 api.add_resource(PayPalExecutePayment, '/paypal/execute-payment')
 api.add_resource(RecordBookPurchase, '/api/purchase-book')
-api.add_resource(BlogResource, "/api/blogs")
 api.add_resource(BlogResource, "/api/blogs/<int:post_id>")
 
 
