@@ -173,23 +173,11 @@ class CoursePurchase(db.Model):
     def __repr__(self):
         return f'<CoursePurchase user_id={self.user_id} course_id={self.course_id}>'
 
+
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255), nullable=False)
+    title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    # Foreign key to User
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    author = db.relationship("User", backref="posts", lazy=True)
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "content": self.content,
-            "created_at": self.created_at.isoformat(),
-            "author": self.author.username if self.author else None,
-        }

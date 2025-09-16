@@ -1,45 +1,93 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "./authcontext";
 
+const API_URL = "https://content-guru-gpls.onrender.com/api/blogs";
+
+
 const Blog = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth(); // make sure your authcontext exposes JWT token
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
+  const [editingPost, setEditingPost] = useState(null);
 
   // check if current user is admin
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
-  // Load posts from localStorage when page loads
+  // Load posts from backend
   useEffect(() => {
-    const storedPosts = JSON.parse(localStorage.getItem("blogPosts")) || [];
-    setPosts(storedPosts);
+    fetch(API_URL)
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch((err) => console.error("Error fetching posts:", err));
   }, []);
 
-  // Save posts to localStorage whenever they change
-  useEffect(() => {
-    if (posts.length > 0) {
-      localStorage.setItem("blogPosts", JSON.stringify(posts));
-    }
-  }, [posts]);
-
-  const handleSubmit = (e) => {
+  // Add new post
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newPost.title || !newPost.content) return;
 
-    const newEntry = {
-      id: Date.now(),
-      title: newPost.title,
-      content: newPost.content,
-      date: new Date().toISOString(), // Save timestamp
-    };
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // protect with JWT
+        },
+        body: JSON.stringify(newPost),
+      });
 
-    setPosts((prev) => {
-      const updated = [newEntry, ...prev];
-      localStorage.setItem("blogPosts", JSON.stringify(updated)); // Save immediately
-      return updated;
-    });
+      if (!res.ok) throw new Error("Failed to create post");
+      const created = await res.json();
 
-    setNewPost({ title: "", content: "" });
+      setPosts((prev) => [created, ...prev]);
+      setNewPost({ title: "", content: "" });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Edit post
+  const handleUpdate = async (id) => {
+    try {
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(editingPost),
+      });
+
+      if (!res.ok) throw new Error("Failed to update post");
+      const updated = await res.json();
+
+      setPosts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updated } : p))
+      );
+      setEditingPost(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Delete post
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+
+    try {
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to delete post");
+
+      setPosts((prev) => prev.filter((p) => p.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -47,7 +95,7 @@ const Blog = () => {
       <h1 className="text-3xl font-bold mb-8 text-center">Our Blog</h1>
 
       {/* Admin editor */}
-      {isAdmin && (
+      {isAdmin && !editingPost && (
         <form
           onSubmit={handleSubmit}
           className="mb-10 bg-yellow-50 p-6 rounded-lg shadow"
@@ -92,19 +140,74 @@ const Blog = () => {
               key={post.id}
               className="bg-white p-6 rounded-lg shadow-lg border"
             >
-              <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
-              <p className="text-sm text-gray-500 mb-4">
-                Posted on{" "}
-                {new Date(post.date).toLocaleDateString("en-US", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-              <p className="text-gray-700 whitespace-pre-line">
-                {post.content}
-              </p>
+              {editingPost?.id === post.id ? (
+                <>
+                  <input
+                    type="text"
+                    value={editingPost.title}
+                    onChange={(e) =>
+                      setEditingPost({ ...editingPost, title: e.target.value })
+                    }
+                    className="w-full p-2 border rounded mb-4"
+                  />
+                  <textarea
+                    value={editingPost.content}
+                    onChange={(e) =>
+                      setEditingPost({
+                        ...editingPost,
+                        content: e.target.value,
+                      })
+                    }
+                    rows="5"
+                    className="w-full p-2 border rounded mb-4"
+                  />
+                  <button
+                    onClick={() => handleUpdate(post.id)}
+                    className="bg-green-600 text-white px-4 py-2 rounded mr-2"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditingPost(null)}
+                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
+                  <p className="text-sm text-gray-500 mb-4">
+                    Posted on{" "}
+                    {new Date(post.created_at).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                  <p className="text-gray-700 whitespace-pre-line">
+                    {post.content}
+                  </p>
+
+                  {isAdmin && (
+                    <div className="flex gap-4 mt-4">
+                      <button
+                        onClick={() => setEditingPost(post)}
+                        className="bg-blue-600 text-white px-4 py-1 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(post.id)}
+                        className="bg-red-600 text-white px-4 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </article>
           ))
         )}
@@ -114,4 +217,3 @@ const Blog = () => {
 };
 
 export default Blog;
-

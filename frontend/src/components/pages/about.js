@@ -12,7 +12,7 @@ const About = () => {
         transition={{ duration: 0.8 }}
         className="text-4xl sm:text-5xl font-extrabold text-center text-[#8B5E3C] mb-10"
       >
-        About Me
+        About
       </motion.h1>
 
       {/* Profile Section */}

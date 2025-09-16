@@ -441,43 +441,56 @@ class RecordBookPurchase(Resource):
         db.session.commit()
         return {"message": "Book purchase recorded successfully"}
     
-
-# Parser for blog creation
-post_parser = reqparse.RequestParser()
-post_parser.add_argument("title", type=str, required=True, help="Title is required")
-post_parser.add_argument("content", type=str, required=True, help="Content is required")
-
-class BlogListResource(Resource):
-    def get(self):
-        posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
-        return [post.to_dict() for post in posts], 200
-
-    @jwt_required()
-    def post(self):
-        data = post_parser.parse_args()
-        user_id = get_jwt_identity()  # get logged in user from token
-        user = User.query.get(user_id)
-
-        if not user or user.role != "admin":  # only admins can post
-            return {"error": "Unauthorized"}, 403
-
-        new_post = BlogPost(
-            title=data["title"],
-            content=data["content"],
-            user_id=user.id
-        )
-        db.session.add(new_post)
-        db.session.commit()
-
-        return new_post.to_dict(), 201
-
+# routes/blog.py
 
 class BlogResource(Resource):
     def get(self, post_id):
+        """Get a single blog post"""
         post = BlogPost.query.get_or_404(post_id)
-        return post.to_dict(), 200    
+        return {
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "created_at": post.created_at.isoformat(),
+        }
 
+    @jwt_required()
+    def put(self, post_id):
+        """Update a blog post (admin only)"""
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
 
+        if not user or user.email != "mainaemmanuel855@gmail.com":
+            return {"error": "Unauthorized"}, 403
+
+        post = BlogPost.query.get_or_404(post_id)
+        data = request.get_json()
+
+        post.title = data.get("title", post.title)
+        post.content = data.get("content", post.content)
+        db.session.commit()
+
+        return {
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "created_at": post.created_at.isoformat(),
+        }
+
+    @jwt_required()
+    def delete(self, post_id):
+        """Delete a blog post (admin only)"""
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user or user.email != "mainaemmanuel855@gmail.com":
+            return {"error": "Unauthorized"}, 403
+
+        post = BlogPost.query.get_or_404(post_id)
+        db.session.delete(post)
+        db.session.commit()
+
+        return {"message": "Post deleted successfully"}, 200
 
 # ======================
 #        Routes
@@ -495,8 +508,9 @@ api.add_resource(PurchaseCourse, '/purchase-course')
 api.add_resource(PayPalBookPurchase, '/paypal/purchase-book')
 api.add_resource(PayPalExecutePayment, '/paypal/execute-payment')
 api.add_resource(RecordBookPurchase, '/api/purchase-book')
-api.add_resource(BlogListResource, "/blogs")
-api.add_resource(BlogResource, "/blogs/<int:post_id>")
+api.add_resource(BlogResource, "/api/blogs")
+api.add_resource(BlogResource, "/api/blogs/<int:post_id>")
+
 
 if __name__ == "__main__":
     app.run(port=5001, debug=True)
