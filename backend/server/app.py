@@ -443,6 +443,49 @@ class RecordBookPurchase(Resource):
     
 # routes/blog.py
 
+class BlogListResource(Resource):
+    def get(self):
+        """Get all blog posts (newest first)"""
+        posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
+        return [
+            {
+                "id": post.id,
+                "title": post.title,
+                "content": post.content,
+                "created_at": post.created_at.isoformat(),
+            }
+            for post in posts
+        ]
+
+    @jwt_required()
+    def post(self):
+        """Create a blog post (admin only)"""
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user or user.email != "mainaemmanuel855@gmail.com":
+            return {"error": "Unauthorized"}, 403
+
+        data = request.get_json()
+        if not data or "title" not in data or "content" not in data:
+            return {"message": "Title and content are required"}, 400
+
+        post = BlogPost(
+            title=data["title"],
+            content=data["content"]
+        )
+
+        db.session.add(post)
+        db.session.commit()
+
+        return {
+            "id": post.id,
+            "title": post.title,
+            "content": post.content,
+            "created_at": post.created_at.isoformat(),
+        }, 201
+
+
 class BlogResource(Resource):
     def get(self, post_id):
         """Get a single blog post"""
@@ -491,22 +534,6 @@ class BlogResource(Resource):
         db.session.commit()
 
         return {"message": "Post deleted successfully"}, 200
-
-class BlogListResource(Resource):
-    def get(self):
-        posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
-        return [p.to_dict() for p in posts], 200
-
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument("title", required=True)
-        parser.add_argument("content", required=True)
-        data = parser.parse_args()
-
-        post = BlogPost(title=data["title"], content=data["content"])
-        db.session.add(post)
-        db.session.commit()
-        return post.to_dict(), 201
 # ======================
 #        Routes
 # ======================
