@@ -492,6 +492,21 @@ class BlogResource(Resource):
 
         return {"message": "Post deleted successfully"}, 200
 
+class BlogListResource(Resource):
+    def get(self):
+        posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
+        return [p.to_dict() for p in posts], 200
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument("title", required=True)
+        parser.add_argument("content", required=True)
+        data = parser.parse_args()
+
+        post = BlogPost(title=data["title"], content=data["content"])
+        db.session.add(post)
+        db.session.commit()
+        return post.to_dict(), 201
 # ======================
 #        Routes
 # ======================
@@ -507,8 +522,9 @@ api.add_resource(EnrollmentResource, '/enrollment')
 api.add_resource(PurchaseCourse, '/purchase-course')
 api.add_resource(PayPalBookPurchase, '/paypal/purchase-book')
 api.add_resource(PayPalExecutePayment, '/paypal/execute-payment')
-api.add_resource(RecordBookPurchase, '/api/purchase-book')
-api.add_resource(BlogResource, "/api/blogs/<int:post_id>")
+api.add_resource(BlogListResource, "/api/blogs")          # GET all, POST new
+api.add_resource(BlogResource, "/api/blogs/<int:post_id>")  # GET one, PUT, DELETE
+
 
 
 if __name__ == "__main__":
