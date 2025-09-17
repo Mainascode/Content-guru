@@ -2,48 +2,42 @@ import logging
 from logging.config import fileConfig
 
 from alembic import context
-from flask import current_app
-
-# Import your app + db
 from server.app import app, db
-import server.models  # make sure this file imports all your models
+import server.models  # make sure all models are imported so migrations detect changes
 
-# Alembic Config object, gives access to .ini values
+# Alembic Config object
 config = context.config
 
-# Setup Python logging
+# Logging
 fileConfig(config.config_file_name)
 logger = logging.getLogger("alembic.env")
 
-# Expose SQLAlchemy metadata to Alembic
+# Target metadata for autogenerate
 target_metadata = db.metadata
 
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode."""
-    url = app.config["SQLALCHEMY_DATABASE_URI"]
-    context.configure(
-        url=url,
-        target_metadata=target_metadata,
-        literal_binds=True,
-        dialect_opts={"paramstyle": "named"},
-    )
+    with app.app_context():
+        url = app.config["SQLALCHEMY_DATABASE_URI"]
+        context.configure(
+            url=url, target_metadata=target_metadata, literal_binds=True
+        )
 
-    with context.begin_transaction():
-        context.run_migrations()
+        with context.begin_transaction():
+            context.run_migrations()
 
 
 def run_migrations_online():
     """Run migrations in 'online' mode."""
     with app.app_context():
         connectable = db.engine
-
         with connectable.connect() as connection:
             context.configure(
                 connection=connection,
                 target_metadata=target_metadata,
-                compare_type=True,
-                compare_server_default=True,
+                compare_type=True,           # detect column type changes
+                compare_server_default=True  # detect server default changes
             )
 
             with context.begin_transaction():

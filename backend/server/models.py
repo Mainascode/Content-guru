@@ -172,8 +172,8 @@ class CoursePurchase(db.Model):
 
     def __repr__(self):
         return f'<CoursePurchase user_id={self.user_id} course_id={self.course_id}>'
-
-
+    
+    
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
 
@@ -181,3 +181,6 @@ class BlogPost(db.Model):
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+
+    author = db.relationship("User", backref="blog_posts")
