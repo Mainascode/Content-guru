@@ -3,17 +3,16 @@ import { useAuth } from "./authcontext";
 
 const API_URL = "https://content-guru-gpls.onrender.com/api/blogs";
 
-
 const Blog = () => {
-  const { user, token } = useAuth(); // make sure your authcontext exposes JWT token
+  const { user, token } = useAuth();
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
   const [editingPost, setEditingPost] = useState(null);
 
-  // check if current user is admin
+  // ✅ Only treat you as admin if your email matches
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
-  // Load posts from backend
+  // Load posts
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
@@ -21,18 +20,20 @@ const Blog = () => {
       .catch((err) => console.error("Error fetching posts:", err));
   }, []);
 
-  // Add new post
+  // Create post
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newPost.title || !newPost.content) return;
 
     try {
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      };
+
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // protect with JWT
-        },
+        headers,
         body: JSON.stringify(newPost),
       });
 
@@ -46,15 +47,17 @@ const Blog = () => {
     }
   };
 
-  // Edit post
+  // Update post
   const handleUpdate = async (id) => {
     try {
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      };
+
       const res = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify(editingPost),
       });
 
@@ -75,11 +78,13 @@ const Blog = () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
     try {
+      const headers = {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      };
+
       const res = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       });
 
       if (!res.ok) throw new Error("Failed to delete post");
@@ -94,7 +99,7 @@ const Blog = () => {
     <div className="max-w-4xl mx-auto pt-28 pb-12 px-6">
       <h1 className="text-3xl font-bold mb-8 text-center">Our Blog</h1>
 
-      {/* Admin editor */}
+      {/* Admin create form */}
       {isAdmin && !editingPost && (
         <form
           onSubmit={handleSubmit}
@@ -217,3 +222,4 @@ const Blog = () => {
 };
 
 export default Blog;
+
