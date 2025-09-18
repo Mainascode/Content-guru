@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "./authcontext";
 
-const API_URL = "https://content-guru-gpls.onrender.com/api/blogs";
-
 const Blog = () => {
   const { user, token } = useAuth();
   const [posts, setPosts] = useState([]);
@@ -14,7 +12,7 @@ const Blog = () => {
 
   // Load posts
   useEffect(() => {
-    fetch(API_URL)
+    fetch("https://content-guru-gpls.onrender.com/api/blogs")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((err) => console.error("Error fetching posts:", err));
@@ -31,7 +29,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(API_URL, {
+      const res = await fetch("https://content-guru-gpls.onrender.com/api/blogs", {
         method: "POST",
         headers,
         body: JSON.stringify(newPost),
@@ -55,7 +53,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`${API_URL}/${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/${id}`, {
         method: "PUT",
         headers,
         body: JSON.stringify(editingPost),
@@ -82,7 +80,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`${API_URL}/${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/${id}`, {
         method: "DELETE",
         headers,
       });
@@ -222,4 +220,3 @@ const Blog = () => {
 };
 
 export default Blog;
-
