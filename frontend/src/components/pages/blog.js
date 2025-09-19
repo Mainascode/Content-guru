@@ -12,7 +12,7 @@ const Blog = () => {
 
   // Load posts
   useEffect(() => {
-    fetch("https://content-guru-gpls.onrender.com/api/blogs")
+    fetch("https://content-guru-gpls.onrender.com")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((err) => console.error("Error fetching posts:", err));
@@ -29,7 +29,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch("https://content-guru-gpls.onrender.com/api/blogs", {
+      const res = await fetch("https://content-guru-gpls.onrender.com", {
         method: "POST",
         headers,
         body: JSON.stringify(newPost),
@@ -53,7 +53,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com/${id}`, {
         method: "PUT",
         headers,
         body: JSON.stringify(editingPost),
@@ -80,7 +80,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com${id}`, {
         method: "DELETE",
         headers,
       });
