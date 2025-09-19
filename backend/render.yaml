@@ -3,7 +3,7 @@ services:
     name: content-guru-backend
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn server.app:app
+    startCommand: gunicorn app:app
     region: oregon
     plan: free
     envVars:
