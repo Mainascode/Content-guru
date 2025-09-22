@@ -6,7 +6,7 @@ const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "", image: "" });
   const [editingPost, setEditingPost] = useState(null);
-  const [expandedPost, setExpandedPost] = useState(null); // ✅ track which post is expanded
+  const [expandedPost, setExpandedPost] = useState(null);
 
   // ✅ Only treat you as admin if your email matches
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
@@ -14,7 +14,10 @@ const Blog = () => {
   // Load posts
   useEffect(() => {
     fetch("https://content-guru-gpls.onrender.com/api/blogs")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch posts");
+        return res.json();
+      })
       .then((data) => setPosts(data))
       .catch((err) => console.error("Error fetching posts:", err));
   }, []);
@@ -30,19 +33,26 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch("https://content-guru-gpls.onrender.com/api/blogs", {
-        method: "POST",
-        headers,
-        body: JSON.stringify(newPost),
-      });
+      const res = await fetch(
+        "https://content-guru-gpls.onrender.com/api/blogs",
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(newPost),
+        }
+      );
 
-      if (!res.ok) throw new Error("Failed to create post");
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(`Failed to create post: ${errMsg}`);
+      }
+
       const created = await res.json();
-
       setPosts((prev) => [created, ...prev]);
       setNewPost({ title: "", content: "", image: "" });
     } catch (err) {
-      console.error(err);
+      console.error("Error creating post:", err);
+      alert("❌ Could not create post. Check console for details.");
     }
   };
 
@@ -54,21 +64,28 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs${id}`, {
-        method: "PUT",
-        headers,
-        body: JSON.stringify(editingPost),
-      });
+      const res = await fetch(
+        `https://content-guru-gpls.onrender.com/api/blogs/${id}`,
+        {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(editingPost),
+        }
+      );
 
-      if (!res.ok) throw new Error("Failed to update post");
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(`Failed to update post: ${errMsg}`);
+      }
+
       const updated = await res.json();
-
       setPosts((prev) =>
         prev.map((p) => (p.id === id ? { ...p, ...updated } : p))
       );
       setEditingPost(null);
     } catch (err) {
-      console.error(err);
+      console.error("Error updating post:", err);
+      alert("❌ Could not update post.");
     }
   };
 
@@ -81,16 +98,23 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs{id}`, {
-        method: "DELETE",
-        headers,
-      });
+      const res = await fetch(
+        `https://content-guru-gpls.onrender.com/api/blogs/${id}`,
+        {
+          method: "DELETE",
+          headers,
+        }
+      );
 
-      if (!res.ok) throw new Error("Failed to delete post");
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(`Failed to delete post: ${errMsg}`);
+      }
 
       setPosts((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting post:", err);
+      alert("❌ Could not delete post.");
     }
   };
 
@@ -233,7 +257,7 @@ const Blog = () => {
                           onClick={() =>
                             setExpandedPost(isExpanded ? null : post.id)
                           }
-                          className="text-blue-700 text-sm font-medium hover:underline"
+                          className="text-blue-700 text-sm font-medium hover:underline hover:text-blue-900"
                         >
                           {isExpanded ? "SHOW LESS <<" : "READ MORE >>"}
                         </button>
