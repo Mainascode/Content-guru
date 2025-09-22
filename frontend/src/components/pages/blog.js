@@ -54,7 +54,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/<int:post_id>${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs${id}`, {
         method: "PUT",
         headers,
         body: JSON.stringify(editingPost),
@@ -81,7 +81,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/<int:post_id>${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs{id}`, {
         method: "DELETE",
         headers,
       });
@@ -147,7 +147,7 @@ const Blog = () => {
           No posts yet. Check back soon!
         </p>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => {
             const isExpanded = expandedPost === post.id;
             return (
