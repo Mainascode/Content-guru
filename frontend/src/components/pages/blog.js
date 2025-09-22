@@ -4,15 +4,16 @@ import { useAuth } from "./authcontext";
 const Blog = () => {
   const { user, token } = useAuth();
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: "", content: "" });
+  const [newPost, setNewPost] = useState({ title: "", content: "", image: "" });
   const [editingPost, setEditingPost] = useState(null);
+  const [expandedPost, setExpandedPost] = useState(null); // ✅ track which post is expanded
 
   // ✅ Only treat you as admin if your email matches
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
   // Load posts
   useEffect(() => {
-    fetch("https://content-guru-gpls.onrender.com")
+    fetch("https://content-guru-gpls.onrender.com/api/blogs")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((err) => console.error("Error fetching posts:", err));
@@ -29,7 +30,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch("https://content-guru-gpls.onrender.com", {
+      const res = await fetch("https://content-guru-gpls.onrender.com/api/blogs", {
         method: "POST",
         headers,
         body: JSON.stringify(newPost),
@@ -39,7 +40,7 @@ const Blog = () => {
       const created = await res.json();
 
       setPosts((prev) => [created, ...prev]);
-      setNewPost({ title: "", content: "" });
+      setNewPost({ title: "", content: "", image: "" });
     } catch (err) {
       console.error(err);
     }
@@ -53,7 +54,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com/${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/<int:post_id>${id}`, {
         method: "PUT",
         headers,
         body: JSON.stringify(editingPost),
@@ -80,7 +81,7 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(`https://content-guru-gpls.onrender.com${id}`, {
+      const res = await fetch(`https://content-guru-gpls.onrender.com/api/blogs/<int:post_id>${id}`, {
         method: "DELETE",
         headers,
       });
@@ -94,7 +95,7 @@ const Blog = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pt-28 pb-12 px-6">
+    <div className="max-w-7xl mx-auto pt-28 pb-12 px-6">
       <h1 className="text-3xl font-bold mb-8 text-center">Our Blog</h1>
 
       {/* Admin create form */}
@@ -122,6 +123,15 @@ const Blog = () => {
             rows="5"
             className="w-full p-2 border rounded mb-4"
           />
+          <input
+            type="text"
+            placeholder="Image URL (optional)"
+            value={newPost.image}
+            onChange={(e) =>
+              setNewPost({ ...newPost, image: e.target.value })
+            }
+            className="w-full p-2 border rounded mb-4"
+          />
           <button
             type="submit"
             className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded"
@@ -131,90 +141,128 @@ const Blog = () => {
         </form>
       )}
 
-      {/* Blog posts */}
-      <div className="space-y-8">
-        {posts.length === 0 ? (
-          <p className="text-center text-gray-500">
-            No posts yet. Check back soon!
-          </p>
-        ) : (
-          posts.map((post) => (
-            <article
-              key={post.id}
-              className="bg-white p-6 rounded-lg shadow-lg border"
-            >
-              {editingPost?.id === post.id ? (
-                <>
-                  <input
-                    type="text"
-                    value={editingPost.title}
-                    onChange={(e) =>
-                      setEditingPost({ ...editingPost, title: e.target.value })
-                    }
-                    className="w-full p-2 border rounded mb-4"
-                  />
-                  <textarea
-                    value={editingPost.content}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        content: e.target.value,
-                      })
-                    }
-                    rows="5"
-                    className="w-full p-2 border rounded mb-4"
-                  />
-                  <button
-                    onClick={() => handleUpdate(post.id)}
-                    className="bg-green-600 text-white px-4 py-2 rounded mr-2"
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => setEditingPost(null)}
-                    className="bg-gray-500 text-white px-4 py-2 rounded"
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <>
-                  <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
-                  <p className="text-sm text-gray-500 mb-4">
-                    Posted on{" "}
-                    {new Date(post.created_at).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-                  <p className="text-gray-700 whitespace-pre-line">
-                    {post.content}
-                  </p>
+      {/* Blog posts grid */}
+      {posts.length === 0 ? (
+        <p className="text-center text-gray-500">
+          No posts yet. Check back soon!
+        </p>
+      ) : (
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => {
+            const isExpanded = expandedPost === post.id;
+            return (
+              <div
+                key={post.id}
+                className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition"
+              >
+                {/* Image */}
+                <img
+                  src={
+                    post.image ||
+                    "https://via.placeholder.com/600x400?text=Content+Guru"
+                  }
+                  alt={post.title}
+                  className="w-full h-48 object-cover"
+                />
 
-                  {isAdmin && (
-                    <div className="flex gap-4 mt-4">
+                {/* Content */}
+                <div className="p-5">
+                  {editingPost?.id === post.id ? (
+                    <>
+                      <input
+                        type="text"
+                        value={editingPost.title}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            title: e.target.value,
+                          })
+                        }
+                        className="w-full p-2 border rounded mb-4"
+                      />
+                      <textarea
+                        value={editingPost.content}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            content: e.target.value,
+                          })
+                        }
+                        rows="5"
+                        className="w-full p-2 border rounded mb-4"
+                      />
                       <button
-                        onClick={() => setEditingPost(post)}
-                        className="bg-blue-600 text-white px-4 py-1 rounded"
+                        onClick={() => handleUpdate(post.id)}
+                        className="bg-green-600 text-white px-4 py-2 rounded mr-2"
                       >
-                        Edit
+                        Save
                       </button>
                       <button
-                        onClick={() => handleDelete(post.id)}
-                        className="bg-red-600 text-white px-4 py-1 rounded"
+                        onClick={() => setEditingPost(null)}
+                        className="bg-gray-500 text-white px-4 py-2 rounded"
                       >
-                        Delete
+                        Cancel
                       </button>
-                    </div>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-lg font-bold text-gray-800 mb-2">
+                        {post.title}
+                      </h2>
+                      <p className="text-sm text-gray-500 mb-4">
+                        Posted on{" "}
+                        {new Date(post.created_at).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </p>
+
+                      {/* Show excerpt or full content */}
+                      <p className="text-gray-700 mb-4 whitespace-pre-line">
+                        {isExpanded
+                          ? post.content
+                          : post.content?.length > 150
+                          ? post.content.slice(0, 150) + "..."
+                          : post.content}
+                      </p>
+
+                      {/* Toggle Read More / Show Less */}
+                      {post.content?.length > 150 && (
+                        <button
+                          onClick={() =>
+                            setExpandedPost(isExpanded ? null : post.id)
+                          }
+                          className="text-blue-700 text-sm font-medium hover:underline"
+                        >
+                          {isExpanded ? "SHOW LESS <<" : "READ MORE >>"}
+                        </button>
+                      )}
+
+                      {isAdmin && (
+                        <div className="flex gap-4 mt-4">
+                          <button
+                            onClick={() => setEditingPost(post)}
+                            className="bg-blue-600 text-white px-4 py-1 rounded"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(post.id)}
+                            className="bg-red-600 text-white px-4 py-1 rounded"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            </article>
-          ))
-        )}
-      </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
