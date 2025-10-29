@@ -11,7 +11,7 @@ const Blog = () => {
 
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
-  // ✅ Reusable fetch function
+  // ✅ Fetch all blog posts
   const fetchPosts = async () => {
     setLoading(true);
     try {
@@ -26,14 +26,17 @@ const Blog = () => {
     }
   };
 
+  // 🔁 Auto-refresh posts every 10 seconds
   useEffect(() => {
     fetchPosts();
+    const interval = setInterval(fetchPosts, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   // ✅ Create post
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!newPost.title || !newPost.content) return;
+    if (!newPost.title.trim() || !newPost.content.trim()) return;
 
     try {
       const headers = {
@@ -41,14 +44,14 @@ const Blog = () => {
         ...(token && { Authorization: `Bearer ${token}` }),
       };
 
-      const res = await fetch(
-        "https://content-guru-gpls.onrender.com/api/blogs",
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify(newPost),
-        }
-      );
+      const res = await fetch("https://content-guru-gpls.onrender.com/api/blogs", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          title: newPost.title,
+          content: newPost.content,
+        }),
+      });
 
       if (!res.ok) {
         const errMsg = await res.text();
@@ -57,7 +60,7 @@ const Blog = () => {
 
       await res.json();
       setNewPost({ title: "", content: "" });
-      fetchPosts(); // 🔄 Refresh after post creation
+      fetchPosts();
     } catch (err) {
       console.error("Error creating post:", err);
       alert("❌ Could not create post. Check console for details.");
@@ -77,7 +80,10 @@ const Blog = () => {
         {
           method: "PUT",
           headers,
-          body: JSON.stringify(editingPost),
+          body: JSON.stringify({
+            title: editingPost.title,
+            content: editingPost.content,
+          }),
         }
       );
 
@@ -88,7 +94,7 @@ const Blog = () => {
 
       await res.json();
       setEditingPost(null);
-      fetchPosts(); // 🔄 Refresh after update
+      fetchPosts();
     } catch (err) {
       console.error("Error updating post:", err);
       alert("❌ Could not update post.");
@@ -117,7 +123,7 @@ const Blog = () => {
         throw new Error(`Failed to delete post: ${errMsg}`);
       }
 
-      fetchPosts(); // 🔄 Refresh after delete
+      fetchPosts();
     } catch (err) {
       console.error("Error deleting post:", err);
       alert("❌ Could not delete post.");
@@ -158,7 +164,7 @@ const Blog = () => {
         </form>
       )}
 
-      {/* Loading state */}
+      {/* Loading State */}
       {loading && (
         <p className="text-center text-gray-500 mb-6 animate-pulse">
           Loading posts...
@@ -167,7 +173,9 @@ const Blog = () => {
 
       {/* Blog posts grid */}
       {!loading && posts.length === 0 ? (
-        <p className="text-center text-gray-500">No posts yet. Check back soon!</p>
+        <p className="text-center text-gray-500">
+          No posts yet. Check back soon!
+        </p>
       ) : (
         <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => {
@@ -228,7 +236,6 @@ const Blog = () => {
                           day: "numeric",
                         })}
                       </p>
-
                       <p className="text-gray-700 mb-4 whitespace-pre-line">
                         {isExpanded
                           ? post.content
@@ -236,7 +243,6 @@ const Blog = () => {
                           ? post.content.slice(0, 150) + "..."
                           : post.content}
                       </p>
-
                       {post.content?.length > 150 && (
                         <button
                           onClick={() =>
@@ -248,6 +254,7 @@ const Blog = () => {
                         </button>
                       )}
 
+                      {/* Admin edit/delete controls */}
                       {isAdmin && (
                         <div className="flex gap-4 mt-4">
                           <button

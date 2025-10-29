@@ -427,7 +427,6 @@ class PayPalExecutePayment(Resource):
 blog_parser = reqparse.RequestParser()
 blog_parser.add_argument('title', type=str, required=True, help='Title is required')
 blog_parser.add_argument('content', type=str, required=True, help='Content is required')
-blog_parser.add_argument('author', type=str, required=False)
 
 class BlogListResource(Resource):
     def get(self):
@@ -437,7 +436,6 @@ class BlogListResource(Resource):
                 'id': blog.id,
                 'title': blog.title,
                 'content': blog.content,
-                'author': blog.author,
                 'created_at': blog.created_at
             }
             for blog in blogs
@@ -447,8 +445,7 @@ class BlogListResource(Resource):
         args = blog_parser.parse_args()
         new_blog = BlogPost(
             title=args['title'],
-            content=args['content'],
-            author=args.get('author', 'Admin')
+            content=args['content']
         )
         db.session.add(new_blog)
         db.session.commit()
@@ -462,7 +459,6 @@ class BlogResource(Resource):
             'id': blog.id,
             'title': blog.title,
             'content': blog.content,
-            'author': blog.author,
             'created_at': blog.created_at
         })
 
@@ -471,6 +467,7 @@ class BlogResource(Resource):
         db.session.delete(blog)
         db.session.commit()
         return jsonify({'message': 'Blog deleted successfully'})
+
 #        Routes
 # ======================
 
