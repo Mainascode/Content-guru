@@ -4,25 +4,33 @@ import { useAuth } from "./authcontext";
 const Blog = () => {
   const { user, token } = useAuth();
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: "", content: "", image: "" });
+  const [newPost, setNewPost] = useState({ title: "", content: "" });
   const [editingPost, setEditingPost] = useState(null);
   const [expandedPost, setExpandedPost] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // ✅ Only treat you as admin if your email matches
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
-  // Load posts
+  // ✅ Reusable fetch function
+  const fetchPosts = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("https://content-guru-gpls.onrender.com/api/blogs");
+      if (!res.ok) throw new Error("Failed to fetch posts");
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetch("https://content-guru-gpls.onrender.com/api/blogs")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch posts");
-        return res.json();
-      })
-      .then((data) => setPosts(data))
-      .catch((err) => console.error("Error fetching posts:", err));
+    fetchPosts();
   }, []);
 
-  // Create post
+  // ✅ Create post
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newPost.title || !newPost.content) return;
@@ -47,16 +55,16 @@ const Blog = () => {
         throw new Error(`Failed to create post: ${errMsg}`);
       }
 
-      const created = await res.json();
-      setPosts((prev) => [created, ...prev]);
-      setNewPost({ title: "", content: "", image: "" });
+      await res.json();
+      setNewPost({ title: "", content: "" });
+      fetchPosts(); // 🔄 Refresh after post creation
     } catch (err) {
       console.error("Error creating post:", err);
       alert("❌ Could not create post. Check console for details.");
     }
   };
 
-  // Update post
+  // ✅ Update post
   const handleUpdate = async (id) => {
     try {
       const headers = {
@@ -78,18 +86,16 @@ const Blog = () => {
         throw new Error(`Failed to update post: ${errMsg}`);
       }
 
-      const updated = await res.json();
-      setPosts((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, ...updated } : p))
-      );
+      await res.json();
       setEditingPost(null);
+      fetchPosts(); // 🔄 Refresh after update
     } catch (err) {
       console.error("Error updating post:", err);
       alert("❌ Could not update post.");
     }
   };
 
-  // Delete post
+  // ✅ Delete post
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
@@ -111,7 +117,7 @@ const Blog = () => {
         throw new Error(`Failed to delete post: ${errMsg}`);
       }
 
-      setPosts((prev) => prev.filter((p) => p.id !== id));
+      fetchPosts(); // 🔄 Refresh after delete
     } catch (err) {
       console.error("Error deleting post:", err);
       alert("❌ Could not delete post.");
@@ -133,27 +139,14 @@ const Blog = () => {
             type="text"
             placeholder="Post Title"
             value={newPost.title}
-            onChange={(e) =>
-              setNewPost({ ...newPost, title: e.target.value })
-            }
+            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
             className="w-full p-2 border rounded mb-4"
           />
           <textarea
             placeholder="Write your content..."
             value={newPost.content}
-            onChange={(e) =>
-              setNewPost({ ...newPost, content: e.target.value })
-            }
+            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
             rows="5"
-            className="w-full p-2 border rounded mb-4"
-          />
-          <input
-            type="text"
-            placeholder="Image URL (optional)"
-            value={newPost.image}
-            onChange={(e) =>
-              setNewPost({ ...newPost, image: e.target.value })
-            }
             className="w-full p-2 border rounded mb-4"
           />
           <button
@@ -165,11 +158,16 @@ const Blog = () => {
         </form>
       )}
 
-      {/* Blog posts grid */}
-      {posts.length === 0 ? (
-        <p className="text-center text-gray-500">
-          No posts yet. Check back soon!
+      {/* Loading state */}
+      {loading && (
+        <p className="text-center text-gray-500 mb-6 animate-pulse">
+          Loading posts...
         </p>
+      )}
+
+      {/* Blog posts grid */}
+      {!loading && posts.length === 0 ? (
+        <p className="text-center text-gray-500">No posts yet. Check back soon!</p>
       ) : (
         <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => {
@@ -179,17 +177,6 @@ const Blog = () => {
                 key={post.id}
                 className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition"
               >
-                {/* Image */}
-                <img
-                  src={
-                    post.image ||
-                    "https://via.placeholder.com/600x400?text=Content+Guru"
-                  }
-                  alt={post.title}
-                  className="w-full h-48 object-cover"
-                />
-
-                {/* Content */}
                 <div className="p-5">
                   {editingPost?.id === post.id ? (
                     <>
@@ -242,7 +229,6 @@ const Blog = () => {
                         })}
                       </p>
 
-                      {/* Show excerpt or full content */}
                       <p className="text-gray-700 mb-4 whitespace-pre-line">
                         {isExpanded
                           ? post.content
@@ -251,7 +237,6 @@ const Blog = () => {
                           : post.content}
                       </p>
 
-                      {/* Toggle Read More / Show Less */}
                       {post.content?.length > 150 && (
                         <button
                           onClick={() =>

@@ -2,7 +2,7 @@ from flask import  request, jsonify ,Flask, Blueprint
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, UserBook, BlogPost
+from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase,BlogPost
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
@@ -423,118 +423,54 @@ class PayPalExecutePayment(Resource):
             return {"message": f"Purchased {title}"}, 200
         return {"error": "Payment failed", "details": payment.error}, 500
 
-class RecordBookPurchase(Resource):
-    @jwt_required()
-    def post(self):
-        data = request.get_json()
-        user_id = get_jwt_identity()
-        title = data.get("title")
-        price = data.get("price")
-        order_id = data.get("orderId")
-        payer_email = data.get("payerEmail")
-
-        if not all([title, price, order_id]):
-            return {"error": "Missing fields"}, 400
-
-        purchase = UserBook(user_id=user_id, title=title, price=price, paypal_order_id=order_id, payer_email=payer_email)
-        db.session.add(purchase)
-        db.session.commit()
-        return {"message": "Book purchase recorded successfully"}
-    
-# routes/blog.py
+# Parser for blog post creation/edit
+blog_parser = reqparse.RequestParser()
+blog_parser.add_argument('title', type=str, required=True, help='Title is required')
+blog_parser.add_argument('content', type=str, required=True, help='Content is required')
+blog_parser.add_argument('author', type=str, required=False)
 
 class BlogListResource(Resource):
     def get(self):
-        """Get all blog posts (newest first)"""
-        posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
-        return [
+        blogs = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
+        return jsonify([
             {
-                "id": post.id,
-                "title": post.title,
-                "content": post.content,
-                "created_at": post.created_at.isoformat(),
+                'id': blog.id,
+                'title': blog.title,
+                'content': blog.content,
+                'author': blog.author,
+                'created_at': blog.created_at
             }
-            for post in posts
-        ]
+            for blog in blogs
+        ])
 
-    @jwt_required()
     def post(self):
-        """Create a blog post (admin only)"""
-        current_user_id = get_jwt_identity()
-        user = User.query.get(current_user_id)
-
-        if not user or user.email != "mainaemmanuel855@gmail.com":
-            return {"error": "Unauthorized"}, 403
-
-        data = request.get_json()
-        if not data or "title" not in data or "content" not in data:
-            return {"message": "Title and content are required"}, 400
-
-        post = BlogPost(
-            title=data["title"],
-            content=data["content"]
+        args = blog_parser.parse_args()
+        new_blog = BlogPost(
+            title=args['title'],
+            content=args['content'],
+            author=args.get('author', 'Admin')
         )
-
-        db.session.add(post)
+        db.session.add(new_blog)
         db.session.commit()
-
-        return {
-            "id": post.id,
-            "title": post.title,
-            "content": post.content,
-            "created_at": post.created_at.isoformat(),
-        }, 201
+        return jsonify({'message': 'Blog post created successfully!'})
 
 
 class BlogResource(Resource):
-    def get(self, post_id):
-        """Get a single blog post"""
-        post = BlogPost.query.get_or_404(post_id)
-        return {
-            "id": post.id,
-            "title": post.title,
-            "content": post.content,
-            "created_at": post.created_at.isoformat(),
-        }
+    def get(self, blog_id):
+        blog = BlogPost.query.get_or_404(blog_id)
+        return jsonify({
+            'id': blog.id,
+            'title': blog.title,
+            'content': blog.content,
+            'author': blog.author,
+            'created_at': blog.created_at
+        })
 
-    @jwt_required()
-    def put(self, post_id):
-        """Update a blog post (admin only)"""
-        current_user_id = get_jwt_identity()
-        user = User.query.get(current_user_id)
-
-        if not user or user.email != "mainaemmanuel855@gmail.com":
-            return {"error": "Unauthorized"}, 403
-
-        post = BlogPost.query.get_or_404(post_id)
-        data = request.get_json()
-
-        post.title = data.get("title", post.title)
-        post.content = data.get("content", post.content)
+    def delete(self, blog_id):
+        blog = BlogPost.query.get_or_404(blog_id)
+        db.session.delete(blog)
         db.session.commit()
-
-        return {
-            "id": post.id,
-            "title": post.title,
-            "content": post.content,
-            "created_at": post.created_at.isoformat(),
-        }
-
-    @jwt_required()
-    def delete(self, post_id):
-        """Delete a blog post (admin only)"""
-        current_user_id = get_jwt_identity()
-        user = User.query.get(current_user_id)
-
-        if not user or user.email != "mainaemmanuel855@gmail.com":
-            return {"error": "Unauthorized"}, 403
-
-        post = BlogPost.query.get_or_404(post_id)
-        db.session.delete(post)
-        db.session.commit()
-
-        return {"message": "Post deleted successfully"}, 200
-# ======================
+        return jsonify({'message': 'Blog deleted successfully'})
 #        Routes
 # ======================
 
@@ -549,8 +485,9 @@ api.add_resource(EnrollmentResource, '/enrollment')
 api.add_resource(PurchaseCourse, '/purchase-course')
 api.add_resource(PayPalBookPurchase, '/paypal/purchase-book')
 api.add_resource(PayPalExecutePayment, '/paypal/execute-payment')
-api.add_resource(BlogListResource, "/api/blogs")          # GET all, POST new
-api.add_resource(BlogResource, "/api/blogs/<int:post_id>")  # GET one, PUT, DELETE
+api.add_resource(BlogListResource, '/api/blogs')
+api.add_resource(BlogResource, '/api/blogs/<int:blog_id>')
+  # GET one, PUT, DELETE
 
 
 
