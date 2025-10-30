@@ -127,21 +127,25 @@ const Blog = () => {
 
   return (
     <div className="max-w-7xl mx-auto pt-28 pb-12 px-6">
-      <h1 className="text-3xl font-bold mb-8 text-center">📰 Our Blog</h1>
+      <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-900">
+        📰 Our Blog
+      </h1>
 
       {/* Admin form */}
       {isAdmin && !editingPost && (
         <form
           onSubmit={handleSubmit}
-          className="mb-10 bg-yellow-50 p-6 rounded-lg shadow"
+          className="mb-10 bg-gray-50 border border-gray-200 p-6 rounded-xl shadow-sm"
         >
-          <h2 className="text-xl font-semibold mb-4">✍️ Write a New Post</h2>
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            ✍️ Write a New Post
+          </h2>
           <input
             type="text"
             placeholder="Post Title"
             value={newPost.title}
             onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-            className="w-full p-2 border rounded mb-4"
+            className="w-full p-3 border rounded-lg mb-4 focus:ring-2 focus:ring-yellow-500 outline-none"
           />
           <textarea
             placeholder="Write your content..."
@@ -150,12 +154,12 @@ const Blog = () => {
               setNewPost({ ...newPost, content: e.target.value })
             }
             rows="5"
-            className="w-full p-2 border rounded mb-4"
+            className="w-full p-3 border rounded-lg mb-4 focus:ring-2 focus:ring-yellow-500 outline-none"
           />
           <button
             type="submit"
             disabled={loading}
-            className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded"
+            className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg font-medium"
           >
             {loading ? "Publishing..." : "Publish"}
           </button>
@@ -175,7 +179,7 @@ const Blog = () => {
             return (
               <div
                 key={post.id}
-                className="bg-white shadow-md rounded-lg p-5 hover:shadow-lg transition"
+                className="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition-all border border-gray-100"
               >
                 {isEditing ? (
                   <>
@@ -218,40 +222,42 @@ const Blog = () => {
                   </>
                 ) : (
                   <>
-                    <h2 className="text-lg font-bold mb-2">{post.title}</h2>
-                    <p className="text-sm text-gray-500 mb-3">
+                    <h2 className="text-xl font-semibold mb-2 text-gray-800">
+                      {post.title}
+                    </h2>
+                    <p className="text-sm text-gray-400 mb-3">
                       {new Date(post.created_at).toLocaleString()}
                     </p>
-                    <p className="text-gray-700 mb-3 whitespace-pre-line">
+                    <p className="text-gray-700 italic leading-relaxed mb-3 whitespace-pre-line">
                       {isExpanded
                         ? post.content
-                        : post.content.length > 150
-                        ? post.content.slice(0, 150) + "..."
+                        : post.content.length > 200
+                        ? post.content.slice(0, 200) + "..."
                         : post.content}
                     </p>
 
-                    {post.content.length > 150 && (
+                    {post.content.length > 200 && (
                       <button
                         onClick={() =>
                           setExpandedPost(isExpanded ? null : post.id)
                         }
-                        className="text-blue-600 text-sm font-semibold"
+                        className="text-yellow-600 hover:text-yellow-700 text-sm font-medium"
                       >
                         {isExpanded ? "Show Less <<" : "Read More >>"}
                       </button>
                     )}
 
                     {isAdmin && (
-                      <div className="flex gap-4 mt-4">
+                      <div className="flex gap-3 mt-4">
                         <button
                           onClick={() => setEditingPost(post)}
-                          className="bg-blue-600 text-white px-4 py-1 rounded"
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(post.id)}
-                          className="bg-red-600 text-white px-4 py-1 rounded"
+                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
                         >
                           Delete
                         </button>
