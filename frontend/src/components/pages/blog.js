@@ -100,30 +100,7 @@ const Blog = () => {
     }
   };
 
-  // ✅ Delete post
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
 
-    try {
-      const headers = {
-        ...(token && { Authorization: `Bearer ${token}` }),
-      };
-
-      const res = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE",
-        headers,
-      });
-
-      if (!res.ok) throw new Error(await res.text());
-      setStatus("🗑️ Post deleted!");
-      fetchPosts();
-    } catch (err) {
-      console.error("Error deleting post:", err);
-      setStatus("❌ Could not delete post.");
-    } finally {
-      setTimeout(() => setStatus(""), 3000);
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto pt-28 pb-12 px-6">
@@ -249,18 +226,7 @@ const Blog = () => {
 
                     {isAdmin && (
                       <div className="flex gap-3 mt-4">
-                        <button
-                          onClick={() => setEditingPost(post)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(post.id)}
-                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
-                        >
-                          Delete
-                        </button>
+                       
                       </div>
                     )}
                   </>
