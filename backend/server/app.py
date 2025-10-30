@@ -2,7 +2,7 @@ from flask import  request, jsonify ,Flask, Blueprint
 from flask_restful import Api, Resource, reqparse
 from flask_jwt_extended import decode_token, get_jwt_identity, jwt_required, create_access_token, JWTManager
 from flask_migrate import Migrate
-from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase,BlogPost
+from server.models import db, User, Course, ContactMessage, Enrollment, BookPurchase, CoursePurchase, BlogPost
 from flask_cors import CORS
 from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
@@ -422,52 +422,66 @@ class PayPalExecutePayment(Resource):
             db.session.commit()
             return {"message": f"Purchased {title}"}, 200
         return {"error": "Payment failed", "details": payment.error}, 500
-
-# Parser for blog post creation/edit
+    
+    
 blog_parser = reqparse.RequestParser()
 blog_parser.add_argument('title', type=str, required=True, help='Title is required')
 blog_parser.add_argument('content', type=str, required=True, help='Content is required')
-
+blog_parser.add_argument('author', type=str, required=False)
 class BlogListResource(Resource):
     def get(self):
+        """Fetch all blog posts, newest first"""
         blogs = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
         return jsonify([
             {
                 'id': blog.id,
                 'title': blog.title,
                 'content': blog.content,
+                'author': blog.author if blog.author else 'Admin',
                 'created_at': blog.created_at
             }
             for blog in blogs
         ])
 
     def post(self):
+        """Create a new blog post"""
         args = blog_parser.parse_args()
+        # fallback if author missing or null
+        author_value = args.get('author') or 'Admin'
+
         new_blog = BlogPost(
             title=args['title'],
-            content=args['content']
+            content=args['content'],
+            author=author_value
         )
-        db.session.add(new_blog)
-        db.session.commit()
-        return jsonify({'message': 'Blog post created successfully!'})
+
+        try:
+            db.session.add(new_blog)
+            db.session.commit()
+            return jsonify({'message': 'Blog post created successfully!'})
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'message': f'Error creating post: {str(e)}'}), 500
 
 
 class BlogResource(Resource):
     def get(self, blog_id):
+        """Fetch a single blog post"""
         blog = BlogPost.query.get_or_404(blog_id)
         return jsonify({
             'id': blog.id,
             'title': blog.title,
             'content': blog.content,
+            'author': blog.author if blog.author else 'Admin',
             'created_at': blog.created_at
         })
 
     def delete(self, blog_id):
+        """Delete a blog post"""
         blog = BlogPost.query.get_or_404(blog_id)
         db.session.delete(blog)
         db.session.commit()
         return jsonify({'message': 'Blog deleted successfully'})
-
 #        Routes
 # ======================
 
