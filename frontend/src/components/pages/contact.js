@@ -20,10 +20,10 @@ export default function Contact() {
 
     emailjs
       .send(
-        "service_0memxwa",   // from EmailJS dashboard
-        "template_i8zr4ta",  // template with {{name}}, {{email}}, {{message}}
+        "service_0memxwa",  
+        "template_i8zr4ta", 
         form,
-        "z-EXX9a-CCPKbQ8xG"    // from EmailJS account
+        "z-EXX9a-CCPKbQ8xG"   
       )
       .then(() => {
         setSuccess("Your request has been sent! We’ll get back to you soon.");

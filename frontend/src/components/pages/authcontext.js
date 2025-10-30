@@ -21,17 +21,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listen for Firebase auth state changes
+  
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
 
-    // Cleanup listener when unmounting
+ 
     return unsubscribe;
   }, []);
 
-  // Auth functions
   const signup = (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);
 

@@ -32,10 +32,10 @@ const BookCall = () => {
 
     emailjs
       .send(
-        "service_0memxwa", // replace
-        "template_i8zr4ta", // replace
+        "service_0memxwa", 
+        "template_i8zr4ta", 
         templateParams,
-        "z-EXX9a-CCPKbQ8xG" // replace
+        "z-EXX9a-CCPKbQ8xG" 
       )
       .then(
         () => {

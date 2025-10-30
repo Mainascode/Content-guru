@@ -15,7 +15,7 @@ const About = () => {
         About
       </motion.h1>
 
-      {/* Profile Section */}
+
       <section className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-16 max-w-5xl mx-auto">
         <div className="mb-8 md:mb-0 md:mr-10 flex-shrink-0">
           
@@ -33,7 +33,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Experience */}
       <section className="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-16 max-w-5xl mx-auto">
         <h3 className="text-2xl font-bold text-yellow-700 mb-6 text-center">Background & Experience</h3>
         <p className="text-yellow-700 text-base sm:text-lg mb-6 leading-relaxed">
@@ -52,7 +51,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Growth */}
       <section className="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-16 max-w-5xl mx-auto">
         <h3 className="text-2xl font-bold text-yellow-700 mb-6 text-center">How We Help Businesses Grow Online</h3>
         <p className="text-yellow-700 text-base sm:text-lg mb-6 text-center leading-relaxed">
@@ -69,7 +67,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="text-center max-w-3xl mx-auto">
         <p className="text-base sm:text-lg text-yellow-800 mb-6">
           Every business deserves the opportunity to thrive online. Let’s collaborate to create a digital presence that reflects your passion and brings in real results.
