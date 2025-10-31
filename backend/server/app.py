@@ -59,29 +59,94 @@ blog_bp = Blueprint("blog", __name__)
 #        Resources
 # ======================
 subscribe_bp = Blueprint('subscribe', __name__)
-# Environment variables
+# # Environment variables
+# MPESA_BASE_URL = ("https://sandbox.safaricom.co.ke")
+# CONSUMER_KEY =("luoBoFwiA4jFXFzBsDoBSIA4Lr24CkvxHqUf4BUVUAVZdseP")
+# CONSUMER_SECRET = ("rqhQm4F913zGdh8S79V2zs35nTLKv536TfDFKyVJHxPYn7mBsXleKkbis8YytQEy")
+# SHORTCODE = 174379
+# PASSKEY = ("bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919")
+# CALLBACK_URL = ("https://content-guru.com/api/mpesa/callback")
 
+
+# def get_mpesa_token():
+#     url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+#     auth = f"{CONSUMER_KEY}:{CONSUMER_SECRET}"
+#     encoded_auth = base64.b64encode(auth.encode()).decode()
+#     headers = {"Authorization": f"Basic {encoded_auth}"}
     
-@app.route("/api/purchase-book", methods=["POST"])
-def save_paypal_purchase():
-    try:
-        data = request.get_json()
-        # Here you can connect to DB (e.g. SQLite, Firebase) and persist it
-        print("✅ PayPal purchase logged:", data)
-        return jsonify({"message": "Purchase saved successfully"}), 200
-    except Exception as e:
-        return jsonify({"message": f"Save failed: {str(e)}"}), 500
+#     response = requests.get(url, headers=headers)
+    
+#     if response.status_code == 200:
+#         return response.json()["access_token"]
+#     else:
+#         return None
+# def generate_password():
+#     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+#     password_str = f"{SHORTCODE}{PASSKEY}{timestamp}"
+#     encoded_password = base64.b64encode(password_str.encode()).decode()
+#     return encoded_password, timestamp
+
+# class get_token(Resource):
+#     def get(self):
+#         token = get_mpesa_token()
+#         if token:
+#             return jsonify({"access_token": token})
+#         else:
+#             return jsonify({"error": "Failed to get access token"}), 500
+        
+
+# class stk_push(Resource):
+#     def post(self):
+#         token = get_mpesa_token()
+#         if not token:
+#             return jsonify({"error": "Failed to get access token"}), 500
+        
+#         password, timestamp = generate_password()
+
+#         payload = {
+#             "BusinessShortCode": SHORTCODE,
+#             "Password": password,
+#             "Timestamp": timestamp,
+#             "TransactionType": "CustomerPayBillOnline",
+#             "Amount": request.json.get("amount", 1), 
+#             "PartyA": request.json.get("phone"),  
+#             "PartyB": SHORTCODE,
+#             "PhoneNumber": request.json.get("phone"),
+#             "CallBackURL": CALLBACK_URL,
+#             "AccountReference": "Tiketi",
+#             "TransactionDesc": "Payment"
+#         }
+
+#         headers = {
+#             "Authorization": f"Bearer {token}",
+#             "Content-Type": "application/json"
+#         }
+
+#         mpesa_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+#         response = requests.post(mpesa_url, json=payload, headers=headers)
+
+#         return response.json()
+    
+# @app.route("/api/purchase-book", methods=["POST"])
+# def save_paypal_purchase():
+#     try:
+#         data = request.get_json()
+#         # Here you can connect to DB (e.g. SQLite, Firebase) and persist it
+#         print("✅ PayPal purchase logged:", data)
+#         return jsonify({"message": "Purchase saved successfully"}), 200
+#     except Exception as e:
+#         return jsonify({"message": f"Save failed: {str(e)}"}), 500
 
 
-@app.route("/api/mpesa/callback", methods=["POST"])
-def mpesa_callback():
-    try:
-        data = request.get_json()
-        print("📥 M-Pesa Callback received:", data)
-        # You can save transaction status or log to DB
-        return jsonify({"message": "Callback received"}), 200
-    except Exception as e:
-        return jsonify({"message": f"Callback error: {str(e)}"}), 500
+# # @app.route("/api/mpesa/callback", methods=["POST"])
+# # def mpesa_callback():
+# #     try:
+# #         data = request.get_json()
+# #         print("📥 M-Pesa Callback received:", data)
+# #         # You can save transaction status or log to DB
+# #         return jsonify({"message": "Callback received"}), 200
+# #     except Exception as e:
+# #         return jsonify({"message": f"Callback error: {str(e)}"}), 500
 
 class CheckSession(Resource):
     def get(self):
@@ -421,8 +486,8 @@ class BlogResource(Resource):
 # ======================
 
 api.add_resource(CheckSession, '/check-session')
-api.add_resource(get_token, '/get-token')
-api.add_resource(stk_push,'/stk-push')
+# api.add_resource(get_token, '/get-token')
+# api.add_resource(stk_push,'/stk-push')
 api.add_resource(FirebaseSignup, '/firebase-signup')
 api.add_resource(FirebaseLogin, '/firebase-login')
 api.add_resource(CreateCourse, '/courses')
