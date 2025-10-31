@@ -80,16 +80,7 @@ export default function CheckoutPage() {
         />
         <span className="text-yellow-800 font-medium">PayPal</span>
       </label>
-      <label className="flex items-center space-x-3">
-        <input
-          type="radio"
-          name="paymentMethod"
-          value="mpesa"
-          checked={paymentMethod === "mpesa"}
-          onChange={() => setPaymentMethod("mpesa")}
-        />
-        <span className="text-yellow-800 font-medium">M-Pesa</span>
-      </label>
+
     </div>
 
     {/* PayPal */}

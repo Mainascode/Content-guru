@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
@@ -9,7 +9,6 @@ const books = [
     img: "/images/book1.jpg",
     description:
       "Learn how to write compelling, high-converting content that captures attention, builds trust, and drives action. This book dives deep into storytelling, structure, tone, and audience psychology — perfect for marketers, bloggers, and entrepreneurs.",
-    
     category: "Content Marketing",
     publication: "Content Guru Press, 2024",
     rating: 4.8,
@@ -21,7 +20,6 @@ const books = [
     img: "/images/book2.jpg",
     description:
       "A beginner-friendly guide that explains SEO fundamentals in plain English. From keyword research to backlink strategies, this book gives you everything you need to start ranking higher on Google.",
-    
     category: "Digital Marketing",
     publication: "GrowthMind Media, 2024",
     rating: 4.6,
@@ -33,7 +31,6 @@ const books = [
     img: "/images/book3.jpg",
     description:
       "Master social media growth, engagement, and ad strategies across Instagram, TikTok, and LinkedIn. Learn how to build a personal brand and turn followers into loyal customers.",
-   
     category: "Social Media Strategy",
     publication: "Content Guru Press, 2025",
     rating: 4.9,
@@ -43,6 +40,8 @@ const books = [
 
 const BookDetails = () => {
   const { title } = useParams();
+  const navigate = useNavigate();
+
   const book = books.find((b) => b.title === decodeURIComponent(title));
 
   if (!book)
@@ -51,6 +50,15 @@ const BookDetails = () => {
         Book not found.
       </p>
     );
+
+  // Navigate to checkout page with book details
+  const handleBuyNow = () => {
+    const queryParams = new URLSearchParams({
+      title: book.title,
+      price: book.price,
+    }).toString();
+    navigate(`/checkout?${queryParams}`);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-white py-20 px-6">
@@ -80,7 +88,9 @@ const BookDetails = () => {
             {book.title}
           </h1>
 
-          <p className="text-gray-700 text-lg leading-relaxed">{book.description}</p>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            {book.description}
+          </p>
 
           <div className="space-y-1 text-gray-800 text-base">
             <p>
@@ -112,6 +122,7 @@ const BookDetails = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={handleBuyNow}
               className="bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-yellow-700 transition"
             >
               Buy Now
