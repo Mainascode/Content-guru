@@ -194,17 +194,7 @@ const Blog = () => {
                       }
                       className="w-full p-2 border rounded mb-3"
                     />
-                    <textarea
-                      value={editingPost.content}
-                      onChange={(e) =>
-                        setEditingPost({
-                          ...editingPost,
-                          content: e.target.value,
-                        })
-                      }
-                      rows="5"
-                      className="w-full p-2 border rounded mb-3"
-                    />
+                  
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleUpdate(post.id)}
@@ -249,12 +239,6 @@ const Blog = () => {
 
                     {isAdmin && (
                       <div className="flex gap-3 mt-4">
-                        <button
-                          onClick={() => setEditingPost(post)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
-                        >
-                          Edit
-                        </button>
                         <button
                           onClick={() => handleDelete(post.id)}
                           className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
