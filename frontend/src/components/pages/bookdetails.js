@@ -116,18 +116,8 @@ const BookDetails = () => {
             <span className="text-gray-700 ml-2">{book.rating.toFixed(1)}</span>
           </div>
 
-          {/* Price & CTA */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
-            <p className="text-3xl font-bold text-green-700">{book.price}</p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleBuyNow}
-              className="bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-yellow-700 transition"
-            >
-              Buy Now
-            </motion.button>
-          </div>
+  
+
 
           <Link
             to="/books"
