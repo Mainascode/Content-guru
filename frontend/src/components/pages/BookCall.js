@@ -22,20 +22,31 @@ const BookCall = () => {
     e.preventDefault();
     setStatus("loading");
 
+    // Combine message with sender info
+    const fullMessage = `
+📞 New Call Booking Request
+────────────────────────────
+👤 Name: ${formData.name}
+✉️ Email: ${formData.email}
+📅 Preferred Date: ${date ? date.toDateString() : "Not selected"}
+⏰ Preferred Time: ${time || "Not specified"}
+
+📝 Message:
+${formData.message || "(No additional message provided)"}
+`;
+
     const templateParams = {
       from_name: formData.name,
       from_email: formData.email,
-      preferred_date: date ? date.toDateString() : "Not selected",
-      preferred_time: time || "Not specified",
-      message: formData.message,
+      message: fullMessage,
     };
 
     emailjs
       .send(
-        "service_0memxwa", 
-        "template_i8zr4ta", 
+        "service_0memxwa", // your service ID
+        "template_i8zr4ta", // your template ID
         templateParams,
-        "z-EXX9a-CCPKbQ8xG" 
+        "z-EXX9a-CCPKbQ8xG" // your public key
       )
       .then(
         () => {
@@ -149,12 +160,12 @@ const BookCall = () => {
         {/* Status messages */}
         {status === "success" && (
           <p className="mt-4 text-green-600 text-center font-medium">
-            Your booking request has been sent! We’ll get back to you soon.
+          Your booking request has been sent! We’ll get back to you soon.
           </p>
         )}
         {status === "error" && (
           <p className="mt-4 text-red-600 text-center font-medium">
-             Oops! Something went wrong. Try again later.
+            Oops! Something went wrong. Try again later.
           </p>
         )}
       </div>
