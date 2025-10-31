@@ -7,47 +7,38 @@ import './calendarTailwind.css';
 const CalendarPage = () => {
   const [value, setValue] = useState(new Date());
   const [courseDates, setCourseDates] = useState([]);
-  const [enrollmentDates, setEnrollmentDates] = useState([]);
-
-  // Generate weekdays (Mon–Fri) between two dates
-  const generateWeekdays = (start, end) => {
-    const days = [];
-    let current = new Date(start);
-    while (current <= end) {
-      const day = current.getDay(); // 0=Sun, 6=Sat
-      if (day >= 1 && day <= 5) days.push(new Date(current));
-      current.setDate(current.getDate() + 1);
-    }
-    return days;
-  };
+  const [enrollmentDatesFromApi, setEnrollmentDatesFromApi] = useState([]);
 
   useEffect(() => {
     async function fetchDates() {
       try {
         const res = await fetch("https://content-guru-e25z.onrender.com/api/calendar-dates");
         const data = await res.json();
-        const courses = data.courses.map(date => new Date(date));
-        setCourseDates(courses);
+        setCourseDates((data.courses || []).map(d => new Date(d)));
+        setEnrollmentDatesFromApi((data.enrollments || []).map(d => new Date(d)));
       } catch (error) {
-        console.error("Using fallback course dates");
+        console.error("Using fallback dates");
         setCourseDates([new Date(2025, 6, 10), new Date(2025, 6, 20)]);
+        setEnrollmentDatesFromApi([new Date(2025, 6, 5), new Date(2025, 6, 18)]);
       }
     }
-
-    // Auto-generate weekdays for this + next month
-    const now = new Date();
-    const start = new Date(now.getFullYear(), now.getMonth(), 1);
-    const end = new Date(now.getFullYear(), now.getMonth() + 2, 0);
-    const weekdays = generateWeekdays(start, end);
-    setEnrollmentDates(weekdays);
-
     fetchDates();
   }, []);
 
+  // Returns true if date is Mon-Fri
+  const isWeekday = (date) => {
+    const day = date.getDay(); // 0 Sunday, 1 Monday ... 6 Saturday
+    return day >= 1 && day <= 5;
+  };
+
+  // Check if a date exists in an array (comparing date string to ignore time)
+  const dateInArray = (date, arr) => arr.some(d => d.toDateString() === date.toDateString());
+
   const tileClassName = ({ date, view }) => {
     if (view === 'month') {
-      const isCourse = courseDates.some(d => d.toDateString() === date.toDateString());
-      const isEnroll = enrollmentDates.some(d => d.toDateString() === date.toDateString());
+      const isCourse = dateInArray(date, courseDates);
+      // enrollment if weekday OR explicitly present in API enrollments
+      const isEnroll = isWeekday(date) || dateInArray(date, enrollmentDatesFromApi);
 
       if (isCourse && isEnroll) return 'tw-highlight-both';
       if (isCourse) return 'tw-highlight-course';
@@ -59,7 +50,7 @@ const CalendarPage = () => {
   return (
     <section className="bg-white px-4 sm:px-6 md:px-8 py-10 min-h-screen flex flex-col items-center">
       <h2 className="text-3xl font-bold text-[#8B4513] text-center mb-6">
-        📆 Upcoming Courses & Enrollment Days
+        Upcoming Courses & Enrollment Days
       </h2>
 
       <div className="w-full max-w-md bg-white rounded-xl shadow p-4 overflow-x-auto">

@@ -59,11 +59,11 @@ const Blog = () => {
       if (!res.ok) throw new Error(await res.text());
 
       setNewPost({ title: "", content: "" });
-      setStatus("✅ Post created successfully!");
+      setStatus("Post created successfully!");
       fetchPosts();
     } catch (err) {
       console.error("Error creating post:", err);
-      setStatus("❌ Server error while creating post.");
+      setStatus("Server error while creating post.");
     } finally {
       setLoading(false);
       setTimeout(() => setStatus(""), 3000);
@@ -91,11 +91,11 @@ const Blog = () => {
 
       if (!res.ok) throw new Error(await res.text());
       setEditingPost(null);
-      setStatus("✅ Post updated!");
+      setStatus(" Post updated!");
       fetchPosts();
     } catch (err) {
       console.error("Error updating post:", err);
-      setStatus("❌ Could not update post.");
+      setStatus("Could not update post.");
     } finally {
       setTimeout(() => setStatus(""), 3000);
     }
@@ -270,7 +270,7 @@ const Blog = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg p-6 w-80 text-center shadow-lg">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">
-              ⚠️ Confirm Deletion
+               Confirm Deletion
             </h3>
             <p className="text-gray-600 mb-6">
               Are you sure you want to delete this post? This action cannot be undone.
