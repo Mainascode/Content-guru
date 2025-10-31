@@ -44,38 +44,6 @@ export default function CheckoutPage() {
     }
   };
 
-  // const handleMpesaPayment = async () => {
-  //   const validPhone = /^0\d{9}$/.test(mpesaNumber.trim());
-  //   if (!validPhone) {
-  //     alert("Enter a valid M-Pesa number (10 digits, starts with 0)");
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch("https://content-guru-gpls.onrender.com/stk-push", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         phone: mpesaNumber,
-  //         title: book.title,
-  //         amount: parseFloat(book.price.replace("$", ""))
-  //       }),
-  //     });
-
-  //     const result = await response.json();
-  //     if (response.ok) {
-  //       alert("STK Push sent. Complete payment on your phone.");
-  //       navigate(`/payment-success?book=${encodeURIComponent(book.title)}`);
-  //     } else {
-  //       alert(result.message || "M-Pesa payment failed.");
-  //     }
-  //   } catch (error) {
-  //     alert("M-Pesa request error");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   return (
     <PayPalScriptProvider options={{ "client-id": "AZN2oJYE9WSgARkZ3cWh8CMcK8wJ53l-gX7UaIUtE3Yvl8QZ5-OfLPhRUObcYNVV32GGKRb6a6gj14OS" }}>
@@ -164,28 +132,7 @@ export default function CheckoutPage() {
       </div>
     )}
 
-    {/* M-Pesa
-    {paymentMethod === "mpesa" && (
-      <div className="mt-4">
-        <label className="block mb-1 font-semibold text-yellow-800">
-          M-Pesa Number
-        </label>
-        <input
-          type="tel"
-          placeholder="e.g. 0712345678"
-          value={mpesaNumber}
-          onChange={(e) => setMpesaNumber(e.target.value)}
-          className="w-full px-4 py-2 border border-yellow-300 rounded focus:ring focus:ring-yellow-400"
-        />
-        <button
-          onClick={handleMpesaPayment}
-          disabled={loading}
-          className="mt-4 w-full bg-yellow-700 hover:bg-yellow-800 text-white py-3 rounded-full font-semibold"
-        >
-          {loading ? "Sending STK Push..." : "Pay with M-Pesa"}
-        </button>
-      </div>
-    )} */}
+
   </div>
 </div>
 
