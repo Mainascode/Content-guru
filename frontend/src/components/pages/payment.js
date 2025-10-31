@@ -12,7 +12,7 @@ const PaymentSuccessPage = () => {
     const payerId = params.get("PayerID");
 
     if (!paymentId || !payerId) {
-      setMessage("❌ Missing PayPal payment details.");
+      setMessage(" Missing PayPal payment details.");
       return;
     }
 
@@ -32,9 +32,9 @@ const PaymentSuccessPage = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setMessage(data.message || "✅ Payment successful! Thank you for enrolling.");
+          setMessage(data.message || " Payment successful! Thank you for enrolling.");
         } else {
-          setMessage(data.error || "❌ Payment failed. Please contact support.");
+          setMessage(data.error || " Payment failed. Please contact support.");
         }
       } catch (error) {
         console.error("Error executing PayPal payment:", error);

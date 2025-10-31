@@ -9,35 +9,51 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     setSuccess(null);
 
+    // ✅ Combine client info inside message for admin visibility
+    const fullMessage = `
+📩 New Contact Message
+
+👤 Name: ${form.name}
+✉️ Email: ${form.email}
+
+💬 Message:
+${form.message}
+`;
+
+    const templateParams = {
+      from_name: form.name,
+      from_email: form.email,
+      message: fullMessage,
+    };
+
     emailjs
       .send(
-        "service_0memxwa",  
-        "template_i8zr4ta", 
-        form,
-        "z-EXX9a-CCPKbQ8xG"   
+        "service_0memxwa",   // ✅ Your service ID
+        "template_i8zr4ta",  // ✅ Your template ID
+        templateParams,
+        "z-EXX9a-CCPKbQ8xG"  // ✅ Your public key
       )
       .then(() => {
-        setSuccess("Your request has been sent! We’ll get back to you soon.");
+        setSuccess("✅ Your request has been sent! We’ll get back to you soon.");
         setForm({ name: "", email: "", message: "" });
       })
       .catch(() => {
-        setSuccess("Could not send email. Please try again later.");
+        setSuccess("❌ Could not send email. Please try again later.");
       })
       .finally(() => setLoading(false));
   };
 
   return (
-    <section className="bg-yellow-50 py-20 px-6 sm:px-12">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <section className="bg-yellow-50 flex items-center justify-center min-h-screen px-6 sm:px-12 py-20">
+      <div className="w-full max-w-6xl grid md:grid-cols-2 gap-12 items-center bg-white shadow-2xl rounded-3xl p-10 md:p-14">
+        
         {/* Left: Info */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
@@ -45,14 +61,15 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Let’s Talk 📬
           </h2>
-          <p className="text-gray-700 text-lg">
+          <p className="text-gray-700 text-lg leading-relaxed">
             Got a project, collaboration idea, or just want to say hi?  
-            Fill in the form and we’ll respond within 24 hours.
+            Fill out the form and we’ll respond within 24 hours.
           </p>
-          <div className="space-y-4 text-gray-800">
+
+          <div className="space-y-4 text-gray-800 text-base md:text-lg">
             <p className="flex items-center gap-3"><FaEnvelope /> yourcontentsocial@gmail.com</p>
             <p className="flex items-center gap-3"><FaPhone /> +123 555 673</p>
             <p className="flex items-center gap-3"><FaMapMarkerAlt /> International</p>
@@ -65,7 +82,7 @@ export default function Contact() {
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="bg-white shadow-xl rounded-2xl p-8 space-y-6"
+          className="space-y-6"
         >
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Name</label>
@@ -78,6 +95,7 @@ export default function Contact() {
               className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none"
             />
           </div>
+
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Email</label>
             <input
@@ -89,6 +107,7 @@ export default function Contact() {
               className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none"
             />
           </div>
+
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Message</label>
             <textarea
@@ -100,6 +119,7 @@ export default function Contact() {
               className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none"
             />
           </div>
+
           <button
             type="submit"
             disabled={loading}

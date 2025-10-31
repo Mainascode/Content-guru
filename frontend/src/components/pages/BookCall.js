@@ -22,16 +22,15 @@ const BookCall = () => {
     e.preventDefault();
     setStatus("loading");
 
-    // Combine message with sender info
     const fullMessage = `
 📞 New Call Booking Request
-────────────────────────────
+
 👤 Name: ${formData.name}
 ✉️ Email: ${formData.email}
 📅 Preferred Date: ${date ? date.toDateString() : "Not selected"}
 ⏰ Preferred Time: ${time || "Not specified"}
 
-📝 Message:
+Message:
 ${formData.message || "(No additional message provided)"}
 `;
 
@@ -43,10 +42,10 @@ ${formData.message || "(No additional message provided)"}
 
     emailjs
       .send(
-        "service_0memxwa", // your service ID
-        "template_i8zr4ta", // your template ID
+        "service_0memxwa",
+        "template_i8zr4ta",
         templateParams,
-        "z-EXX9a-CCPKbQ8xG" // your public key
+        "z-EXX9a-CCPKbQ8xG"
       )
       .then(
         () => {
@@ -55,10 +54,14 @@ ${formData.message || "(No additional message provided)"}
           setDate(null);
           setTime("");
         },
-        () => {
-          setStatus("error");
-        }
+        () => setStatus("error")
       );
+  };
+
+  // ✅ Allow only Monday–Friday
+  const isWeekday = (date) => {
+    const day = date.getDay();
+    return day !== 0 && day !== 6; // 0 = Sunday, 6 = Saturday
   };
 
   return (
@@ -68,8 +71,8 @@ ${formData.message || "(No additional message provided)"}
           Book a Free Call
         </h1>
         <p className="text-center text-gray-600 mb-10">
-          Let’s connect and talk about how we can grow your brand together. 
-          Pick a date and time that works for you.
+          Let’s connect and talk about how we can grow your brand together.
+          Pick a weekday that works for you (Mon–Fri only).
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -103,7 +106,7 @@ ${formData.message || "(No additional message provided)"}
             />
           </div>
 
-          {/* Date Picker */}
+          {/* Date Picker (Mon–Fri only) */}
           <div>
             <label className="block text-sm font-medium text-yellow-800 mb-1">
               Preferred Date
@@ -112,8 +115,9 @@ ${formData.message || "(No additional message provided)"}
               selected={date}
               onChange={(newDate) => setDate(newDate)}
               minDate={new Date()}
+              filterDate={isWeekday}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500"
-              placeholderText="Select a date"
+              placeholderText="Select a weekday (Mon–Fri)"
             />
           </div>
 
@@ -160,7 +164,7 @@ ${formData.message || "(No additional message provided)"}
         {/* Status messages */}
         {status === "success" && (
           <p className="mt-4 text-green-600 text-center font-medium">
-          Your booking request has been sent! We’ll get back to you soon.
+            Your booking request has been sent! We’ll get back to you soon.
           </p>
         )}
         {status === "error" && (
