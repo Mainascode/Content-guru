@@ -1,3 +1,4 @@
+// src/pages/Blog.jsx
 import { useState, useEffect } from "react";
 import { useAuth } from "./authcontext";
 
@@ -9,11 +10,12 @@ const Blog = () => {
   const [expandedPost, setExpandedPost] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState(null); // modal state
 
   const API_URL = "https://content-guru-gpls.onrender.com/api/blogs";
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
-  // ✅ Fetch posts
+  // Fetch posts
   const fetchPosts = async () => {
     try {
       const res = await fetch(API_URL);
@@ -25,14 +27,13 @@ const Blog = () => {
     }
   };
 
-  // 🔁 Auto-refresh every 10s
   useEffect(() => {
     fetchPosts();
     const interval = setInterval(fetchPosts, 10000);
     return () => clearInterval(interval);
   }, []);
 
-  // ✅ Create post
+  // Create post
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newPost.title.trim() || !newPost.content.trim()) {
@@ -69,7 +70,7 @@ const Blog = () => {
     }
   };
 
-  // ✅ Update post
+  // Update post
   const handleUpdate = async (id) => {
     if (!editingPost.title.trim() || !editingPost.content.trim()) {
       setStatus("⚠️ Both fields required for update.");
@@ -100,10 +101,8 @@ const Blog = () => {
     }
   };
 
-  // ✅ Delete post
+  // Delete post (with modal confirmation)
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
-
     try {
       const headers = {
         ...(token && { Authorization: `Bearer ${token}` }),
@@ -115,18 +114,19 @@ const Blog = () => {
       });
 
       if (!res.ok) throw new Error(await res.text());
-      setStatus("🗑️ Post deleted!");
+      setStatus("🗑️ Post deleted successfully!");
       fetchPosts();
     } catch (err) {
       console.error("Error deleting post:", err);
       setStatus("❌ Could not delete post.");
     } finally {
+      setConfirmDelete(null);
       setTimeout(() => setStatus(""), 3000);
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto pt-28 pb-12 px-6">
+    <div className="max-w-7xl mx-auto pt-28 pb-12 px-6 relative">
       <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-900">
         📰 Our Blog
       </h1>
@@ -194,7 +194,17 @@ const Blog = () => {
                       }
                       className="w-full p-2 border rounded mb-3"
                     />
-                  
+                    <textarea
+                      value={editingPost.content}
+                      onChange={(e) =>
+                        setEditingPost({
+                          ...editingPost,
+                          content: e.target.value,
+                        })
+                      }
+                      rows="4"
+                      className="w-full p-2 border rounded mb-3"
+                    />
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleUpdate(post.id)}
@@ -240,7 +250,7 @@ const Blog = () => {
                     {isAdmin && (
                       <div className="flex gap-3 mt-4">
                         <button
-                          onClick={() => handleDelete(post.id)}
+                          onClick={() => setConfirmDelete(post.id)}
                           className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
                         >
                           Delete
@@ -252,6 +262,34 @@ const Blog = () => {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Delete confirmation modal */}
+      {confirmDelete && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-6 w-80 text-center shadow-lg">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">
+              ⚠️ Confirm Deletion
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this post? This action cannot be undone.
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => handleDelete(confirmDelete)}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+              >
+                Yes, Delete
+              </button>
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
