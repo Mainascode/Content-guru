@@ -43,7 +43,7 @@ const Books = () => {
       {/* ✅ Header block in brown */}
       <div className="bg-[#8B4513] py-6 rounded-lg mb-12">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-white">
-        OUR Books
+          BOOKS
         </h1>
       </div>
 
