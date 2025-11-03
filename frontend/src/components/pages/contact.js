@@ -62,7 +62,7 @@ ${form.message}
           className="space-y-6"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Let’s Talk 📬
+            Let’s Talk 
           </h2>
           <p className="text-gray-700 text-lg leading-relaxed">
             Got a project, collaboration idea, or just want to say hi?  

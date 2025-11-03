@@ -51,7 +51,7 @@ return (
         transition={{ duration: 0.8 }}
         className="text-4xl sm:text-5xl font-extrabold text-white"
       >
-        Courses
+        COURSES
       </motion.h1>
     </div>
 

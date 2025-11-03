@@ -1,0 +1,119 @@
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowLeft, Calendar, User } from "lucide-react";
+
+export default function BlogDetails() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const API_URL = `https://content-guru-gpls.onrender.com/api/blogs/${id}`;
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error("Failed to fetch blog");
+        const data = await res.json();
+        setBlog(data);
+      } catch (error) {
+        console.error("Error fetching blog:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlog();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-yellow-700">
+        Loading post...
+      </div>
+    );
+  }
+
+  if (!blog) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-gray-700">
+        <p>Blog not found.</p>
+        <button
+          onClick={() => navigate("/blogs")}
+          className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded shadow hover:bg-yellow-600"
+        >
+          Back to Blogs
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-yellow-50 py-10 px-4">
+      <motion.div
+        className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center text-yellow-600 hover:text-yellow-700 mb-6"
+        >
+          <ArrowLeft className="mr-2 h-5 w-5" /> Back
+        </button>
+
+        <h1 className="text-3xl font-bold text-yellow-800 mb-4">
+          {blog.title}
+        </h1>
+
+        <div className="flex items-center text-gray-500 text-sm mb-6 space-x-4">
+          <div className="flex items-center gap-1">
+            <User className="w-4 h-4" /> {blog.author || "Admin"}
+          </div>
+          <div className="flex items-center gap-1">
+            <Calendar className="w-4 h-4" />
+            {new Date(blog.created_at).toLocaleDateString()}
+          </div>
+        </div>
+
+        <motion.div
+          className="prose max-w-none prose-yellow"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="text-gray-800 leading-relaxed whitespace-pre-line">
+            {blog.content}
+          </p>
+        </motion.div>
+
+        <div className="mt-10 border-t border-yellow-100 pt-6">
+          <h3 className="text-yellow-700 font-semibold mb-3">
+            Share this post:
+          </h3>
+          <div className="flex gap-3">
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                blog.title
+              )}&url=${window.location.href}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              Twitter
+            </a>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-700 hover:underline"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}

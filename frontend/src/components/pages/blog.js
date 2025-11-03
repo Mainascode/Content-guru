@@ -1,5 +1,6 @@
 // src/pages/Blog.jsx
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "./authcontext";
 
 const Blog = () => {
@@ -7,11 +8,11 @@ const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
   const [editingPost, setEditingPost] = useState(null);
-  const [expandedPost, setExpandedPost] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
-  const [confirmDelete, setConfirmDelete] = useState(null); // modal state
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
+  const navigate = useNavigate();
   const API_URL = "https://content-guru-gpls.onrender.com/api/blogs";
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
@@ -70,38 +71,7 @@ const Blog = () => {
     }
   };
 
-  // Update post
-  const handleUpdate = async (id) => {
-    if (!editingPost.title.trim() || !editingPost.content.trim()) {
-      setStatus("⚠️ Both fields required for update.");
-      return;
-    }
-
-    try {
-      const headers = {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
-      };
-
-      const res = await fetch(`${API_URL}/${id}`, {
-        method: "PUT",
-        headers,
-        body: JSON.stringify(editingPost),
-      });
-
-      if (!res.ok) throw new Error(await res.text());
-      setEditingPost(null);
-      setStatus(" Post updated!");
-      fetchPosts();
-    } catch (err) {
-      console.error("Error updating post:", err);
-      setStatus("Could not update post.");
-    } finally {
-      setTimeout(() => setStatus(""), 3000);
-    }
-  };
-
-  // Delete post (with modal confirmation)
+  // Delete post
   const handleDelete = async (id) => {
     try {
       const headers = {
@@ -118,7 +88,7 @@ const Blog = () => {
       fetchPosts();
     } catch (err) {
       console.error("Error deleting post:", err);
-      setStatus("❌ Could not delete post.");
+      setStatus("Could not delete post.");
     } finally {
       setConfirmDelete(null);
       setTimeout(() => setStatus(""), 3000);
@@ -128,7 +98,7 @@ const Blog = () => {
   return (
     <div className="max-w-7xl mx-auto pt-28 pb-12 px-6 relative">
       <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-900">
-        📰 Our Blog
+        BLOGS
       </h1>
 
       {/* Admin form */}
@@ -173,7 +143,6 @@ const Blog = () => {
       ) : (
         <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => {
-            const isExpanded = expandedPost === post.id;
             const isEditing = editingPost?.id === post.id;
 
             return (
@@ -229,26 +198,23 @@ const Blog = () => {
                       {new Date(post.created_at).toLocaleString()}
                     </p>
                     <p className="text-gray-700 italic leading-relaxed mb-3 whitespace-pre-line">
-                      {isExpanded
-                        ? post.content
-                        : post.content.length > 200
+                      {post.content.length > 200
                         ? post.content.slice(0, 200) + "..."
                         : post.content}
                     </p>
 
                     {post.content.length > 200 && (
                       <button
-                        onClick={() =>
-                          setExpandedPost(isExpanded ? null : post.id)
-                        }
-                        className="text-yellow-600 hover:text-yellow-700 text-sm font-medium"
+                        onClick={() => navigate(`/blogs/${post.id}`)}
+                        className="text-yellow-600 hover:text-yellow-700 text-sm font-semibold underline underline-offset-4"
                       >
-                        {isExpanded ? "Show Less <<" : "Read More >>"}
+                        Read More →
                       </button>
                     )}
 
                     {isAdmin && (
                       <div className="flex gap-3 mt-4">
+        
                         <button
                           onClick={() => setConfirmDelete(post.id)}
                           className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
@@ -270,7 +236,7 @@ const Blog = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg p-6 w-80 text-center shadow-lg">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">
-               Confirm Deletion
+              Confirm Deletion
             </h3>
             <p className="text-gray-600 mb-6">
               Are you sure you want to delete this post? This action cannot be undone.
@@ -280,7 +246,7 @@ const Blog = () => {
                 onClick={() => handleDelete(confirmDelete)}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
               >
-                Yes, Delete
+                 Delete
               </button>
               <button
                 onClick={() => setConfirmDelete(null)}
