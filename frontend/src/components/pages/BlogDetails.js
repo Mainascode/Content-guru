@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft, Calendar, Share2 } from "lucide-react";
 
 export default function BlogDetails() {
   const { id } = useParams();
@@ -48,6 +48,26 @@ export default function BlogDetails() {
     );
   }
 
+  const handleShare = async () => {
+    const shareData = {
+      title: blog.title,
+      text: "Check out this amazing blog post on Content Guru!",
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback if Web Share API isn't supported
+      navigator.clipboard.writeText(window.location.href);
+      alert("🔗 Link copied! You can share it manually.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-yellow-50 py-10 px-4">
       <motion.div
@@ -69,9 +89,6 @@ export default function BlogDetails() {
 
         <div className="flex items-center text-gray-500 text-sm mb-6 space-x-4">
           <div className="flex items-center gap-1">
-            <User className="w-4 h-4" /> {blog.author || "Admin"}
-          </div>
-          <div className="flex items-center gap-1">
             <Calendar className="w-4 h-4" />
             {new Date(blog.created_at).toLocaleDateString()}
           </div>
@@ -88,30 +105,18 @@ export default function BlogDetails() {
           </p>
         </motion.div>
 
-        <div className="mt-10 border-t border-yellow-100 pt-6">
-          <h3 className="text-yellow-700 font-semibold mb-3">
+        {/* Universal Share button */}
+        <div className="mt-10 border-t border-yellow-100 pt-6 flex justify-between items-center">
+          <h3 className="text-yellow-700 font-semibold">
             Share this post:
           </h3>
-          <div className="flex gap-3">
-            <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                blog.title
-              )}&url=${window.location.href}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              Twitter
-            </a>
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-blue-700 hover:underline"
-            >
-              LinkedIn
-            </a>
-          </div>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 bg-yellow-500 text-white px-4 py-2 rounded-full shadow hover:bg-yellow-600 transition-transform transform hover:scale-105"
+          >
+            <Share2 className="w-5 h-5" />
+            Share
+          </button>
         </div>
       </motion.div>
     </div>
