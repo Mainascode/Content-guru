@@ -1,21 +1,21 @@
-// src/pages/Blog.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./authcontext";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
 
 const Blog = () => {
   const { user, token } = useAuth();
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
+  const [toast, setToast] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
 
   const navigate = useNavigate();
   const API_URL = "https://content-guru-gpls.onrender.com/api/blogs";
   const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
-  // Fetch posts
   const fetchPosts = async () => {
     try {
       const res = await fetch(API_URL);
@@ -33,16 +33,19 @@ const Blog = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Create post
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 3000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newPost.title.trim() || !newPost.content.trim()) {
-      setStatus("⚠️ Title and content are required.");
+      showToast("⚠️ Title and content are required.");
       return;
     }
 
     setLoading(true);
-    setStatus("Publishing...");
 
     try {
       const headers = {
@@ -57,20 +60,17 @@ const Blog = () => {
       });
 
       if (!res.ok) throw new Error(await res.text());
-
       setNewPost({ title: "", content: "" });
-      setStatus("Post created successfully!");
       fetchPosts();
+      showToast("✅ Blog post published!");
     } catch (err) {
       console.error("Error creating post:", err);
-      setStatus("Server error while creating post.");
+      showToast("❌ Server error while publishing.");
     } finally {
       setLoading(false);
-      setTimeout(() => setStatus(""), 3000);
     }
   };
 
-  // Delete post
   const handleDelete = async (id) => {
     try {
       const headers = {
@@ -83,57 +83,63 @@ const Blog = () => {
       });
 
       if (!res.ok) throw new Error(await res.text());
-      setStatus("Post deleted successfully!");
+      showToast("🗑️ Post deleted successfully!");
       fetchPosts();
     } catch (err) {
       console.error("Error deleting post:", err);
-      setStatus("Could not delete post.");
+      showToast("❌ Could not delete post.");
     } finally {
       setConfirmDelete(null);
-      setTimeout(() => setStatus(""), 3000);
     }
   };
 
   return (
     <div className="max-w-7xl mx-auto pt-28 pb-12 px-6 relative">
-      <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-900">
+      <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-900 tracking-tight">
         BLOGS
       </h1>
 
       {/* Admin post form */}
       {isAdmin && (
-        <form
-          onSubmit={handleSubmit}
-          className="mb-10 bg-gray-50 border border-gray-200 p-6 rounded-xl shadow-sm"
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-16 bg-gradient-to-b from-yellow-50 to-white border border-yellow-200 rounded-2xl shadow-lg p-10"
         >
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            ✍️ Write a New Post
+          <h2 className="text-2xl font-semibold mb-6 text-yellow-800 flex items-center gap-2">
+            ✍️ Write a New Blog Post
           </h2>
-          <input
-            type="text"
-            placeholder="Post Title"
-            value={newPost.title}
-            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-            className="w-full p-3 border rounded-lg mb-4 focus:ring-2 focus:ring-yellow-500 outline-none"
-          />
-          <textarea
-            placeholder="Write your content..."
-            value={newPost.content}
-            onChange={(e) =>
-              setNewPost({ ...newPost, content: e.target.value })
-            }
-            rows="5"
-            className="w-full p-3 border rounded-lg mb-4 focus:ring-2 focus:ring-yellow-500 outline-none"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg font-medium"
-          >
-            {loading ? "Publishing..." : "Publish"}
-          </button>
-          {status && <p className="text-sm mt-3 text-gray-700">{status}</p>}
-        </form>
+
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Enter a captivating title..."
+              value={newPost.title}
+              onChange={(e) =>
+                setNewPost({ ...newPost, title: e.target.value })
+              }
+              className="w-full p-4 border border-yellow-300 rounded-lg mb-6 focus:ring-2 focus:ring-yellow-500 outline-none text-lg"
+            />
+
+            <textarea
+              placeholder="Start writing your inspiring blog content here..."
+              value={newPost.content}
+              onChange={(e) =>
+                setNewPost({ ...newPost, content: e.target.value })
+              }
+              rows="12"
+              className="w-full p-4 border border-yellow-300 rounded-lg mb-6 focus:ring-2 focus:ring-yellow-500 outline-none text-base leading-relaxed"
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 rounded-xl font-semibold shadow-md transition-transform transform hover:scale-105"
+            >
+              {loading ? "Publishing..." : "Publish Post"}
+            </button>
+          </form>
+        </motion.div>
       )}
 
       {/* Blog posts grid */}
@@ -190,7 +196,8 @@ const Blog = () => {
               Confirm Deletion
             </h3>
             <p className="text-gray-600 mb-6">
-              Are you sure you want to delete this post? This action cannot be undone.
+              Are you sure you want to delete this post? This action cannot be
+              undone.
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -209,6 +216,22 @@ const Blog = () => {
           </div>
         </div>
       )}
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2 z-50"
+          >
+            <CheckCircle2 className="w-5 h-5" />
+            <span>{toast}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
