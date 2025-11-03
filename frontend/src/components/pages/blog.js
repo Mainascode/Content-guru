@@ -41,7 +41,7 @@ const Blog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newPost.title.trim() || !newPost.content.trim()) {
-      showToast("⚠️ Title and content are required.");
+      showToast("Title and content are required.");
       return;
     }
 
@@ -62,10 +62,10 @@ const Blog = () => {
       if (!res.ok) throw new Error(await res.text());
       setNewPost({ title: "", content: "" });
       fetchPosts();
-      showToast("✅ Blog post published!");
+      showToast("Blog post published!");
     } catch (err) {
       console.error("Error creating post:", err);
-      showToast("❌ Server error while publishing.");
+      showToast("Server error while publishing.");
     } finally {
       setLoading(false);
     }
@@ -83,11 +83,11 @@ const Blog = () => {
       });
 
       if (!res.ok) throw new Error(await res.text());
-      showToast("🗑️ Post deleted successfully!");
+      showToast("Post deleted successfully!");
       fetchPosts();
     } catch (err) {
       console.error("Error deleting post:", err);
-      showToast("❌ Could not delete post.");
+      showToast("Could not delete post.");
     } finally {
       setConfirmDelete(null);
     }
@@ -107,7 +107,7 @@ const Blog = () => {
           className="mb-16 bg-gradient-to-b from-yellow-50 to-white border border-yellow-200 rounded-2xl shadow-lg p-10"
         >
           <h2 className="text-2xl font-semibold mb-6 text-yellow-800 flex items-center gap-2">
-            ✍️ Write a New Blog Post
+            Write a New Blog Post
           </h2>
 
           <form onSubmit={handleSubmit}>
@@ -204,7 +204,7 @@ const Blog = () => {
                 onClick={() => handleDelete(confirmDelete)}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
               >
-                Yes, Delete
+                 Delete
               </button>
               <button
                 onClick={() => setConfirmDelete(null)}
