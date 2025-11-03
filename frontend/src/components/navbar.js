@@ -75,12 +75,6 @@ const Navbar = () => {
                   {user?.displayName || user?.email}
                 </span>
               </Link>
-              <button
-                onClick={handleLogout}
-                className="px-3 py-1 rounded bg-red-600 hover:bg-red-700 text-white transition"
-              >
-                Logout
-              </button>
             </>
           )}
         </div>
@@ -104,12 +98,6 @@ const Navbar = () => {
               <span className="text-sm text-[#6b3f1a] font-medium">
                 {user?.displayName || user?.email}
               </span>
-              <button
-                onClick={handleLogout}
-                className="mt-2 w-full px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white"
-              >
-                Logout
-              </button>
             </>
           ) : (
             <Link to="/login" className={linkClass} onClick={closeMenu}>
