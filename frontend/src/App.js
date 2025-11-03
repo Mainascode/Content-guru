@@ -26,7 +26,7 @@ import BookCall from './components/pages/BookCall';
 import ForgotPassword from './components/pages/ForgotPassword';
 
 import Blog from './components/pages/blog';
-import BlogDetails from './components/pages/blogdetails';
+import BlogDetails from './components/pages/BlogDetails';
 
 import './index.css';
 
