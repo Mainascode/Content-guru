@@ -14,16 +14,15 @@ import firebase_admin
 from firebase_admin import auth as firebase_auth, credentials
 from sqlalchemy.exc import SQLAlchemyError
 
-import os, base64, datetime, requests
+import os, datetime
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 api = Api(app)
 
-
-
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./contentguru.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://maina_c3wj_user:RlStwYNYfmWK1fuI1eolXugk7c3IEijI@dpg-d444lb2dbo4c73b98tv0-a.oregon-postgres.render.com/maina_c3wj'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"connect_args": {"sslmode": "require"}}
 app.config['SECRET_KEY'] = 'WyQoe94Ch-q31gYbPtqPmdHSnIe9-vdv35ifgsG-XAYCitOVeM8_EWWYqv1vYjPaS4B6Uk_yNObswNcf0HddtQ'
 app.config['JWT_SECRET_KEY'] = 'WyQoe94Ch-q31gYbPtqPmdHSnIe9-vdv35ifgsG-XAYCitOVeM8_EWWYqv1vYjPaS4B6Uk_yNObswNcf0HddtQ'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
