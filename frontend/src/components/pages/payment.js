@@ -38,7 +38,7 @@ const PaymentSuccessPage = () => {
         }
       } catch (error) {
         console.error("Error executing PayPal payment:", error);
-        setMessage("⚠️ An unexpected error occurred. Please try again.");
+        setMessage("An unexpected error occurred. Please try again.");
       }
     };
 

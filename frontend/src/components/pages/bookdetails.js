@@ -16,7 +16,7 @@ const books = [
   },
   {
     title: "SEO for Beginners",
-    price: "$15.99",
+    price: "$0.99",
     img: "/images/book2.jpg",
     description:
       "A beginner-friendly guide that explains SEO fundamentals in plain English. From keyword research to backlink strategies, this book gives you everything you need to start ranking higher on Google.",
