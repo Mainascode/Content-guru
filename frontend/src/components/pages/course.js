@@ -15,7 +15,7 @@ const courses = [
   {
     title: "Social Media Management",
     description: "Learn how to manage social media accounts professionally.",
-    price: 79,
+    price: 0.99,
     img: "/images/social-media-course.jpg",
     id: 2,
   },
