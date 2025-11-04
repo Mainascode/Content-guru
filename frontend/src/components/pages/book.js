@@ -15,7 +15,7 @@ const Books = () => {
   const books = [
     {
       title: "The Art of Content Writing",
-      price: "$19.99",
+      price: "$0.99",
       img: "/images/book1.jpg",
     },
     {
