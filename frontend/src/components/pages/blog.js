@@ -29,8 +29,6 @@ const Blog = () => {
 
   useEffect(() => {
     fetchPosts();
-    const interval = setInterval(fetchPosts, 10000);
-    return () => clearInterval(interval);
   }, []);
 
   const showToast = (message) => {

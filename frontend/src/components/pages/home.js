@@ -74,7 +74,7 @@ const Home = () => {
             great content is the heart of online success. Whether you’re a
             business owner looking to attract customers, a professional building
             your personal brand, or a learner ready to sharpen your digital
-            skills—we’ve got you covered. We combine creativity, strategy, and
+            skills we’ve got you covered. We combine creativity, strategy, and
             SEO expertise to help you grow online.
           </p>
         </div>
@@ -93,7 +93,7 @@ const Home = () => {
         whileHover={{ scale: 1.05 }}
         className="bg-white p-8 rounded-2xl shadow-lg text-center"
       >
-        <h3 className="text-xl font-semibold mb-4">✍️ Content Strategy & Creation</h3>
+        <h3 className="text-xl font-semibold mb-4">Content Strategy & Creation</h3>
         <p className="text-gray-700 mb-4">
           Fresh content ideas, scroll-stopping social posts, and SEO pages
           that drive traffic.
@@ -129,7 +129,7 @@ const Home = () => {
         whileHover={{ scale: 1.05 }}
         className="bg-white p-8 rounded-2xl shadow-lg text-center"
       >
-        <h3 className="text-xl font-semibold mb-4">🤝 For Employers & Collaborators</h3>
+        <h3 className="text-xl font-semibold mb-4"> For Employers & Collaborators</h3>
         <p className="text-gray-700 mb-4">
           Open to collaborations, partnerships, and long-term growth
           projects tailored to your goals.
