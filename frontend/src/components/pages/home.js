@@ -28,14 +28,13 @@ const Home = () => {
 
   return (
     <div className="overflow-x-hidden flex flex-col min-h-screen text-brown-800">
-      {/* HERO SECTION */}
 {/* HERO SECTION */}
-<section className="relative bg-white text-brown-900 py-28 px-6 sm:px-12 text-center overflow-hidden">
-  {/* subtle yellow background gradient behind heading */}
+<section className="relative bg-white text-brown-900 py-24 px-6 sm:px-12 text-center overflow-hidden">
+  {/* subtle yellow gradient background behind heading */}
   <div className="absolute inset-0 bg-gradient-to-b from-yellow-100 to-transparent opacity-70"></div>
 
   <div className="relative max-w-4xl mx-auto">
-    <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight">
+    <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight">
       <span className="bg-gradient-to-r from-yellow-500 to-yellow-400 bg-clip-text text-transparent">
         Turn Ideas Into Impactful Content
       </span>
@@ -59,15 +58,13 @@ const Home = () => {
       <motion.a
         href="/courses"
         whileHover={{ scale: 1.05 }}
-        className="bg-brown-700 text-white px-6 py-3 rounded-full shadow font-semibold hover:bg-brown-800"
+        className="bg-yellow-500 text-white px-6 py-3 rounded-full shadow font-semibold hover:bg-yellow-600"
       >
         Explore Courses
       </motion.a>
     </div>
   </div>
 </section>
-
-
       {/* WHO WE ARE */}
       <section className="bg-white py-20 px-6 sm:px-12">
         <div className="max-w-5xl mx-auto text-center">
