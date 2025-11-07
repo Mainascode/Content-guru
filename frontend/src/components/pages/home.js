@@ -29,31 +29,33 @@ const Home = () => {
   return (
     <div className="overflow-x-hidden flex flex-col min-h-screen text-brown-800">
       {/* HERO SECTION */}
-      <section className="relative bg-yellow-500 text-white py-28 px-6 sm:px-12 text-center">
-        <h1 className="text-4xl sm:text-6xl font-extrabold max-w-4xl mx-auto leading-tight">
-          Turn Ideas Into Impactful Content That Sells, Engages & Ranks
-        </h1>
-        <p className="mt-6 text-lg sm:text-xl max-w-2xl mx-auto text-yellow-100">
-          Helping businesses, professionals, and learners create content
-          strategies that drive results.
-        </p>
-        <div className="mt-8 flex justify-center gap-4 flex-wrap">
-          <motion.a
-            href="/contact"
-            whileHover={{ scale: 1.05 }}
-            className="bg-white text-yellow-700 px-6 py-3 rounded-full shadow font-semibold hover:bg-yellow-100"
-          >
-            Work With Us
-          </motion.a>
-          <motion.a
-            href="/courses"
-            whileHover={{ scale: 1.05 }}
-            className="bg-brown-700 text-white px-6 py-3 rounded-full shadow font-semibold hover:bg-brown-800"
-          >
-            Explore Courses
-          </motion.a>
-        </div>
-      </section>
+<section className="relative bg-white text-brown-800 py-28 px-6 sm:px-12 text-center">
+  <div className="max-w-4xl mx-auto">
+    <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg">
+      Turn Ideas Into Impactful Content That Sells, Engages & Ranks
+    </h1>
+    <p className="mt-6 text-lg sm:text-xl max-w-2xl mx-auto text-gray-700">
+      Helping businesses, professionals, and learners create content
+      strategies that drive results.
+    </p>
+    <div className="mt-8 flex justify-center gap-4 flex-wrap">
+      <motion.a
+        href="/contact"
+        whileHover={{ scale: 1.05 }}
+        className="bg-yellow-500 text-white px-6 py-3 rounded-full shadow font-semibold hover:bg-yellow-600"
+      >
+        Work With Us
+      </motion.a>
+      <motion.a
+        href="/courses"
+        whileHover={{ scale: 1.05 }}
+        className="bg-brown-700 text-white px-6 py-3 rounded-full shadow font-semibold hover:bg-brown-800"
+      >
+        Explore Courses
+      </motion.a>
+    </div>
+  </div>
+</section>
 
       {/* WHO WE ARE */}
       <section className="bg-white py-20 px-6 sm:px-12">
