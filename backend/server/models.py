@@ -18,6 +18,13 @@ class User(db.Model):
     role = db.Column(db.String(20), default='student')
     password_hash = db.Column(db.String(128), nullable=True)
 
+    # Google Calendar Integration
+    google_access_token = db.Column(db.String, nullable=True)
+    google_refresh_token = db.Column(db.String, nullable=True)
+    google_token_expiry = db.Column(db.DateTime, nullable=True)
+    # Optional: store a specific calendar ID if not using 'primary'
+    google_calendar_id = db.Column(db.String, nullable=True) 
+
     # Relationships (adjust based on your app)
     courses = db.relationship('Course', backref='instructor', lazy=True, cascade="all, delete-orphan")
     enrollments = db.relationship('Enrollment', back_populates='user', lazy=True, cascade="all, delete-orphan")

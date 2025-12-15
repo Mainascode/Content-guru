@@ -9,10 +9,9 @@ export default function BlogDetails() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState(null);
-  const API_URL = `https://content-guru-gpls.onrender.com/api/blogs/${id}`;
-
   useEffect(() => {
     const fetchBlog = async () => {
+      const API_URL = `https://content-guru-gpls.onrender.com/blogs/${id}`;
       try {
         const res = await fetch(API_URL);
         if (!res.ok) throw new Error("Failed to fetch blog");
@@ -42,7 +41,7 @@ export default function BlogDetails() {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-        showToast("Shared successfully 🎉");
+        showToast("Shared successfully");
       } catch (error) {
         console.error("Error sharing:", error);
       }

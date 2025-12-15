@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaBars, FaTimes, FaUser } from "react-icons/fa";
 import { useAuth } from "./pages/authcontext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const isAuthenticated = !!user;
-  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8);
@@ -21,11 +20,6 @@ const Navbar = () => {
   }, [isOpen]);
 
   const closeMenu = () => setIsOpen(false);
-  const handleLogout = () => {
-    logout();
-    setIsOpen(false);
-    navigate("/");
-  };
 
   const linkClass =
     "text-[#6b3f1a] hover:text-[#4a2e12] transition font-medium";

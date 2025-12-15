@@ -10,9 +10,9 @@ export default function ForgotPassword() {
     e.preventDefault();
     try {
       await resetPassword(email);
-      setMessage("✅ Reset link sent! Check your email.");
+      setMessage("Reset link sent! Check your email.");
     } catch (err) {
-      setMessage("❌ Failed to send. Check the email address.");
+      setMessage("Failed to send. Check the email address.");
     }
   };
 

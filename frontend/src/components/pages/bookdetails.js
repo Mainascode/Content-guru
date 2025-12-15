@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
@@ -40,7 +40,6 @@ const books = [
 
 const BookDetails = () => {
   const { title } = useParams();
-  const navigate = useNavigate();
 
   const book = books.find((b) => b.title === decodeURIComponent(title));
 
@@ -51,14 +50,6 @@ const BookDetails = () => {
       </p>
     );
 
-  // Navigate to checkout page with book details
-  const handleBuyNow = () => {
-    const queryParams = new URLSearchParams({
-      title: book.title,
-      price: book.price,
-    }).toString();
-    navigate(`/checkout?${queryParams}`);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-white py-20 px-6">
@@ -116,7 +107,7 @@ const BookDetails = () => {
             <span className="text-gray-700 ml-2">{book.rating.toFixed(1)}</span>
           </div>
 
-  
+
 
 
           <Link

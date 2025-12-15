@@ -27,22 +27,23 @@ import ForgotPassword from './components/pages/ForgotPassword';
 
 import Blog from './components/pages/blog';
 import BlogDetails from './components/pages/BlogDetails';
+import AdminCalendar from './components/pages/AdminCalendar';
 
 import './index.css';
 
 function AppContent() {
   return (
     <>
-    
-  
-      <Navbar />  
-      
+
+
+      <Navbar />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        
+
         {/* Publicly viewable course/book lists */}
         <Route path="/courses" element={<Courses />} />
         <Route path="/books" element={<Books />} />
@@ -52,7 +53,7 @@ function AppContent() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blogs/:id" element={<BlogDetails />} />
 
-        
+
 
         {/* Auth-protected actions */}
         <Route path="/enroll/:courseId" element={
@@ -66,17 +67,25 @@ function AppContent() {
         {/* Always public */}
         <Route path="/services" element={<Services />} />
         <Route path="/about" element={<About />} />
-        
+
         <Route
-  path="/profile"
-  element={
-    <PrivateRoute>
-      <Profile />
-    </PrivateRoute>
-  }
-/>
-      </Routes> 
-      
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/calendar"
+          element={
+            <PrivateRoute>
+              <AdminCalendar />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+
     </>
   );
 }

@@ -13,8 +13,8 @@ const Blog = () => {
   const [confirmDelete, setConfirmDelete] = useState(null);
 
   const navigate = useNavigate();
-  const API_URL = "https://content-guru-gpls.onrender.com/api/blogs";
-  const isAdmin = user?.email === "muringiwork1@gmail.com";
+  const API_URL = "https://content-guru-gpls.onrender.com/blogs";
+  const isAdmin = user?.email === "mainaemmanuel855@gmail.com";
 
   const fetchPosts = async () => {
     try {

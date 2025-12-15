@@ -13,14 +13,16 @@ import os
 import firebase_admin
 from firebase_admin import auth as firebase_auth, credentials
 from sqlalchemy.exc import SQLAlchemyError
+from server.routes.google_calendar import google_auth_bp # Import blueprint
 
 import os, datetime
 
 app = Flask(__name__)
+app.register_blueprint(google_auth_bp) # Register blueprint
 CORS(app, supports_credentials=True)
 api = Api(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://maina_c3wj_user:RlStwYNYfmWK1fuI1eolXugk7c3IEijI@dpg-d444lb2dbo4c73b98tv0-a.oregon-postgres.render.com/maina_c3wj'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg://maina_c3wj_user:RlStwYNYfmWK1fuI1eolXugk7c3IEijI@dpg-d444lb2dbo4c73b98tv0-a.oregon-postgres.render.com/maina_c3wj'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"connect_args": {"sslmode": "require"}}
 app.config['SECRET_KEY'] = 'WyQoe94Ch-q31gYbPtqPmdHSnIe9-vdv35ifgsG-XAYCitOVeM8_EWWYqv1vYjPaS4B6Uk_yNObswNcf0HddtQ'
@@ -32,6 +34,12 @@ app.config['MAIL_USERNAME'] = 'contentguruapp@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Contentguru@2026'
 app.config['MAIL_DEFAULT_SENDER'] = 'ContentGuru''contentguruapp@gmail.com'
 app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# Google Calendar Configuration
+app.config['GOOGLE_CLIENT_ID'] = os.environ.get('GOOGLE_CLIENT_ID', 'placeholder_client_id')
+app.config['GOOGLE_CLIENT_SECRET'] = os.environ.get('GOOGLE_CLIENT_SECRET', 'placeholder_client_secret')
+app.config['GOOGLE_REDIRECT_URI'] = os.environ.get('GOOGLE_REDIRECT_URI', 'https://content-guru-gpls.onrender.com/google/callback')
+app.config['GOOGLE_SCOPES'] = ['https://www.googleapis.com/auth/calendar.events']
 
 WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
@@ -50,8 +58,9 @@ def user_identity_lookup(user_id):
     return user_id
 
 # Create tables
-with app.app_context():
-    db.create_all()
+# Create tables moved to main block
+# with app.app_context():
+#    db.create_all()
 blog_bp = Blueprint("blog", __name__)
 
 # ======================
@@ -502,4 +511,6 @@ api.add_resource(BlogResource, '/api/blogs/<int:blog_id>')
 
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(port=5001, debug=True)

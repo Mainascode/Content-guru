@@ -11,7 +11,7 @@ from flask_bcrypt import Bcrypt
 import os
 from flask_jwt_extended import JWTManager
 # Local imports (routes or models)
-from  models import db
+from  .models import db
  # Assuming you have your models in models.py
 
 # Instantiate app, set attributes
@@ -22,6 +22,15 @@ app.secret_key = os.urandom(24)  # Random secret key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contentguru.db'  # Change DB URI if needed
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_SECRET_KEY"] = os.urandom(24)  # Random JWT secret key
+app.config["JWT_SECRET_KEY"] = os.urandom(24)  # Random JWT secret key
+
+# Google Calendar Configuration
+app.config['GOOGLE_CLIENT_ID'] = os.environ.get('GOOGLE_CLIENT_ID', 'placeholder_client_id')
+app.config['GOOGLE_CLIENT_SECRET'] = os.environ.get('GOOGLE_CLIENT_SECRET', 'placeholder_client_secret')
+app.config['GOOGLE_REDIRECT_URI'] = os.environ.get('GOOGLE_REDIRECT_URI', 'http://localhost:5000/google/callback')
+# Scopes for Google Calendar
+app.config['GOOGLE_SCOPES'] = ['https://www.googleapis.com/auth/calendar.events']
+
 import paypalrestsdk
 
 paypalrestsdk.configure({
@@ -56,4 +65,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=5000)

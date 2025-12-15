@@ -41,11 +41,11 @@ ${form.message}
         "z-EXX9a-CCPKbQ8xG"  // ✅ Your public key
       )
       .then(() => {
-        setSuccess("✅ Your request has been sent! We’ll get back to you soon.");
+        setSuccess("Your request has been sent! We’ll get back to you soon.");
         setForm({ name: "", email: "", message: "" });
       })
       .catch(() => {
-        setSuccess("❌ Could not send email. Please try again later.");
+        setSuccess("Could not send email. Please try again later.");
       })
       .finally(() => setLoading(false));
   };
