@@ -3,12 +3,14 @@
   "name": "Content Guru ",
   "icons": [
     {
-      "src": "content-guru.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+  
+  "src": "content-guru-logo.svg",
+  "sizes": "any",
+  "type": "image/svg+xml"
+
     },
     {
-      "src": "content-guru.png",
+      "src": "content-guru-logo.svg",
       "type": "image/png",
       "sizes": "192x192"
     },
